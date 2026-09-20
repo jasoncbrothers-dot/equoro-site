@@ -1167,13 +1167,8 @@
   }
   function start() { if (running || reduced) return; running = true; prevStamp = 0; requestAnimationFrame(frame); }
   function renderStatic() { compute(0, 0); draw(); }
-  function setStatus() {
-    if (!status) return;
-    status.hidden = false;
-    status.textContent = reduced
-      ? "Ambient field · static · " + LEVELS.length + " isolines · " + (cols * rows).toLocaleString("en-US") + " samples"
-      : "Ambient field · live · " + LEVELS.length + " isolines · " + (cols * rows).toLocaleString("en-US") + " samples, computed in your browser";
-  }
+  function setStatus() { }
+
 
   function boot() {
     readColors(); resize(); setStatus();
