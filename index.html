@@ -1,0 +1,1562 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Equoro</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* ---------- Tokens ---------- */
+  :root {
+    --bg: #E7E8E4;          /* poured concrete, cool */
+    --surface: #F6F6F3;     /* paper on the concrete */
+    --surface-2: #DEDFDA;   /* recessed panel */
+    --ink: #15181B;
+    --ink-2: #4E5358;
+    --ink-3: #82878C;
+    --line: #C3C6C0;
+    --line-strong: #15181B;
+    --accent: #2038D8;      /* cobalt — the one dot */
+    --accent-ink: #FFFFFF;
+    --accent-tint: rgba(32, 56, 216, 0.10);
+    --danger: #B3261E;
+    --ok: #1E7A4C;
+    --rule-grid: rgba(21, 24, 27, 0.075);
+    --field-line: rgba(21, 24, 27, 0.17);     /* isoline field, ambient */
+    --field-accent: rgba(32, 56, 216, 0.42);  /* the one highlighted isoline */
+    --surface-glass: rgba(246, 246, 243, 0.78); /* panels that sit on the field */
+    --shadow: 0 24px 60px -30px rgba(21, 24, 27, 0.35); /* lifted panels */
+
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+    /* Type scale. Three mono stops, four text stops, three display stops below h2. */
+    --mono-xs: 0.62rem;  /* rail labels, summary keys */
+    --mono-s: 0.68rem;   /* counters, captions, meta */
+    --mono-m: 0.74rem;   /* eyebrows, step numbers, panel heads */
+    --text-xs: 0.8rem;   /* hints, errors, legal */
+    --text-s: 0.875rem;  /* labels, notes, compact rows */
+    --text-m: 0.95rem;   /* card and step body copy */
+    --text-l: 1.15rem;   /* ledes */
+    --disp-s: 1.05rem;   /* FAQ questions */
+    --disp-m: 1.2rem;    /* h3 */
+    --disp-l: 1.4rem;    /* step titles inside the panel */
+
+    /* Space scale, 4px base. Larger stops: 80 and 96 for section-level rhythm. */
+    --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+
+    --gutter: clamp(16px, 4vw, 48px);
+    --maxw: 1240px;
+    /* One easing for everything that moves in the UI: decelerating, no overshoot. Nothing waits on a spring. */
+    --ease: cubic-bezier(.2, .7, .3, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141618;
+      --surface: #1C1F22;
+      --surface-2: #101214;
+      --ink: #ECEEEA;
+      --ink-2: #AEB2B4;
+      --ink-3: #7B8084;
+      --line: #33373B;
+      --line-strong: #ECEEEA;
+      --accent: #7E90FF;
+      --accent-ink: #0B1030;
+      --accent-tint: rgba(126, 144, 255, 0.14);
+      --danger: #FF7B72;
+      --ok: #6FD3A0;
+      --rule-grid: rgba(236, 238, 234, 0.06);
+      --field-line: rgba(236, 238, 234, 0.13);
+      --field-accent: rgba(126, 144, 255, 0.45);
+      --surface-glass: rgba(28, 31, 34, 0.78);
+      --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141618;
+    --surface: #1C1F22;
+    --surface-2: #101214;
+    --ink: #ECEEEA;
+    --ink-2: #AEB2B4;
+    --ink-3: #7B8084;
+    --line: #33373B;
+    --line-strong: #ECEEEA;
+    --accent: #7E90FF;
+    --accent-ink: #0B1030;
+    --accent-tint: rgba(126, 144, 255, 0.14);
+    --danger: #FF7B72;
+    --ok: #6FD3A0;
+    --rule-grid: rgba(236, 238, 234, 0.06);
+    --field-line: rgba(236, 238, 234, 0.13);
+    --field-accent: rgba(126, 144, 255, 0.45);
+    --surface-glass: rgba(28, 31, 34, 0.78);
+    --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+  }
+
+  /* ---------- Base ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .eq { min-height: 100%; background: var(--bg); }
+  .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+  h1, h2, h3, h4 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.02em; line-height: 1.05; }
+  h1 { font-weight: 600; font-size: clamp(2.5rem, 6.4vw, 4.75rem); }
+  h2 { font-weight: 600; font-size: clamp(1.75rem, 3.6vw, 2.6rem); }
+  h3 { font-weight: 600; font-size: var(--disp-m); letter-spacing: -0.01em; line-height: 1.25; }
+  p { margin: 0; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .eyebrow {
+    font-family: var(--mono); font-size: var(--mono-m); letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-2); display: inline-flex; align-items: center; gap: var(--sp-3);
+  }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+  .kicker { display: grid; gap: var(--sp-4); justify-items: start; }
+  .measure { max-width: 34em; }
+  .lede { font-size: var(--text-l); color: var(--ink-2); line-height: 1.5; }
+  .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-3);
+    min-height: 48px; padding: 0 var(--sp-5); border: 1px solid var(--line-strong); border-radius: 2px;
+    background: var(--ink); color: var(--bg); font-weight: 600; font-size: 1rem; letter-spacing: 0.01em;
+    text-decoration: none; transition: transform .12s var(--ease), background .1s ease, border-color .1s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(0) scale(.985); transition-duration: .05s; }
+  .btn-accent { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--line-strong); }
+  .btn[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
+  /* Quiet secondary action: a text link with an arrow, never a second button competing with the primary. */
+  .link-arrow { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 48px; padding-inline: var(--sp-2); font-weight: 500; font-size: var(--text-m); color: var(--ink-2); text-decoration: none; border-radius: 2px; }
+  .link-arrow svg { flex: none; transition: transform .12s var(--ease); }
+  .link-arrow:hover { color: var(--ink); }
+  .link-arrow:hover svg { transform: translateX(2px); }
+
+  /* ---------- Nav ---------- */
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); padding-block: var(--sp-5); border-bottom: 1px solid var(--line); }
+  /* ---------- Wordmark: Extended Caps (logo concept 07) ----------
+     The chosen wordmark, carried over exactly as the concept gallery built it: "EQUORO" in Archivo at the
+     wide end of its width axis (wdth 125, font-stretch 125%), weight 600, tracked out .28em with the last
+     letter's trailing tracking pulled back by a -.28em margin so the word sits flush. No mark, no colour:
+     the type is set in --ink and nothing else, which is why it needs no token of its own and follows the
+     theme on its own. It reuses --display (already Archivo) but this width, weight and tracking belong to
+     the wordmark alone; the headings stay at their own tighter setting. Size: 1.75rem here (about 19px cap
+     height, 201px wide), where the previous lockup's visible mark sat. On phones the nav wordmark scales
+     with the viewport (18px at 400px, about 129px wide, the width the previous lockup took) and the phone
+     nav tightens its own gap and button padding by 4px each so the toggle and CTA keep clear room. */
+  .wordmark { display: inline-flex; align-items: center; flex: none; font-family: var(--display); font-weight: 600; font-stretch: 125%; font-variation-settings: "wdth" 125; font-size: 1.75rem; line-height: 1; letter-spacing: .28em; white-space: nowrap; text-decoration: none; color: var(--ink); }
+  .wordmark .word { display: inline-block; margin-right: -.28em; }
+  .nav-links { display: flex; align-items: center; gap: var(--sp-5); font-size: var(--text-m); font-weight: 500; }
+  .nav-links a { text-decoration: none; color: var(--ink-2); }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.btn-accent, .nav-links a.btn-accent:hover { color: var(--accent-ink); }
+  .nav .btn { min-height: 40px; padding-inline: var(--sp-4); font-size: var(--text-s); }
+  @media (max-width: 640px) {
+    .nav-links a:not(.btn) { display: none; }
+    .nav-links { gap: var(--sp-3); }
+    .nav .btn { padding-inline: var(--sp-3); }
+    .nav .wordmark { font-size: clamp(0.9375rem, 4.4vw, 1.375rem); }
+  }
+  /* Below 380px the tracking eases to .24em, still plainly tracked-out, so a 360px phone holds the
+     wordmark, the toggle and the CTA on one line without the page scrolling sideways. */
+  @media (max-width: 380px) {
+    .nav .wordmark { letter-spacing: .24em; }
+    .nav .wordmark .word { margin-right: -.24em; }
+  }
+
+  /* ---------- Theme toggle ----------
+     A utility control, not a second call to action: hairline box, ink-2 glyph, the nav button's own 40px
+     height, sitting between the section links and the one accent button. The glyph shows the theme a press
+     switches TO, so it agrees with the button's aria-label. State is read from the root the same way the
+     tokens read it, so the glyph is right with or without script. */
+  .theme-toggle { display: inline-grid; place-items: center; width: 40px; height: 40px; padding: 0; flex: none; border: 1px solid var(--line); border-radius: 2px; background: transparent; color: var(--ink-2); transition: color .1s ease, border-color .1s ease, transform .06s var(--ease); }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--line-strong); }
+  .theme-toggle:active { transform: scale(.96); }
+  .theme-toggle svg { display: block; }
+  .theme-toggle .glyph-sun { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .glyph-moon { display: none; }
+    :root:not([data-theme="light"]) .theme-toggle .glyph-sun { display: block; }
+  }
+  :root[data-theme="dark"] .theme-toggle .glyph-moon { display: none; }
+  :root[data-theme="dark"] .theme-toggle .glyph-sun { display: block; }
+  /* The switch itself: one short colour cross-fade on everything while .is-theming is on the root (about
+     160ms), then the class comes off and every element's own transitions are back. Scoped to
+     no-preference, so under reduced motion the class does nothing and the global rule below snaps it. */
+  @media (prefers-reduced-motion: no-preference) {
+    :root.is-theming, :root.is-theming *, :root.is-theming *::before, :root.is-theming *::after {
+      transition: background-color .16s ease, color .16s ease, border-color .16s ease, fill .16s ease, stroke .16s ease, box-shadow .16s ease !important;
+    }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; padding-block: clamp(var(--sp-7), 7vw, 96px) 0; overflow: hidden; isolation: isolate; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    background-image: linear-gradient(90deg, var(--rule-grid) 0 1px, transparent 1px);
+    background-size: calc(100% / 12) 100%;
+  }
+  /* The isoline field: a canvas behind everything, masked so the headline sits on calm ground
+     and the field gathers weight toward the panel and the base of the hero. */
+  .hero-field {
+    position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; display: block;
+    -webkit-mask-image: radial-gradient(95% 85% at 16% 8%, transparent 14%, #000 64%);
+            mask-image: radial-gradient(95% 85% at 16% 8%, transparent 14%, #000 64%);
+  }
+  .hero-grid { position: relative; z-index: 2; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(var(--sp-6), 5vw, 80px); align-items: start; padding-bottom: clamp(var(--sp-7), 6vw, 80px); }
+  .hero-copy { display: flex; flex-direction: column; gap: var(--sp-5); padding-top: var(--sp-3); }
+  .hero-copy h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); letter-spacing: -0.035em; line-height: 0.98; font-stretch: 104%; }
+  .hero-copy h1 em { font-style: normal; color: var(--accent); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--sp-3) var(--sp-4); align-items: center; margin-top: var(--sp-2); }
+  .hero-note { font-family: var(--mono); font-size: var(--mono-m); color: var(--ink-3); letter-spacing: 0.02em; }
+  .hero-live { display: inline-flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-6); font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .hero-live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); flex: none; }
+  .hero-live[hidden] { display: none; }
+
+  /* Spec strip: the base of the hero. Process facts only, no numbers. */
+  .hero-spec { position: relative; z-index: 2; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); background: var(--surface-glass); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .hero-spec ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; align-items: stretch; }
+  .hero-spec li { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); align-items: start; padding: var(--sp-4) var(--sp-5) var(--sp-4) 0; border-right: 1px solid var(--line); }
+  .hero-spec li + li { padding-left: var(--sp-5); }
+  .hero-spec li svg { margin-top: 2px; color: var(--accent); }
+  .hero-spec li b { display: block; font-size: var(--text-s); font-weight: 600; letter-spacing: -0.005em; }
+  .hero-spec li span { display: block; font-size: var(--text-xs); color: var(--ink-3); margin-top: 2px; line-height: 1.35; }
+  .hero-spec li.spec-link { grid-template-columns: 1fr; border-right: 0; padding-right: 0; align-content: center; }
+  .hero-spec li.spec-link a { display: inline-flex; align-items: center; gap: var(--sp-2); font-family: var(--mono); font-size: var(--mono-m); letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--ink); white-space: nowrap; }
+  .hero-spec li.spec-link a:hover { color: var(--accent); }
+  @media (max-width: 1100px) { .hero-spec ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } .hero-spec li:nth-child(2) { border-right: 0; } .hero-spec li:nth-child(n+3) { border-top: 1px solid var(--line); } .hero-spec li:nth-child(3) { padding-left: 0; } .hero-spec li.spec-link { grid-column: 1 / -1; padding-left: 0; border-top: 1px solid var(--line); } }
+  @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; } .hero-live { margin-top: 0; } }
+  @media (max-width: 560px) {
+    .hero-spec ul { grid-template-columns: 1fr; }
+    .hero-spec li { border-right: 0; padding-left: 0 !important; padding-right: 0; }
+    .hero-spec li + li { border-top: 1px solid var(--line); }
+  }
+
+  /* ---------- Intake panel ---------- */
+  .panel { background: var(--surface); border: 1px solid var(--line-strong); border-radius: 2px; box-shadow: var(--shadow); }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); padding: var(--sp-3) var(--sp-5); border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: var(--mono-m); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+  .panel-head .count { font-variant-numeric: tabular-nums; }
+  .panel-head .mono-secure { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-3); }
+  .panel-head .mono-secure::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--ok); flex: none; }
+  .embed-wrap { position: relative; min-height: 640px; }
+  .embed-frame { display: block; width: 100%; height: 640px; border: 0; background: var(--surface); position: relative; z-index: 1; }
+  .embed-loading { position: absolute; inset: 0; z-index: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-3); color: var(--ink-3); font-family: var(--mono); font-size: var(--mono-m); letter-spacing: 0.04em; background: var(--surface); }
+  .embed-spin { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); border-top-color: var(--accent); animation: embed-spin 0.8s linear infinite; }
+  @keyframes embed-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .embed-spin { animation: none; } }
+  .embed-foot { padding: var(--sp-3) var(--sp-5) var(--sp-4); border-top: 1px solid var(--line); font-size: var(--text-xs); color: var(--ink-3); text-align: center; }
+  @media (max-width: 480px) { .embed-wrap, .embed-frame { min-height: 760px; height: 760px; } }
+  .rail { position: relative; padding: var(--sp-4) var(--sp-5) 0; }
+  .rail-track { position: relative; height: 1px; background: var(--line); margin-inline: 4px; }
+  .rail-fill { position: absolute; left: 0; top: 0; height: 1px; background: var(--accent); width: 0%; transition: width .2s var(--ease); }
+  .rail-dot { position: absolute; top: 50%; left: 0%; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); transform: translate(-50%, -50%); box-shadow: 0 0 0 4px var(--surface); transition: left .22s var(--ease); }
+  .rail-labels { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: var(--sp-3); font-family: var(--mono); font-size: var(--mono-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .rail-labels span { text-align: center; transition: color .12s; }
+  .rail-labels span:first-child { text-align: left; }
+  .rail-labels span:last-child { text-align: right; }
+  .rail-labels span.is-active { color: var(--ink); font-weight: 500; }
+  .rail-labels span.is-done { color: var(--ink-2); }
+  @media (max-width: 420px) { .rail-labels { letter-spacing: 0.02em; } }
+
+  .step { display: none; padding: var(--sp-5); }
+  .step.is-active { display: block; animation: step-in .14s var(--ease); }
+  @keyframes step-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .step-head { display: flex; flex-direction: column; gap: var(--sp-1); margin-bottom: var(--sp-5); }
+  .step-head h3 { font-size: var(--disp-l); }
+  .step-head p { color: var(--ink-2); font-size: var(--text-m); }
+  .step-head .echo { font-family: var(--mono); font-weight: 500; color: var(--ink); }
+  .fields { display: grid; gap: var(--sp-5); }
+  .field { display: grid; gap: var(--sp-2); }
+  .field label, .field .lbl { font-size: var(--text-s); font-weight: 600; letter-spacing: 0.005em; }
+  .hint { font-size: var(--text-xs); color: var(--ink-3); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
+  @media (max-width: 480px) { .two { grid-template-columns: 1fr; } }
+  .control {
+    width: 100%; min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 2px;
+    background: var(--bg); color: var(--ink); font: inherit; font-size: 1rem; appearance: none; -webkit-appearance: none;
+  }
+  .control::placeholder { color: var(--ink-3); }
+  .control:focus { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: -1px; }
+  .money { position: relative; }
+  .money::before { content: "$"; position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-family: var(--mono); color: var(--ink-3); }
+  .money .control { padding-left: 30px; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  select.control { background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%); background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
+  .chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+  .chip { position: relative; }
+  .chip input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+  .chip span { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--sp-4); border: 1px solid var(--line); border-radius: 2px; background: var(--bg); font-size: var(--text-m); font-weight: 500; transition: border-color .08s, background .08s, transform .06s var(--ease); }
+  .chip input:checked + span { border-color: var(--accent); background: var(--accent-tint); color: var(--ink); box-shadow: inset 0 0 0 1px var(--accent); }
+  .chip input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chip:hover span { border-color: var(--ink-2); }
+  .chip:active span { transform: scale(.97); }
+  .err { display: none; font-size: var(--text-xs); color: var(--danger); font-weight: 500; }
+  .field.has-error .err { display: block; }
+  .field.has-error .control { border-color: var(--danger); }
+  .field.has-error .chip span { border-color: var(--danger); }
+  .step-foot { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3); margin-top: var(--sp-5); padding-top: var(--sp-4); border-top: 1px solid var(--line); }
+  .step-foot .btn { min-height: 48px; }
+  /* Text buttons keep their inline look but get a 44px hit area via padding that paints outside the line box. */
+  .link-btn { background: none; border: 0; padding: 10px 0; margin: -10px 0; color: var(--ink-2); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; border-radius: 1px; }
+  .link-btn:hover { color: var(--ink); }
+  .link-btn:focus-visible { outline-offset: 2px; }
+  .step-foot .link-btn { padding: 10px var(--sp-2); margin: 0 calc(-1 * var(--sp-2)); }
+
+  .equity-readout { border: 1px solid var(--line); border-radius: 2px; padding: var(--sp-4); background: var(--surface-2); display: none; }
+  .equity-readout.is-on { display: block; }
+  .equity-readout .row { display: flex; justify-content: space-between; gap: var(--sp-3); align-items: baseline; font-size: var(--text-s); color: var(--ink-2); }
+  .equity-readout b { font-family: var(--mono); font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .equity-bar { position: relative; height: 10px; background: var(--line); margin: var(--sp-3) 0 var(--sp-2); border-radius: 1px; overflow: hidden; }
+  .equity-bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink-3); width: 0%; transition: width .25s var(--ease); }
+  .equity-bar em { position: absolute; right: 0; top: 0; bottom: 0; background: var(--accent); width: 0%; transition: width .25s var(--ease); }
+  .equity-readout .foot { font-family: var(--mono); font-size: var(--mono-s); color: var(--ink-3); letter-spacing: 0.04em; }
+
+  .note { display: none; border-left: 2px solid var(--accent); padding: var(--sp-3) var(--sp-4); background: var(--accent-tint); font-size: var(--text-s); line-height: 1.45; }
+  .note.is-on { display: block; }
+  .note b { font-weight: 600; }
+
+  .subfields { display: none; border-left: 2px solid var(--accent); padding: var(--sp-4); background: var(--accent-tint); border-radius: 2px; }
+  .subfields.is-on { display: grid; gap: var(--sp-4); animation: step-in .14s var(--ease); }
+  .subfields .lbl .hint { font-weight: 400; }
+
+  .field label.consent { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); align-items: start; font-size: var(--text-s); font-weight: 400; line-height: 1.5; color: var(--ink-2); cursor: pointer; }
+  .consent input { width: 20px; height: 20px; margin: 3px 0 0; accent-color: var(--accent); }
+  .consent b { color: var(--ink); font-weight: 600; }
+  .consent:hover span { color: var(--ink); }
+
+  .code-wrap { display: grid; gap: var(--sp-3); }
+  .code { font-family: var(--mono); font-size: 1.9rem; letter-spacing: 0.6em; text-align: center; padding-left: calc(14px + 0.6em); min-height: 64px; }
+  .sent { display: inline-flex; align-items: center; gap: var(--sp-2); font-family: var(--mono); font-size: var(--mono-m); color: var(--ok); letter-spacing: 0.04em; }
+  .sent::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+
+  .done { display: grid; gap: var(--sp-5); }
+  .done-mark { width: 44px; height: 44px; border: 1px solid var(--line-strong); border-radius: 2px; background: var(--surface); display: grid; place-items: center; color: var(--accent); position: relative; }
+  .done-mark::after { content: ""; position: absolute; right: -1px; top: -1px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--surface); }
+  .done h3 { font-size: var(--disp-l); }
+  .done-sub { color: var(--ink-2); margin-top: var(--sp-2); font-size: var(--text-m); }
+  .next-list { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
+  .next-list li { display: grid; grid-template-columns: 32px 1fr; gap: var(--sp-3); padding: var(--sp-3) 0; border-bottom: 1px solid var(--line); font-size: var(--text-m); }
+  .next-list li span:first-child { font-family: var(--mono); font-size: var(--mono-m); color: var(--accent); padding-top: 4px; }
+  .summary { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3) var(--sp-4); font-size: var(--text-s); background: var(--surface-2); padding: var(--sp-4); border-radius: 2px; }
+  .summary div { display: grid; gap: 2px; }
+  .summary small { font-family: var(--mono); font-size: var(--mono-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+  .summary b { font-weight: 600; }
+  .done-foot { margin-top: 0; }
+  .ref { font-size: var(--text-xs); color: var(--ink-3); }
+  .ref span { font-family: var(--mono); }
+
+  /* ---------- Sections ---------- */
+  .section { padding-block: clamp(var(--sp-8), 8vw, 96px); border-top: 1px solid var(--line); }
+  .section-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--sp-5) var(--sp-7); align-items: end; margin-bottom: clamp(var(--sp-6), 5vw, var(--sp-8)); }
+  .section-head .lede { max-width: 34em; }
+  @media (max-width: 800px) { .section-head { grid-template-columns: 1fr; align-items: start; } }
+
+  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); }
+  .steps article { padding: var(--sp-5) var(--sp-5) var(--sp-6) 0; border-right: 1px solid var(--line); display: grid; gap: var(--sp-3); align-content: start; }
+  .steps article + article { padding-left: var(--sp-5); }
+  .steps article:last-child { border-right: 0; }
+  .steps .num { font-family: var(--mono); font-size: var(--mono-m); color: var(--accent); letter-spacing: 0.08em; }
+  .steps p { color: var(--ink-2); font-size: var(--text-m); }
+  @media (max-width: 960px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .steps article:nth-child(2) { border-right: 0; } .steps article:nth-child(n+3) { border-top: 1px solid var(--line); } .steps article:nth-child(3) { padding-left: 0; } }
+  @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } .steps article { border-right: 0; padding-left: 0 !important; padding-right: 0; } .steps article + article { border-top: 1px solid var(--line); } }
+
+  /* ---------- Why Equoro: a ledger, the usual way beside ours ---------- */
+  .why { border-top: 1px solid var(--line-strong); }
+  .why-head, .why-row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 4.5fr) minmax(0, 4.5fr); gap: 0 var(--sp-6); }
+  .why-head { padding: var(--sp-3) 0; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .why-head .ours { position: relative; color: var(--ink); }
+  .why-head .ours::before { content: ""; position: absolute; left: 0; right: 0; top: calc(-1 * var(--sp-3) - 1px); height: 2px; background: var(--accent); }
+  .why-row { padding: var(--sp-5) 0; border-bottom: 1px solid var(--line); align-items: start; }
+  .why-row .idx { display: block; font-family: var(--mono); font-size: var(--mono-m); color: var(--accent); letter-spacing: 0.08em; margin-bottom: var(--sp-2); }
+  .why-row p { font-size: var(--text-m); }
+  .why-row .old { color: var(--ink-2); }
+  .why-row .ours { color: var(--ink); }
+  .why-row p::before { display: none; font-family: var(--mono); font-size: var(--mono-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: var(--sp-1); }
+  .why-row .old::before { content: "The usual way"; }
+  .why-row .ours::before { content: "With Equoro"; color: var(--accent); }
+  .why-note { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); align-items: start; margin-top: var(--sp-5); font-size: var(--text-m); color: var(--ink-2); max-width: 44em; }
+  .why-note svg { color: var(--accent); margin-top: 3px; }
+  .why-note b { color: var(--ink); font-weight: 600; }
+  @media (max-width: 800px) {
+    .why-head { display: none; }
+    .why-row { grid-template-columns: 1fr; gap: var(--sp-4); }
+    .why-row p::before { display: block; }
+    .why-row .idx { margin-bottom: 0; }
+  }
+
+  .math { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: clamp(var(--sp-6), 5vw, 80px); align-items: center; }
+  .math-copy { display: grid; gap: var(--sp-4); justify-items: start; }
+  .math-copy .kicker { margin-bottom: var(--sp-1); }
+  .math-copy p { color: var(--ink-2); }
+  .math-copy .btn { margin-top: var(--sp-2); }
+  .diagram { border: 1px solid var(--line-strong); border-radius: 2px; background: var(--surface); padding: var(--sp-5); display: grid; gap: var(--sp-4); }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .diagram svg text { font-family: var(--mono); }
+  .diagram .caption { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; color: var(--ink-3); line-height: 1.5; }
+  .legend { display: grid; gap: var(--sp-2); font-size: var(--text-s); }
+  .legend div { display: flex; justify-content: space-between; gap: var(--sp-3); align-items: baseline; border-bottom: 1px solid var(--line); padding-bottom: var(--sp-2); }
+  .legend div:last-child { border-bottom: 0; }
+  .legend b { font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .legend .k { display: inline-flex; align-items: center; gap: var(--sp-3); color: var(--ink-2); }
+  .legend .k i { width: 10px; height: 10px; flex: none; }
+  .legend .sw-value { background: var(--surface-2); border: 1px solid var(--line-strong); }
+  .legend .sw-balance { background: var(--ink-3); }
+  .legend .sw-equity { background: var(--accent); }
+  @media (max-width: 860px) { .math { grid-template-columns: 1fr; } }
+
+  /* ---------- Your information (consent record + process) ---------- */
+  .security { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: clamp(var(--sp-6), 5vw, 80px); align-items: start; }
+  .cert { position: relative; border: 1px solid var(--line-strong); border-radius: 2px; background: var(--surface); box-shadow: var(--shadow); }
+  .cert::before { content: ""; position: absolute; left: -1px; top: var(--sp-6); bottom: var(--sp-6); width: 3px; background: var(--accent); }
+  .cert-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); padding: var(--sp-3) var(--sp-5); border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: var(--mono-m); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+  .cert-head .tag { color: var(--ink-3); border: 1px solid var(--line); padding: 3px var(--sp-2); border-radius: 2px; }
+  .cert-rows { margin: 0; padding: 0 var(--sp-5); }
+  .cert-rows > div { display: grid; grid-template-columns: 120px 1fr; gap: var(--sp-4); padding: var(--sp-4) 0; border-bottom: 1px solid var(--line); }
+  .cert-rows > div:last-child { border-bottom: 0; }
+  .cert-rows dt { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding-top: 4px; }
+  .cert-rows dd { margin: 0; font-size: var(--text-m); line-height: 1.45; }
+  .cert-rows dd .mono { display: block; font-family: var(--mono); font-weight: 500; font-size: var(--text-m); font-variant-numeric: tabular-nums; color: var(--ink); }
+  .cert-rows dd small { display: block; font-size: var(--text-xs); color: var(--ink-3); margin-top: var(--sp-1); }
+  .cert-foot { display: flex; gap: var(--sp-4); align-items: center; padding: var(--sp-4) var(--sp-5); border-top: 1px solid var(--line-strong); background: var(--surface-2); font-size: var(--text-s); color: var(--ink-2); line-height: 1.45; }
+  .seal { width: 40px; height: 40px; flex: none; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--accent); background: var(--surface); }
+  .proc { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .proc li { display: grid; grid-template-columns: 48px 1fr; gap: var(--sp-4); padding: var(--sp-5) 0; border-bottom: 1px solid var(--line); }
+  .proc .idx { font-family: var(--mono); font-size: var(--mono-m); color: var(--accent); letter-spacing: 0.08em; padding-top: 5px; }
+  .proc h3 { margin-bottom: var(--sp-2); }
+  .proc p { color: var(--ink-2); font-size: var(--text-m); max-width: 34em; }
+  .proc-note { margin-top: var(--sp-5); font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; color: var(--ink-3); line-height: 1.5; }
+  @media (max-width: 860px) { .security { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .cert-rows > div { grid-template-columns: 1fr; gap: var(--sp-2); } }
+
+  .faq { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--sp-6) var(--sp-7); }
+  .faq-intro { align-content: start; }
+  .faq-intro .lede { max-width: 26em; }
+  .faq-list { border-top: 1px solid var(--line-strong); }
+  .faq-list details { border-bottom: 1px solid var(--line); }
+  .faq-list summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr 24px; gap: var(--sp-4); align-items: center; padding: var(--sp-4) 0; font-family: var(--display); font-weight: 600; font-size: var(--disp-s); letter-spacing: -0.01em; line-height: 1.3; }
+  .faq-list summary::-webkit-details-marker { display: none; }
+  .faq-list summary:focus-visible { outline-offset: 2px; }
+  .faq-list summary .plus { width: 24px; height: 24px; position: relative; }
+  .faq-list summary .plus::before, .faq-list summary .plus::after { content: ""; position: absolute; background: var(--ink); left: 50%; top: 50%; transform: translate(-50%, -50%); transition: transform .15s var(--ease); }
+  .faq-list summary .plus::before { width: 14px; height: 1.5px; }
+  .faq-list summary .plus::after { width: 1.5px; height: 14px; }
+  .faq-list details[open] summary .plus::after { transform: translate(-50%, -50%) rotate(90deg); }
+  .faq-list .a { padding: 0 var(--sp-7) var(--sp-5) 0; color: var(--ink-2); max-width: 34em; }
+  @media (max-width: 800px) { .faq { grid-template-columns: 1fr; } }
+
+  .cta-strip { border-top: 1px solid var(--line-strong); padding-block: clamp(var(--sp-7), 6vw, 80px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--sp-5) var(--sp-7); }
+  .cta-strip h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); }
+  .cta-strip p { color: var(--ink-2); margin-top: var(--sp-2); }
+
+  .footer { border-top: 1px solid var(--line-strong); padding-block: var(--sp-6) var(--sp-7); display: grid; gap: var(--sp-5); }
+  .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--sp-4) var(--sp-6); align-items: center; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: var(--text-s); }
+  .footer-links a { color: var(--ink-2); text-decoration: none; }
+  .footer-links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .footer-legal { font-size: var(--text-xs); color: var(--ink-3); line-height: 1.55; max-width: 72em; }
+  .footer-meta { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  }
+  html { scroll-behavior: smooth; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+
+<script>
+/* ---------- Theme toggle ----------
+   Runs before the page paints so a stored choice never flashes. With no stored choice the page follows the
+   OS (nothing is forced); a press sets data-theme="light" or "dark" on the root, which is the same attribute
+   the token blocks and the hero field's MutationObserver already watch. Storage is best-effort: if it is
+   blocked, the choice still holds for the visit and nothing throws. */
+(function () {
+  "use strict";
+  var root = document.documentElement, KEY = "equoro-theme", btn = null, timer = 0;
+  var mqDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  var mqMotion = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+
+  function stored() { try { var v = localStorage.getItem(KEY); return v === "light" || v === "dark" ? v : null; } catch (e) { return null; } }
+  function store(v) { try { localStorage.setItem(KEY, v); } catch (e) { /* storage unavailable: the choice lives for this visit only */ } }
+  function current() {
+    var a = root.getAttribute("data-theme");
+    if (a === "light" || a === "dark") return a;
+    return mqDark && mqDark.matches ? "dark" : "light";
+  }
+
+  var saved = stored();
+  if (saved) root.setAttribute("data-theme", saved);
+
+  function reflect() {
+    if (!btn) return;
+    var next = current() === "dark" ? "light" : "dark";
+    btn.setAttribute("aria-label", "Switch to " + next + " theme");
+    btn.setAttribute("title", "Switch to " + next + " theme");
+  }
+  function apply(mode) {
+    if (!(mqMotion && mqMotion.matches)) {
+      root.classList.add("is-theming");
+      clearTimeout(timer);
+      timer = setTimeout(function () { root.classList.remove("is-theming"); }, 220);
+    }
+    root.setAttribute("data-theme", mode);
+    store(mode);
+    reflect();
+  }
+  function wire() {
+    btn = document.getElementById("theme-toggle");
+    if (!btn) return;
+    btn.addEventListener("click", function () { apply(current() === "dark" ? "light" : "dark"); });
+    reflect();
+    // Until a choice is made the label follows the OS, so it stays truthful if the system flips underneath.
+    if (mqDark) { if (mqDark.addEventListener) mqDark.addEventListener("change", reflect); else if (mqDark.addListener) mqDark.addListener(reflect); }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire); else wire();
+})();
+</script>
+
+<div class="eq">
+  <header class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="wordmark" href="#top" aria-label="Equoro home"><span class="word">EQUORO</span></a>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#why">Why Equoro</a>
+        <a href="#faq">Questions</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch to dark theme">
+          <svg class="glyph-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 8.6A5.5 5.5 0 117.4 2.5a4.3 4.3 0 006.1 6.1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          <svg class="glyph-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="2.6" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5v1.8M8 12.7v1.8M1.5 8h1.8M12.7 8h1.8M3.4 3.4l1.3 1.3M11.3 11.3l1.3 1.3M12.6 3.4l-1.3 1.3M4.7 11.3l-1.3 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <a class="btn btn-accent" href="#intake" data-goto-form>Check my options</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- ---------- Hero + intake ---------- -->
+    <section class="hero">
+      <canvas class="hero-field" id="hero-field" aria-hidden="true"></canvas>
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">The AI HELOC Source</span>
+          <h1>The HELOC built for speed. Funded in <em>days</em>, not months.</h1>
+          <p class="lede measure">Equoro is an AI HELOC specialist. We&rsquo;re partnered with the best digital HELOC wholesale lenders in the nation, and can help you quickly find the one that&rsquo;s the best fit for your exact scenario &mdash; whether that&rsquo;s consolidating debt, a home improvement project, a combination of both, or just quick access to cash.</p>
+          <div class="hero-actions">
+            <a class="btn btn-accent" href="#intake" data-goto-form>Check my options</a>
+            <a class="link-arrow" href="#how">How it works <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+          <p class="hero-note">One short form &middot; nothing shared until you consent</p>
+          <span class="hero-live" id="field-status" hidden>Ambient field &middot; rendering</span>
+        </div>
+
+        <!-- Intake panel -->
+        <div class="panel" id="intake" aria-labelledby="intake-title">
+          <div class="panel-head">
+            <span id="intake-title">Check your options</span>
+            <span class="count"><span id="step-count">1</span> / 3</span>
+          </div>
+          <div class="rail" aria-hidden="true">
+            <div class="rail-track"><div class="rail-fill" id="rail-fill"></div><div class="rail-dot" id="rail-dot"></div></div>
+            <div class="rail-labels" id="rail-labels">
+              <span class="is-active">Property</span><span>Plan</span><span>Contact</span>
+            </div>
+          </div>
+
+          <form id="intake-form" novalidate>
+            <!-- Step 1: Property -->
+            <section class="step is-active" data-step="0" aria-label="Step 1 of 3, the property">
+              <div class="step-head">
+                <h3>The property</h3>
+                <p>Estimates are fine. You&rsquo;re not applying for anything yet.</p>
+              </div>
+              <div class="fields">
+                <div class="two">
+                  <div class="field" data-field="value">
+                    <label for="f-value">Estimated home value</label>
+                    <div class="money"><input class="control" id="f-value" name="value" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="450,000"></div>
+                    <span class="err">Enter a rough value, in dollars.</span>
+                  </div>
+                  <div class="field" data-field="balance">
+                    <label for="f-balance">Mortgage balance</label>
+                    <div class="money"><input class="control" id="f-balance" name="balance" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="0 if paid off"></div>
+                    <span class="err">Enter what you still owe (0 if it&rsquo;s paid off).</span>
+                  </div>
+                </div>
+                <div class="equity-readout" id="equity-readout" aria-live="polite">
+                  <div class="row"><span>Estimated equity</span><b id="equity-amount">$0</b></div>
+                  <div class="equity-bar"><i id="equity-bar-balance"></i><em id="equity-bar-equity"></em></div>
+                  <div class="row"><span id="equity-pct">&nbsp;</span><span class="foot">Illustrative &mdash; value minus balance, not an offer</span></div>
+                </div>
+                <div class="field" data-field="state">
+                  <label for="f-state">State where the property is</label>
+                  <select class="control" id="f-state" name="state" autocomplete="address-level1">
+                    <option value="">Choose a state</option>
+                  </select>
+                  <span class="err">Choose the property&rsquo;s state.</span>
+                </div>
+                <div class="field" data-field="occupancy">
+                  <span class="lbl" id="lbl-occupancy">How the property is used</span>
+                  <div class="chips" role="radiogroup" aria-labelledby="lbl-occupancy">
+                    <label class="chip"><input type="radio" name="occupancy" value="Primary residence"><span>Primary residence</span></label>
+                    <label class="chip"><input type="radio" name="occupancy" value="Second home"><span>Second home</span></label>
+                    <label class="chip"><input type="radio" name="occupancy" value="Investment property"><span>Investment property</span></label>
+                    <label class="chip"><input type="radio" name="occupancy" value="Business-purpose"><span>Business-purpose</span></label>
+                  </div>
+                  <span class="err">Pick the one that fits best.</span>
+                </div>
+                <div class="subfields" id="section-home-address">
+                  <span class="lbl" id="lbl-home">Your primary residence <span class="hint">&mdash; lenders match an investment-property application against where your credit is tied</span></span>
+                  <div class="two">
+                    <div class="field" data-field="homeStreet">
+                      <label for="f-home-street">Street address</label>
+                      <input class="control" id="f-home-street" name="homeStreet" type="text" autocomplete="address-line1" enterkeyhint="next" placeholder="123 Main St">
+                      <span class="err">Enter your home street address.</span>
+                    </div>
+                    <div class="field" data-field="homeCity">
+                      <label for="f-home-city">City</label>
+                      <input class="control" id="f-home-city" name="homeCity" type="text" autocomplete="address-level2" enterkeyhint="next" placeholder="City">
+                      <span class="err">Enter your home city.</span>
+                    </div>
+                  </div>
+                  <div class="two">
+                    <div class="field" data-field="homeState">
+                      <label for="f-home-state">State</label>
+                      <select class="control" id="f-home-state" name="homeState" autocomplete="address-level1">
+                        <option value="">Choose a state</option>
+                      </select>
+                      <span class="err">Choose your home state.</span>
+                    </div>
+                    <div class="field" data-field="homeZip">
+                      <label for="f-home-zip">ZIP code</label>
+                      <input class="control" id="f-home-zip" name="homeZip" type="text" inputmode="numeric" autocomplete="postal-code" enterkeyhint="done" placeholder="12345">
+                      <span class="err">Enter a 5-digit ZIP code.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="step-foot">
+                <span class="hint">Nothing is shared until you say so.</span>
+                <button class="btn btn-accent" type="button" data-action="next">Continue</button>
+              </div>
+            </section>
+
+            <!-- Step 2: Plan (use of funds, credit range, how the home is held — all taps, no typing) -->
+            <section class="step" data-step="1" aria-label="Step 2 of 3, your plan">
+              <div class="step-head">
+                <h3>The plan</h3>
+                <p>What the money is for, your credit range, and how the home is held &mdash; one pick in each.</p>
+              </div>
+              <div class="fields">
+                <div class="field" data-field="use">
+                  <span class="lbl" id="lbl-use">Primary use of the funds</span>
+                  <div class="chips" role="radiogroup" aria-labelledby="lbl-use">
+                    <label class="chip"><input type="radio" name="use" value="Debt consolidation"><span>Debt consolidation</span></label>
+                    <label class="chip"><input type="radio" name="use" value="Home improvement"><span>Home improvement</span></label>
+                    <label class="chip"><input type="radio" name="use" value="Major purchase"><span>Major purchase</span></label>
+                    <label class="chip"><input type="radio" name="use" value="Business or investment"><span>Business or investment</span></label>
+                    <label class="chip"><input type="radio" name="use" value="Other"><span>Other</span></label>
+                  </div>
+                  <span class="err">Choose the closest match.</span>
+                </div>
+                <div class="field" data-field="fico">
+                  <span class="lbl" id="lbl-fico">Credit score range <span class="hint">&mdash; your best guess</span></span>
+                  <div class="chips" role="radiogroup" aria-labelledby="lbl-fico">
+                    <label class="chip"><input type="radio" name="fico" value="760 or higher"><span>760+</span></label>
+                    <label class="chip"><input type="radio" name="fico" value="720 to 759"><span>720&ndash;759</span></label>
+                    <label class="chip"><input type="radio" name="fico" value="680 to 719"><span>680&ndash;719</span></label>
+                    <label class="chip"><input type="radio" name="fico" value="640 to 679"><span>640&ndash;679</span></label>
+                    <label class="chip"><input type="radio" name="fico" value="Below 640"><span>Below 640</span></label>
+                    <label class="chip"><input type="radio" name="fico" value="Not sure"><span>Not sure</span></label>
+                  </div>
+                  <span class="err">Pick a range, or &ldquo;Not sure.&rdquo;</span>
+                </div>
+                <div class="field" data-field="ownership">
+                  <span class="lbl" id="lbl-own">How the home is held</span>
+                  <div class="chips" role="radiogroup" aria-labelledby="lbl-own">
+                    <label class="chip"><input type="radio" name="ownership" value="Sole owner"><span>Sole owner</span></label>
+                    <label class="chip"><input type="radio" name="ownership" value="Joint owner"><span>Joint owner</span></label>
+                    <label class="chip"><input type="radio" name="ownership" value="Trust"><span>Trust</span></label>
+                    <label class="chip"><input type="radio" name="ownership" value="LLC"><span>LLC</span></label>
+                  </div>
+                  <span class="err">Choose how the property is held.</span>
+                </div>
+                <div class="note" id="note-trust"><b>Held in a trust?</b> Good to know now: later in the process you&rsquo;ll be asked for a trust certification (sometimes called a certificate of trust) showing who has authority to borrow. Nothing to upload today.</div>
+                <div class="note" id="note-llc"><b>Held by an LLC?</b> Good to know now: later in the process you&rsquo;ll be asked for the LLC&rsquo;s operating agreement and its EIN. Nothing to upload today.</div>
+              </div>
+              <div class="step-foot">
+                <button class="link-btn" type="button" data-action="back">Back</button>
+                <button class="btn btn-accent" type="button" data-action="next">Continue</button>
+              </div>
+            </section>
+
+            <!-- Step 3: Contact + consent. The consent sits directly under the number and email it refers to;
+                 the one button on this screen is the consent action. Still unchecked by default, still required. -->
+            <section class="step" data-step="2" aria-label="Step 3 of 3, contact and consent">
+              <div class="step-head">
+                <h3>Where to reach you</h3>
+                <p>We&rsquo;ll email a summary of what fits, and may follow up to confirm a few details.</p>
+              </div>
+              <div class="fields">
+                <div class="field" data-field="name">
+                  <label for="f-name">Full name</label>
+                  <input class="control" id="f-name" name="name" type="text" autocomplete="name" enterkeyhint="next" placeholder="First and last name">
+                  <span class="err">Enter your first and last name.</span>
+                </div>
+                <div class="field" data-field="email">
+                  <label for="f-email">Email</label>
+                  <input class="control" id="f-email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" placeholder="you@example.com">
+                  <span class="err">Enter a valid email address.</span>
+                </div>
+                <div class="field" data-field="phone">
+                  <label for="f-phone">Mobile phone</label>
+                  <input class="control" id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" placeholder="(555) 555-0123">
+                  <span class="hint">Nothing leaves Equoro until you check the box below.</span>
+                  <span class="err">Enter a 10-digit US mobile number.</span>
+                </div>
+                <div class="field" data-field="consent">
+                  <label class="consent" for="f-consent">
+                    <input type="checkbox" id="f-consent" name="consent">
+                    <span><b>I agree</b> that Equoro, a home equity marketplace, may share the information I&rsquo;ve provided with its lending partners so they can review it and contact me about home equity options by phone, text message or email, including with automated technology. I understand Equoro is not a lender, that this is not an application for credit, and that consent is not a condition of any purchase. Message and data rates may apply; reply STOP to opt out at any time. I have read the Privacy Notice and Terms.</span>
+                  </label>
+                  <span class="err">Check the box to continue.</span>
+                </div>
+                <p class="submit-error" id="submit-error" role="alert"></p>
+              </div>
+              <div class="step-foot">
+                <button class="link-btn" type="button" data-action="back">Back</button>
+                <button class="btn btn-accent" type="submit">Agree &amp; submit</button>
+              </div>
+            </section>
+
+            <!-- Done -->
+            <section class="step" data-step="3" aria-label="Finished">
+              <div class="done">
+                <div class="done-mark" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div>
+                  <h3 id="done-title" tabindex="-1" data-focus>You&rsquo;re in.</h3>
+                  <p class="done-sub">Your details are with Equoro. Here&rsquo;s what happens next.</p>
+                </div>
+                <ol class="next-list">
+                  <li><span>01</span><span>We review what you told us and match it against what our lending partners look for &mdash; property type, location, use of funds, ownership.</span></li>
+                  <li><span>02</span><span>You get an email summarizing the kinds of options that fit. If a partner is a match, they may reach out directly &mdash; you decide whether to take the conversation.</span></li>
+                  <li><span>03</span><span>If you move forward, the partner walks you through their process and paperwork. Trust or LLC documents come up here, not before.</span></li>
+                </ol>
+                <div class="summary" id="summary"></div>
+                <div class="step-foot done-foot">
+                  <span class="ref">Ref. <span id="ref"></span></span>
+                  <button class="link-btn" type="button" data-action="restart">Start over</button>
+                </div>
+              </div>
+            </section>
+          </form>
+        </div>
+      </div>
+
+      <!-- Spec strip: how information is handled, stated as process, not as claimed results -->
+      <div class="wrap hero-spec">
+        <ul aria-label="How your information is handled">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 7V5a2.5 2.5 0 015 0v2" stroke="currentColor" stroke-width="1.3"/></svg>
+            <div><b>Encrypted in transit</b><span>Everything you type travels over an encrypted connection.</span></div>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 2.5h7l3 3v8H3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 9l2 2 3-3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div><b>Consent recorded, every time</b><span>A timestamped record of what you agreed to travels with your submission.</span></div>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+            <div><b>Shared only after you say so</b><span>Nothing reaches a partner before your consent step, checked and submitted by you.</span></div>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13.5h11M4 13.5V6l4-3 4 3v7.5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6.5 13.5V9.5h3v4" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+            <div><b>Handpicked lenders</b><span>We&rsquo;ve extensively researched and handpicked only the best digital HELOC providers in the nation, and can quickly show you how they stack up for your scenario.</span></div>
+          </li>
+          <li class="spec-link"><a href="#security">How it&rsquo;s handled <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ---------- How it works ---------- -->
+    <section class="section" id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">
+            <span class="eyebrow">How it works</span>
+            <h2>Four steps. You&rsquo;re in charge of all of them.</h2>
+          </div>
+          <p class="lede">The order matters: nothing is shared before you consent, and no one contacts you before your details are actually reviewed.</p>
+        </div>
+        <div class="steps">
+          <article>
+            <span class="num">STEP 1</span>
+            <h3>Tell us about the home</h3>
+            <p>A short, secure form: estimated value, mortgage balance, state, how the property is used and held, what the funds are for, and a credit score range. Estimates are fine.</p>
+          </article>
+          <article>
+            <span class="num">STEP 2</span>
+            <h3>Your details go into the queue</h3>
+            <p>The moment you submit, your answers are with Equoro &mdash; no code to type, nothing extra to do.</p>
+          </article>
+          <article>
+            <span class="num">STEP 3</span>
+            <h3>See what fits</h3>
+            <p>We line up your answers against what our lending partners look for and send you a plain summary of the kinds of options that may fit &mdash; and why.</p>
+          </article>
+          <article>
+            <span class="num">STEP 4</span>
+            <h3>Choose, or don&rsquo;t</h3>
+            <p>We only contact you at your request &mdash; no auto-dialers, no telemarketers, ever. Every rate, fee and term is a lender&rsquo;s to disclose before you commit to anything, and you can stop at any point.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Why Equoro ---------- -->
+    <section class="section" id="why">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">
+            <span class="eyebrow">Why Equoro</span>
+            <h2>Instead of applying everywhere, or settling for the first name you know.</h2>
+          </div>
+          <p class="lede">The usual ways to shop for home equity are to fill out an application at every lender you can find, or to go with the one whose name you already know. Equoro changes the process, and the process is what we can stand behind.</p>
+        </div>
+        <div class="why">
+          <div class="why-head" aria-hidden="true">
+            <span></span>
+            <span>The usual way</span>
+            <span class="ours">With Equoro</span>
+          </div>
+          <div class="why-row">
+            <div><span class="idx">01</span><h3>The application</h3></div>
+            <p class="old">Every lender has its own application, and each one opens with the same questions about your home, your balance and your credit.</p>
+            <p class="ours">You answer the intake once. Equoro matches it to the partners whose programs fit, so the repetition is ours to handle, not yours.</p>
+          </div>
+          <div class="why-row">
+            <div><span class="idx">02</span><h3>The terms</h3></div>
+            <p class="old">You learn what a product actually is on a call, from someone whose job is to get you to the next step.</p>
+            <p class="ours">You read what a line of credit or a fixed-rate loan is, in plain words, before anyone has your number. If there is a call, it starts from understanding.</p>
+          </div>
+          <div class="why-row">
+            <div><span class="idx">03</span><h3>The contact</h3></div>
+            <p class="old">Submitting a form puts your number in a queue. The calls start whether you were ready or not.</p>
+            <p class="ours">Nothing leaves Equoro until you&rsquo;ve read the consent and checked the box yourself. Only the partners that fit hear from you, and only after that.</p>
+          </div>
+        </div>
+        <p class="why-note">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5l5 2v4c0 3.2-2.2 5.6-5 7-2.8-1.4-5-3.8-5-7v-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          <span><b>One more commitment.</b> How Equoro is paid never changes which partners you&rsquo;re shown, or the order you see them in.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ---------- Equity, plainly ---------- -->
+    <section class="section" id="math">
+      <div class="wrap math">
+        <div class="math-copy">
+          <div class="kicker">
+            <span class="eyebrow">Equity, plainly</span>
+            <h2>What you own, minus what you owe.</h2>
+          </div>
+          <p class="measure">Home equity is the part of your home&rsquo;s value that isn&rsquo;t covered by a mortgage. A home equity line of credit or loan lets you borrow against a portion of it, using the home as collateral.</p>
+          <p class="measure">Lenders don&rsquo;t lend against all of it. Each sets its own ceiling on how much of the home&rsquo;s value can be borrowed in total, and that ceiling &mdash; along with your credit, income and the property itself &mdash; is what decides the number you&rsquo;re offered. The example here is illustrative, not a quote.</p>
+          <a class="btn btn-ghost" href="#intake" data-goto-form>Run my own numbers</a>
+        </div>
+        <div class="diagram">
+          <svg viewBox="0 0 520 190" role="img" aria-labelledby="fig-title">
+            <title id="fig-title">Illustrative example: a home valued at five hundred thousand dollars with a three hundred thousand dollar mortgage balance has two hundred thousand dollars of equity; a lender may allow borrowing against a portion of that equity.</title>
+            <text x="0" y="16" font-size="11" fill="var(--ink-3)" letter-spacing="1">ESTIMATED HOME VALUE</text>
+            <rect x="0" y="26" width="520" height="34" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="1"/>
+            <text x="508" y="49" text-anchor="end" font-size="13" fill="var(--ink)">$500,000</text>
+
+            <text x="0" y="86" font-size="11" fill="var(--ink-3)" letter-spacing="1">MORTGAGE BALANCE</text>
+            <rect x="0" y="96" width="312" height="34" fill="var(--ink-3)"/>
+            <text x="300" y="119" text-anchor="end" font-size="13" fill="var(--surface)">$300,000</text>
+
+            <text x="324" y="86" font-size="11" fill="var(--ink-3)" letter-spacing="1">EQUITY</text>
+            <rect x="312" y="96" width="208" height="34" fill="var(--accent)"/>
+            <text x="508" y="119" text-anchor="end" font-size="13" fill="var(--accent-ink)">$200,000</text>
+
+            <line x1="312" y1="60" x2="312" y2="96" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="2 3"/>
+            <line x1="312" y1="130" x2="312" y2="166" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="2 3"/>
+            <line x1="312" y1="166" x2="440" y2="166" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="2 3"/>
+            <line x1="440" y1="158" x2="440" y2="174" stroke="var(--line-strong)" stroke-width="1"/>
+            <text x="316" y="183" font-size="10.5" fill="var(--ink-2)" letter-spacing="0.5">A PORTION MAY BE BORROWABLE</text>
+          </svg>
+          <div class="legend">
+            <div><span class="k"><i class="sw-value"></i>Estimated home value</span><b>$500,000</b></div>
+            <div><span class="k"><i class="sw-balance"></i>Mortgage balance</span><b>&minus; $300,000</b></div>
+            <div><span class="k"><i class="sw-equity"></i>Home equity</span><b>$200,000</b></div>
+          </div>
+          <p class="caption">Illustrative numbers. How much of the equity can be borrowed, and on what terms, is set by each lender and depends on the property, your credit and your income.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Your information ---------- -->
+    <section class="section" id="security">
+      <div class="wrap">
+        <div class="section-head">
+          <div class="kicker">
+            <span class="eyebrow">Your information</span>
+            <h2>Consent is recorded, not assumed.</h2>
+          </div>
+          <p class="lede">Here is what happens to what you type, in the order it happens. Every line below describes a step we take, not a number we&rsquo;re asking you to take on faith.</p>
+        </div>
+        <div class="security">
+          <div class="cert" role="group" aria-label="Illustrative specimen of a consent record">
+            <div class="cert-head"><span>Consent record</span><span class="tag">Specimen &middot; illustrative</span></div>
+            <dl class="cert-rows">
+              <div>
+                <dt>Recorded at</dt>
+                <dd><span class="mono" id="cert-clock">date &middot; time &middot; zone</span><small>The moment you check the box, to the second. Shown here: the current time on your device.</small></dd>
+              </div>
+              <div>
+                <dt>What you saw</dt>
+                <dd>The exact consent wording on the screen when you checked the box, and the page it appeared on.<small>Stored word for word, so it can&rsquo;t be paraphrased later.</small></dd>
+              </div>
+              <div>
+                <dt>Recorded by</dt>
+                <dd>Equoro&rsquo;s intake system, the moment you submit.<small>Nothing is in the queue before this record exists.</small></dd>
+              </div>
+              <div>
+                <dt>Shared with</dt>
+                <dd>Lending partners whose programs fit what you told us, only after this record exists.<small>Each one receives the record alongside your details.</small></dd>
+              </div>
+              <div>
+                <dt>Withdrawn by</dt>
+                <dd>Replying STOP to any message, at any time.</dd>
+              </div>
+            </dl>
+            <div class="cert-foot">
+              <span class="seal" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5l6 2.5v4.5c0 3.6-2.6 6.4-6 8-3.4-1.6-6-4.4-6-8V4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 9l2 2 4-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span>Generated for every submission at the moment of consent. It travels with your details so any partner who receives them can see that you agreed, when, and to what.</span>
+            </div>
+          </div>
+          <div>
+            <ol class="proc">
+              <li>
+                <span class="idx">01</span>
+                <div><h3>Encrypted on the way</h3><p>Everything you type on this page is sent over an encrypted connection between your browser and Equoro. That&rsquo;s true of the first field you fill in, not just the last.</p></div>
+              </li>
+              <li>
+                <span class="idx">02</span>
+                <div><h3>A record of consent, attached to your submission</h3><p>When you check the consent box, we create a timestamped record of the wording you saw and when you saw it. It&rsquo;s a standard practice in this industry, and it exists so the question &ldquo;did this person agree to be contacted?&rdquo; has a verifiable answer, not a remembered one.</p></div>
+              </li>
+              <li>
+                <span class="idx">03</span>
+                <div><h3>Nothing moves before you say so</h3><p>Your details stay with Equoro until you&rsquo;ve read the consent and checked the box yourself. There is no version of this form where a partner hears from you first.</p></div>
+              </li>
+              <li>
+                <span class="idx">04</span>
+                <div><h3>Lenders are reviewed, not self-serve</h3><p>Equoro decides which lenders are on our panel. We review a lender&rsquo;s programs and how they work with borrowers before we submit anything to them, and we shop your file to the ones whose programs fit, not to everyone at once.</p></div>
+              </li>
+            </ol>
+            <p class="proc-note">Partners disclose their own rates, fees and terms directly to you before you commit to anything. Equoro never quotes on their behalf.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- FAQ ---------- -->
+    <section class="section" id="faq">
+      <div class="wrap faq">
+        <div class="faq-intro kicker">
+          <span class="eyebrow">Questions</span>
+          <h2>The ones people actually ask.</h2>
+          <p class="lede">Short answers, no sales language. Anything about a specific rate, fee or term is a partner&rsquo;s to answer, and they answer it before you commit.</p>
+        </div>
+        <div class="faq-list">
+          <details open>
+            <summary>What is a HELOC?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>A home equity line of credit is a revolving line, secured by your home, that you can draw from as needed up to a set limit &mdash; a bit like a credit card backed by your house. Most have a draw period when you can borrow and often pay interest only, followed by a repayment period when you pay down what you used. Rates are commonly variable, so payments can change.</p></div>
+          </details>
+          <details>
+            <summary>How is a HELOC different from a home equity loan?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>A home equity loan is a lump sum, usually at a fixed rate with a fixed monthly payment, paid back over a set term. A HELOC is a line you draw on over time, usually at a variable rate. One-time costs with a known amount often suit a loan; ongoing or uncertain costs often suit a line. Neither is universally better.</p></div>
+          </details>
+          <details>
+            <summary>Will checking my options affect my credit?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>Telling Equoro about your home and plans is the first step, not a loan application &mdash; we ask for a credit score range, not permission to pull your report. When you choose to work with a lending partner, that partner will tell you what they check and when, before it happens. Any step that could affect your credit is theirs to explain, and yours to say yes to.</p></div>
+          </details>
+          <details>
+            <summary>Is Equoro a lender?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>Equoro is a licensed mortgage broker. We shop your file across the lenders on our panel and bring back the options that fit &mdash; final rates, terms and approval decisions are the lender&rsquo;s to make, and they&rsquo;re required to disclose them to you before you commit. Nothing on this page is an offer or commitment to lend.</p></div>
+          </details>
+          <details>
+            <summary>Does it cost anything to use Equoro?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>There&rsquo;s no charge to check your options with Equoro. If you go on to take a loan or line of credit, the lender&rsquo;s own costs and terms apply, and they&rsquo;re required to disclose them to you before you commit. Equoro may be compensated by its lending partners; that never changes which partners you see or the order you see them in.</p></div>
+          </details>
+          <details>
+            <summary>What if my home is owned by a trust or an LLC?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>You can still check your options. Tell us in the ownership step so we match you with partners who work with that structure. Later, a partner will ask for a trust certification (for a trust) or the operating agreement and EIN (for an LLC). You don&rsquo;t need any of that today.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Closing CTA ---------- -->
+    <section class="wrap">
+      <div class="cta-strip">
+        <div>
+          <h2>Four short screens to see where you stand.</h2>
+          <p>Estimates are fine. Nothing is shared until you say so.</p>
+        </div>
+        <a class="btn btn-accent" href="#intake" data-goto-form>Check my options</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer">
+      <div class="footer-top">
+        <a class="wordmark" href="#top" aria-label="Equoro home"><span class="word">EQUORO</span></a>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="#how">How it works</a>
+          <a href="#why">Why Equoro</a>
+          <a href="#security">Your information</a>
+          <a href="#faq">Questions</a>
+          <a href="https://claude.ai/artifact/HP6L3G983daXarxJyMPy9P">Privacy Notice</a>
+          <a href="https://claude.ai/artifact/7SuJm7dYifsXhXbasbua52">Terms</a>
+          <a href="https://claude.ai/artifact/TvsPbcvBRysXiqcB5VD7Jt">Contact</a>
+        </nav>
+      </div>
+      <hr class="rule">
+      <p class="footer-legal">Equoro is a licensed mortgage broker. Equoro is not a lender, does not fund loans, and nothing on this page is an offer, approval or commitment to lend. Products, availability and terms vary by lender, property and location and are subject to each lender&rsquo;s own review and disclosures. All numbers shown are illustrative examples, not quotes. Submitting your information is not an application for credit.</p>
+      <div class="footer-meta">
+        <span>&copy; 2026 Equoro</span>
+        <span>Home equity, compared</span>
+        <span>Equoro operates under SunnyHill Financial Inc. &middot; Company NMLS # 1708856</span>
+        <span>Jason Brothers &middot; NMLS # 829954</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ---------- Isoline field ----------
+   A scalar field (two octaves of value noise, drifting slowly in time, nudged by scroll and the
+   pointer) contoured with marching squares on a coarse lattice and drawn as hairline isolines.
+   Runs at 30fps only while the hero is on screen; a single static frame under reduced motion. */
+(function () {
+  "use strict";
+  var hero = document.querySelector(".hero");
+  var canvas = document.getElementById("hero-field");
+  var status = document.getElementById("field-status");
+  if (!hero || !canvas || !canvas.getContext) return;
+  var ctx = canvas.getContext("2d", { alpha: true });
+  if (!ctx) return;
+
+  var root = document.documentElement;
+  var mqMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  var mqFine = window.matchMedia("(pointer: fine)");
+  var mqDark = window.matchMedia("(prefers-color-scheme: dark)");
+  var reduced = mqMotion.matches;
+
+  // ---- deterministic lattice for value noise
+  var perm = new Uint8Array(512), p = [], seed = 2038, i, j, k, t;
+  for (i = 0; i < 256; i++) p[i] = i;
+  for (i = 255; i > 0; i--) { seed = (seed * 1664525 + 1013904223) >>> 0; k = seed % (i + 1); t = p[i]; p[i] = p[k]; p[k] = t; }
+  for (i = 0; i < 512; i++) perm[i] = p[i & 255];
+  function lattice(x, y) { return perm[(perm[x & 255] + y) & 255] / 255; }
+  function fade(u) { return u * u * (3 - 2 * u); }
+  function noise(x, y) {
+    var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = fade(xf), v = fade(yf);
+    var a = lattice(xi, yi), b = lattice(xi + 1, yi), c = lattice(xi, yi + 1), d = lattice(xi + 1, yi + 1);
+    var top = a + (b - a) * u, bot = c + (d - c) * u;
+    return top + (bot - top) * v;
+  }
+
+  // ---- lattice geometry
+  var W = 0, H = 0, cell = 28, cols = 0, rows = 0, field = null, dpr = 1;
+  function resize() {
+    W = hero.clientWidth; H = hero.clientHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    canvas.style.width = W + "px"; canvas.style.height = H + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cell = W < 640 ? 22 : 28;
+    cols = Math.ceil(W / cell) + 2; rows = Math.ceil(H / cell) + 2;
+    field = new Float32Array(cols * rows);
+  }
+
+  // ---- colours come from the tokens, so the field follows the theme
+  var colLine = "rgba(0,0,0,.15)", colAccent = "rgba(0,0,0,.3)";
+  function readColors() {
+    var cs = getComputedStyle(root);
+    colLine = cs.getPropertyValue("--field-line").trim() || colLine;
+    colAccent = cs.getPropertyValue("--field-accent").trim() || colAccent;
+  }
+
+  // ---- pointer: a gentle rise in the field under the cursor, eased in and out
+  var px = 0, py = 0, cx = 0, cy = 0, hover = 0, hoverTarget = 0, hasPointer = false;
+  if (mqFine.matches && !reduced) {
+    hero.addEventListener("pointermove", function (e) {
+      var r = hero.getBoundingClientRect();
+      px = e.clientX - r.left; py = e.clientY - r.top;
+      if (!hasPointer) { cx = px; cy = py; hasPointer = true; }
+      hoverTarget = 1;
+    });
+    hero.addEventListener("pointerleave", function () { hoverTarget = 0; });
+  }
+
+  // ---- marching squares
+  var LEVELS = []; for (i = 0; i < 9; i++) LEVELS.push(0.24 + i * 0.065);
+  var ACCENT = 4;
+  var EDGES = [[], [[3,2]], [[1,2]], [[3,1]], [[0,1]], [[0,3],[1,2]], [[0,2]], [[0,3]], [[0,3]], [[0,2]], [[0,1],[3,2]], [[0,1]], [[3,1]], [[1,2]], [[3,2]], []];
+
+  function compute(time, scroll) {
+    var s = 1 / (W < 640 ? 250 : 360);
+    var ox = time * 0.085, oy = scroll * 0.0011;
+    var bulge = hover > 0.002, inv = 1 / (210 * 210), amp = 0.34 * hover;
+    for (j = 0; j < rows; j++) {
+      var y = j * cell, ny = y * s;
+      for (i = 0; i < cols; i++) {
+        var x = i * cell, nx = x * s;
+        var v = 0.62 * noise(nx + ox, ny + oy) + 0.38 * noise(nx * 2.3 - ox * 0.55 + 7.1, ny * 2.3 + oy * 1.4 + 3.3);
+        if (bulge) { var dx = x - cx, dy = y - cy; v += amp * Math.exp(-(dx * dx + dy * dy) * inv); }
+        field[j * cols + i] = v;
+      }
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    var a, b, c, d, x0, y0, lv;
+    function ex(e) { return e === 0 ? x0 + cell * ((lv - a) / (b - a)) : e === 1 ? x0 + cell : e === 2 ? x0 + cell * ((lv - d) / (c - d)) : x0; }
+    function ey(e) { return e === 0 ? y0 : e === 1 ? y0 + cell * ((lv - b) / (c - b)) : e === 2 ? y0 + cell : y0 + cell * ((lv - a) / (d - a)); }
+    for (var L = 0; L < LEVELS.length; L++) {
+      lv = LEVELS[L];
+      ctx.beginPath();
+      for (j = 0; j < rows - 1; j++) {
+        for (i = 0; i < cols - 1; i++) {
+          a = field[j * cols + i]; b = field[j * cols + i + 1]; c = field[(j + 1) * cols + i + 1]; d = field[(j + 1) * cols + i];
+          var idx = (a >= lv ? 8 : 0) | (b >= lv ? 4 : 0) | (c >= lv ? 2 : 0) | (d >= lv ? 1 : 0);
+          if (idx === 0 || idx === 15) continue;
+          x0 = i * cell; y0 = j * cell;
+          var segs = EDGES[idx];
+          for (k = 0; k < segs.length; k++) { ctx.moveTo(ex(segs[k][0]), ey(segs[k][0])); ctx.lineTo(ex(segs[k][1]), ey(segs[k][1])); }
+        }
+      }
+      ctx.lineWidth = L === ACCENT ? 1.25 : 0.8;
+      ctx.strokeStyle = L === ACCENT ? colAccent : colLine;
+      ctx.stroke();
+    }
+  }
+
+  // ---- loop: 30fps, only while visible, only while the tab is visible
+  var visible = true, running = false, last = 0, elapsed = 0, prevStamp = 0, frames = 0;
+  function frame(stamp) {
+    if (!running) return;
+    if (!visible || document.hidden) { running = false; return; }
+    requestAnimationFrame(frame);
+    if (stamp - last < 33) return;
+    var dt = prevStamp ? Math.min(0.05, (stamp - prevStamp) / 1000) : 0.016;
+    prevStamp = stamp; last = stamp; elapsed += dt;
+    hover += (hoverTarget - hover) * 0.06;
+    cx += (px - cx) * 0.09; cy += (py - cy) * 0.09;
+    if (++frames % 40 === 0) readColors();
+    compute(elapsed, window.scrollY || 0);
+    draw();
+  }
+  function start() { if (running || reduced) return; running = true; prevStamp = 0; requestAnimationFrame(frame); }
+  function renderStatic() { compute(0, 0); draw(); }
+  function setStatus() {
+    if (!status) return;
+    status.hidden = false;
+    status.textContent = reduced
+      ? "Ambient field · static · " + LEVELS.length + " isolines · " + (cols * rows).toLocaleString("en-US") + " samples"
+      : "Ambient field · live · " + LEVELS.length + " isolines · " + (cols * rows).toLocaleString("en-US") + " samples, computed in your browser";
+  }
+
+  function boot() {
+    readColors(); resize(); setStatus();
+    if (reduced) renderStatic(); else start();
+  }
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      visible = entries[0].isIntersecting;
+      if (visible) start();
+    }, { threshold: 0 }).observe(hero);
+  }
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) start(); });
+
+  var resizeTimer = 0;
+  function onResize() { clearTimeout(resizeTimer); resizeTimer = setTimeout(function () { resize(); setStatus(); if (reduced) renderStatic(); }, 120); }
+  if ("ResizeObserver" in window) new ResizeObserver(onResize).observe(hero); else window.addEventListener("resize", onResize);
+
+  function onMotionChange() {
+    reduced = mqMotion.matches; hoverTarget = 0; hover = 0;
+    setStatus();
+    if (reduced) { running = false; renderStatic(); } else start();
+  }
+  if (mqMotion.addEventListener) mqMotion.addEventListener("change", onMotionChange); else if (mqMotion.addListener) mqMotion.addListener(onMotionChange);
+  function onThemeChange() { readColors(); if (reduced) renderStatic(); }
+  if (mqDark.addEventListener) mqDark.addEventListener("change", onThemeChange); else if (mqDark.addListener) mqDark.addListener(onThemeChange);
+  if ("MutationObserver" in window) new MutationObserver(onThemeChange).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+
+  // Never in the way of first paint: the first frame waits for the browser to be idle.
+  if ("requestIdleCallback" in window) requestIdleCallback(boot, { timeout: 600 }); else setTimeout(boot, 0);
+})();
+
+/* ---------- Consent record specimen: the "recorded at" line shows the device's current time ---------- */
+(function () {
+  "use strict";
+  var el = document.getElementById("cert-clock");
+  if (!el) return;
+  function two(n) { return (n < 10 ? "0" : "") + n; }
+  function tick() {
+    var d = new Date();
+    var off = -d.getTimezoneOffset(), sign = off >= 0 ? "+" : "−", abs = Math.abs(off);
+    el.textContent = d.getFullYear() + "-" + two(d.getMonth() + 1) + "-" + two(d.getDate()) + " · " +
+      two(d.getHours()) + ":" + two(d.getMinutes()) + ":" + two(d.getSeconds()) + " · UTC" + sign + two(Math.floor(abs / 60)) + ":" + two(abs % 60);
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  var STATES = [["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["DC","District of Columbia"],["FL","Florida"],["GA","Georgia"],["HI","Hawaii"],["ID","Idaho"],["IL","Illinois"],["IN","Indiana"],["IA","Iowa"],["KS","Kansas"],["KY","Kentucky"],["LA","Louisiana"],["ME","Maine"],["MD","Maryland"],["MA","Massachusetts"],["MI","Michigan"],["MN","Minnesota"],["MS","Mississippi"],["MO","Missouri"],["MT","Montana"],["NE","Nebraska"],["NV","Nevada"],["NH","New Hampshire"],["NJ","New Jersey"],["NM","New Mexico"],["NY","New York"],["NC","North Carolina"],["ND","North Dakota"],["OH","Ohio"],["OK","Oklahoma"],["OR","Oregon"],["PA","Pennsylvania"],["RI","Rhode Island"],["SC","South Carolina"],["SD","South Dakota"],["TN","Tennessee"],["TX","Texas"],["UT","Utah"],["VT","Vermont"],["VA","Virginia"],["WA","Washington"],["WV","West Virginia"],["WI","Wisconsin"],["WY","Wyoming"]];
+
+  var form = document.getElementById("intake-form");
+  var steps = Array.prototype.slice.call(form.querySelectorAll(".step"));
+  var labels = Array.prototype.slice.call(document.querySelectorAll("#rail-labels span"));
+  var railFill = document.getElementById("rail-fill");
+  var railDot = document.getElementById("rail-dot");
+  var stepCount = document.getElementById("step-count");
+  var panel = document.getElementById("intake");
+  var current = 0;
+  var LAST = 2, DONE = 3;           // three screens, then the finished state
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // How the last input arrived. Auto-advance only ever follows a tap or click, never an arrow key,
+  // so keyboard users can move through a radio group without the screen changing under them.
+  var pointer = false;
+  form.addEventListener("pointerdown", function () { pointer = true; }, true);
+  form.addEventListener("keydown", function () { pointer = false; }, true);
+
+  // Populate states (property state, and the conditional home-state select)
+  ["f-state", "f-home-state"].forEach(function (id) {
+    var sel = document.getElementById(id);
+    STATES.forEach(function (s) {
+      var o = document.createElement("option");
+      o.value = s[0]; o.textContent = s[1];
+      sel.appendChild(o);
+    });
+  });
+
+  // ---- helpers
+  function $(id) { return document.getElementById(id); }
+  function digits(v) { return String(v || "").replace(/\D/g, ""); }
+  function money(n) { return "$" + Number(n || 0).toLocaleString("en-US"); }
+  function fieldEl(name) { return form.querySelector('.field[data-field="' + name + '"]'); }
+  function setError(name, on) {
+    var f = fieldEl(name); if (!f) return;
+    f.classList.toggle("has-error", !!on);
+    var c = f.querySelector(".control, input[type=checkbox]");
+    if (c) { if (on) c.setAttribute("aria-invalid", "true"); else c.removeAttribute("aria-invalid"); }
+  }
+  function primaryBtn(i) { return steps[i].querySelector(".step-foot .btn"); }
+  function radioVal(name) { var r = form.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ""; }
+  function formatPhone(raw) {
+    var d = digits(raw).slice(0, 11);
+    if (d.length === 11 && d.charAt(0) === "1") d = d.slice(1);
+    if (d.length < 4) return d;
+    if (d.length < 7) return "(" + d.slice(0, 3) + ") " + d.slice(3);
+    return "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + "-" + d.slice(6, 10);
+  }
+  function maskedPhone(raw) {
+    var d = digits(raw).slice(-10);
+    return d.length === 10 ? "(" + d.slice(0, 3) + ") •••-" + d.slice(6) : "your mobile";
+  }
+
+  // ---- money inputs: live comma formatting + equity readout
+  ["f-value", "f-balance"].forEach(function (id) {
+    var el = $(id);
+    el.addEventListener("input", function () {
+      var d = digits(el.value).slice(0, 10);
+      el.value = d ? Number(d).toLocaleString("en-US") : "";
+      updateEquity();
+      setError(id === "f-value" ? "value" : "balance", false);
+    });
+  });
+  function updateEquity() {
+    var v = Number(digits($("f-value").value));
+    var b = Number(digits($("f-balance").value));
+    var box = $("equity-readout");
+    var hasBoth = $("f-value").value !== "" && $("f-balance").value !== "";
+    if (!hasBoth || v <= 0) { box.classList.remove("is-on"); return; }
+    var eq = Math.max(0, v - b);
+    var balPct = Math.min(100, Math.round((b / v) * 100));
+    var eqPct = Math.max(0, 100 - balPct);
+    box.classList.add("is-on");
+    $("equity-amount").textContent = money(eq);
+    $("equity-bar-balance").style.width = balPct + "%";
+    $("equity-bar-equity").style.width = eqPct + "%";
+    $("equity-pct").textContent = b > v ? "Balance is higher than the value you entered" : "About " + eqPct + "% of the home’s value";
+  }
+
+  // ---- phone formatting
+  $("f-phone").addEventListener("input", function () {
+    this.value = formatPhone(this.value);
+    setError("phone", false);
+  });
+  ["f-name", "f-email"].forEach(function (id) {
+    $(id).addEventListener("input", function () { setError(id.replace("f-", ""), false); });
+  });
+  $("f-state").addEventListener("change", function () { setError("state", false); });
+  $("f-consent").addEventListener("change", function () { setError("consent", false); });
+  // ---- conditional primary-residence fields (investment property only)
+  $("f-home-street").addEventListener("input", function () { setError("homeStreet", false); });
+  $("f-home-city").addEventListener("input", function () { setError("homeCity", false); });
+  $("f-home-state").addEventListener("change", function () { setError("homeState", false); });
+  $("f-home-zip").addEventListener("input", function () { this.value = digits(this.value).slice(0, 5); setError("homeZip", false); });
+  // ---- radios: clear errors, ownership notes, auto-advance
+  var advanceTimer = 0;
+  form.addEventListener("change", function (e) {
+    var t = e.target;
+    if (t.type !== "radio") return;
+    setError(t.name, false);
+    var showsNote = false;
+    if (t.name === "ownership") {
+      $("note-trust").classList.toggle("is-on", t.value === "Trust");
+      $("note-llc").classList.toggle("is-on", t.value === "LLC");
+      showsNote = t.value === "Trust" || t.value === "LLC";
+    }
+    if (t.name === "occupancy") {
+      var isInvestment = t.value === "Investment property";
+      $("section-home-address").classList.toggle("is-on", isInvestment);
+      if (!isInvestment) {
+        ["homeStreet", "homeCity", "homeState", "homeZip"].forEach(function (n) { setError(n, false); });
+      }
+      showsNote = isInvestment;
+    }
+    // A tap that completes a screen is the last thing that screen needs: move on, after just enough
+    // of a beat for the selected chip to register. Exceptions: keyboard input (the user may still be
+    // arrowing through the group), and a Trust/LLC pick that has just surfaced a note worth reading.
+    clearTimeout(advanceTimer);
+    if (pointer && !showsNote && current < LAST - 1 && missing(current).length === 0) {
+      advanceTimer = setTimeout(function () { if (missing(current).length === 0) go(current + 1); }, 180);
+    }
+  });
+
+  // ---- validation per step: missing() is silent, validate() shows the errors
+  function missing(i) {
+    var m = [];
+    function need(name, cond) { if (!cond) m.push(name); }
+    if (i === 0) {
+      need("value", Number(digits($("f-value").value)) > 0);
+      need("balance", $("f-balance").value !== "");
+      need("state", $("f-state").value !== "");
+      need("occupancy", radioVal("occupancy") !== "");
+      if (radioVal("occupancy") === "Investment property") {
+        need("homeStreet", $("f-home-street").value.trim() !== "");
+        need("homeCity", $("f-home-city").value.trim() !== "");
+        need("homeState", $("f-home-state").value !== "");
+        need("homeZip", /^\d{5}$/.test($("f-home-zip").value));
+      }
+    } else if (i === 1) {
+      need("use", radioVal("use") !== "");
+      need("fico", radioVal("fico") !== "");
+      need("ownership", radioVal("ownership") !== "");
+    } else if (i === 2) {
+      need("name", $("f-name").value.trim().split(/\s+/).length >= 2);
+      need("email", /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($("f-email").value.trim()));
+      need("phone", digits($("f-phone").value).length === 10);
+      need("consent", $("f-consent").checked);
+    }
+    return m;
+  }
+  var FIELDS = { 0: ["value", "balance", "state", "occupancy", "homeStreet", "homeCity", "homeState", "homeZip"], 1: ["use", "fico", "ownership"], 2: ["name", "email", "phone", "consent"] };
+  function validate(i) {
+    var m = missing(i);
+    (FIELDS[i] || []).forEach(function (name) { setError(name, m.indexOf(name) !== -1); });
+    if (m.length) {
+      var first = steps[i].querySelector(".field.has-error .control, .field.has-error input");
+      if (first) first.focus();
+    }
+    return m.length === 0;
+  }
+
+  // ---- navigation
+  // show(i, false) is the initial render: it never scrolls or moves focus, so the page opens at the
+  // top on every screen size. Every user-initiated change goes through go(), which does both.
+  function show(i, interactive) {
+    clearTimeout(advanceTimer);
+    current = i;
+    steps.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
+    var railIdx = Math.min(i, LAST);
+    var pct = (railIdx / LAST) * 100;
+    railDot.style.left = pct + "%";
+    railFill.style.width = pct + "%";
+    labels.forEach(function (l, k) {
+      l.classList.toggle("is-active", k === railIdx && i !== DONE);
+      l.classList.toggle("is-done", k < railIdx || i === DONE);
+    });
+    stepCount.textContent = String(Math.min(i + 1, LAST + 1));
+    if (interactive === false) return;
+    var r = panel.getBoundingClientRect();
+    if (r.top < 0 || r.top > window.innerHeight * 0.6) {
+      panel.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    }
+    // Focus moves synchronously, inside the same click that changed the screen, so the mobile
+    // keyboard opens on the first field without a second tap.
+    var focusable = steps[i].querySelector("[data-focus], .control, input, button");
+    if (focusable) focusable.focus({ preventScroll: true });
+  }
+  function go(i) { show(i, true); }
+
+  form.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    var a = btn.getAttribute("data-action");
+    if (a === "next") { if (validate(current)) go(current + 1); }
+    else if (a === "back") { go(Math.max(0, current - 1)); }
+    else if (a === "restart") {
+      form.reset();
+      $("equity-readout").classList.remove("is-on"); $("note-trust").classList.remove("is-on"); $("note-llc").classList.remove("is-on"); $("section-home-address").classList.remove("is-on");
+      $("done-title").textContent = "You’re in.";
+      form.querySelectorAll(".has-error").forEach(function (f) { f.classList.remove("has-error"); });
+      form.querySelectorAll("[aria-invalid]").forEach(function (c) { c.removeAttribute("aria-invalid"); });
+      go(0);
+    }
+  });
+
+  // ---- Enter does the obvious thing: the next empty field on this screen, or the screen's one button.
+  form.addEventListener("keydown", function (e) {
+    if (e.key !== "Enter") return;
+    var t = e.target, tag = t.tagName;
+    if (tag === "BUTTON" || tag === "A" || tag === "TEXTAREA") return;
+    e.preventDefault();
+    if (current === DONE) return;
+    if (missing(current).length === 0) { primaryBtn(current).click(); return; }
+    var ctrls = Array.prototype.slice.call(steps[current].querySelectorAll(".control"));
+    var at = ctrls.indexOf(t), next = null;
+    for (var k = at + 1; k < ctrls.length; k++) { if (!ctrls[k].value) { next = ctrls[k]; break; } }
+    if (next) next.focus(); else primaryBtn(current).click();
+  });
+
+  // Every submission goes through one relay Claude hosts and controls — the GHL webhook URL and
+  // any credential live there as a server-side secret, never in this page's source. The relay's
+  // only job is to validate the payload again (the browser's checks are a convenience, not a
+  // security boundary) and hand it to GHL. Nothing about this page's design or copy depends on
+  // GHL in any way a visitor could see — if the relay is unreachable, the visitor sees a plain
+  // error and a way to reach Jason directly, never a GHL page or a silently "successful" fake state.
+  var RELAY_URL = "https://equoro-relay.jasoncbrothers.workers.dev"; // Cloudflare Worker relay -> GHL Contacts API (live, tested)
+
+  function collectPayload() {
+    var stateSel = $("f-state"), homeStateSel = $("f-home-state");
+    return {
+      value: digits($("f-value").value),
+      balance: digits($("f-balance").value),
+      state: stateSel.selectedIndex > 0 ? stateSel.options[stateSel.selectedIndex].textContent : "",
+      occupancy: radioVal("occupancy"),
+      homeStreet: $("f-home-street").value.trim(),
+      homeCity: $("f-home-city").value.trim(),
+      homeState: homeStateSel.selectedIndex > 0 ? homeStateSel.options[homeStateSel.selectedIndex].textContent : "",
+      homeZip: $("f-home-zip").value.trim(),
+      use: radioVal("use"),
+      fico: radioVal("fico"),
+      ownership: radioVal("ownership"),
+      name: $("f-name").value.trim(),
+      email: $("f-email").value.trim(),
+      phone: digits($("f-phone").value),
+      consentTimestamp: new Date().toISOString(),
+      consentText: (form.querySelector("label.consent span") || {}).textContent || ""
+    };
+  }
+
+  function setSubmitError(msg) {
+    var el = $("submit-error");
+    if (!el) return;
+    el.textContent = msg || "";
+    el.classList.toggle("is-on", !!msg);
+  }
+
+  function submitAndFinish() {
+    var btn = primaryBtn(LAST);
+    setSubmitError("");
+    btn.disabled = true;
+    var original = btn.textContent;
+    btn.textContent = "Submitting…";
+    fetch(RELAY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(collectPayload())
+    }).then(function (resp) {
+      if (!resp.ok) throw new Error("submit-failed");
+      return resp.json();
+    }).then(function (data) {
+      if (!data || data.ok !== true) throw new Error("submit-failed");
+      btn.disabled = false; btn.textContent = original;
+      finish();
+    }).catch(function () {
+      btn.disabled = false; btn.textContent = original;
+      setSubmitError("That didn’t go through on our end. Please try again, or call us directly — see the Contact page.");
+    });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (current !== LAST) return;
+    if (!validate(LAST)) return;
+    submitAndFinish();
+  });
+
+  function finish() {
+    var name = $("f-name").value.trim().split(/\s+/)[0];
+    $("done-title").textContent = "You’re in, " + name + ".";
+    var v = Number(digits($("f-value").value)), b = Number(digits($("f-balance").value));
+    var stateName = $("f-state").options[$("f-state").selectedIndex].textContent;
+    var rows = [
+      ["Property", stateName + " · " + radioVal("occupancy")],
+      ["Estimated equity", money(Math.max(0, v - b)) + " (illustrative)"],
+      ["Use of funds", radioVal("use")],
+      ["Credit range", radioVal("fico")],
+      ["Ownership", radioVal("ownership")],
+      ["Contact", $("f-email").value.trim()]
+    ];
+    if (radioVal("occupancy") === "Investment property") {
+      var homeStateSel = $("f-home-state");
+      var homeStateName = homeStateSel.selectedIndex > 0 ? homeStateSel.options[homeStateSel.selectedIndex].textContent : "";
+      var homeAddr = [$("f-home-street").value.trim(), $("f-home-city").value.trim(), (homeStateName + " " + $("f-home-zip").value.trim()).trim()].filter(function (s) { return s !== ""; }).join(", ");
+      rows.splice(1, 0, ["Primary residence", homeAddr]);
+    }
+    $("summary").innerHTML = rows.map(function (r) {
+      return "<div><small>" + r[0] + "</small><b>" + escapeHtml(r[1]) + "</b></div>";
+    }).join("");
+    $("ref").textContent = "EQ-" + String(Date.now()).slice(-6);
+    go(DONE);
+  }
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  // ---- "Check my options" links: if the panel is already on screen, the first field is focused
+  // immediately (inside the click, so the mobile keyboard opens); otherwise scroll to it, then focus.
+  document.querySelectorAll("[data-goto-form]").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      var f = steps[current].querySelector("[data-focus], .control, input");
+      var r = panel.getBoundingClientRect();
+      var onScreen = r.top >= 0 && r.top < window.innerHeight * 0.6;
+      if (onScreen) { if (f) f.focus({ preventScroll: true }); return; }
+      panel.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+      if (f) setTimeout(function () { f.focus({ preventScroll: true }); }, reduced ? 0 : 300);
+    });
+  });
+
+  show(0, false);
+})();
+</script>
+
+</body></html>
