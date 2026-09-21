@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Contact — Equoro</title>
+<meta name="description" content="Reach Jason Brothers at Equoro directly by phone or email before you apply.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  /* ---------- Tokens (mirrors index.html) ---------- */
+  :root {
+    color-scheme: light dark;
+    --bg: #E7E8E4; --surface: #F6F6F3; --surface-2: #DEDFDA;
+    --ink: #15181B; --ink-2: #4E5358; --ink-3: #82878C;
+    --line: #C3C6C0; --line-strong: #15181B;
+    --accent: #2038D8; --accent-ink: #FFFFFF; --accent-tint: rgba(32, 56, 216, 0.10);
+    --danger: #B3261E; --danger-tint: rgba(179, 38, 30, 0.08); --ok: #1E7A4C;
+    --shadow: 0 24px 60px -30px rgba(21, 24, 27, 0.35);
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --mono-s: 0.68rem; --mono-m: 0.74rem;
+    --text-xs: 0.8rem; --text-s: 0.875rem; --text-m: 0.95rem; --text-l: 1.15rem;
+    --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+    --gutter: clamp(16px, 4vw, 48px);
+    --maxw: 1240px;      /* nav and footer span the same width as the home page */
+    --measure: 900px; /* the reading column */
+    --ease: cubic-bezier(.2, .7, .3, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141618; --surface: #1C1F22; --surface-2: #101214;
+      --ink: #ECEEEA; --ink-2: #AEB2B4; --ink-3: #7B8084;
+      --line: #33373B; --line-strong: #ECEEEA;
+      --accent: #7E90FF; --accent-ink: #0B1030; --accent-tint: rgba(126, 144, 255, 0.14);
+      --danger: #FF7B72; --danger-tint: rgba(255, 123, 114, 0.10); --ok: #6FD3A0;
+      --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141618; --surface: #1C1F22; --surface-2: #101214;
+    --ink: #ECEEEA; --ink-2: #AEB2B4; --ink-3: #7B8084;
+    --line: #33373B; --line-strong: #ECEEEA;
+    --accent: #7E90FF; --accent-ink: #0B1030; --accent-tint: rgba(126, 144, 255, 0.14);
+    --danger: #FF7B72; --danger-tint: rgba(255, 123, 114, 0.10); --ok: #6FD3A0;
+    --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+  }
+
+  /* ---------- Base ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .eq { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
+  .eq > main { flex: 1 0 auto; }
+  .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+  h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.02em; line-height: 1.08; }
+  h1 { font-weight: 600; font-size: clamp(1.9rem, 4.4vw, 2.6rem); }
+  h2 { font-weight: 600; font-size: 1.15rem; }
+  p { margin: 0; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .eyebrow { font-family: var(--mono); font-size: var(--mono-m); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); display: inline-flex; align-items: center; gap: var(--sp-3); }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+  .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+  /* ---------- Nav + wordmark (mirrors index.html) ---------- */
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); padding-block: var(--sp-5); border-bottom: 1px solid var(--line); }
+  .wordmark { display: inline-flex; align-items: center; flex: none; font-family: var(--display); font-weight: 600; font-stretch: 125%; font-variation-settings: "wdth" 125; font-size: 1.75rem; line-height: 1; letter-spacing: .28em; white-space: nowrap; text-decoration: none; color: var(--ink); }
+  .wordmark .word { display: inline-block; margin-right: -.28em; }
+  .nav-links { display: flex; align-items: center; gap: var(--sp-5); font-size: var(--text-m); font-weight: 500; }
+  .nav-links a { text-decoration: none; color: var(--ink-2); }
+  .nav-links a:hover { color: var(--ink); }
+  .back { display: inline-flex; align-items: center; gap: var(--sp-2); }
+  .back svg { flex: none; transition: transform .12s var(--ease); }
+  .back:hover svg { transform: translateX(-2px); }
+  @media (max-width: 640px) {
+    .nav-links { gap: var(--sp-3); }
+    .nav .wordmark { font-size: clamp(0.9375rem, 4.4vw, 1.375rem); }
+  }
+  @media (max-width: 380px) {
+    .nav .wordmark { letter-spacing: .24em; }
+    .nav .wordmark .word { margin-right: -.24em; }
+  }
+  .theme-toggle { display: inline-grid; place-items: center; width: 40px; height: 40px; padding: 0; flex: none; border: 1px solid var(--line); border-radius: 2px; background: transparent; color: var(--ink-2); transition: color .1s ease, border-color .1s ease, transform .06s var(--ease); }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--line-strong); }
+  .theme-toggle:active { transform: scale(.96); }
+  .theme-toggle svg { display: block; }
+  .theme-toggle .glyph-sun { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .glyph-moon { display: none; }
+    :root:not([data-theme="light"]) .theme-toggle .glyph-sun { display: block; }
+  }
+  :root[data-theme="dark"] .theme-toggle .glyph-moon { display: none; }
+  :root[data-theme="dark"] .theme-toggle .glyph-sun { display: block; }
+  @media (prefers-reduced-motion: no-preference) {
+    :root.is-theming, :root.is-theming *, :root.is-theming *::before, :root.is-theming *::after {
+      transition: background-color .16s ease, color .16s ease, border-color .16s ease, fill .16s ease, stroke .16s ease, box-shadow .16s ease !important;
+    }
+  }
+
+  /* ---------- Page body ---------- */
+  .page { max-width: var(--measure); padding-block: clamp(var(--sp-7), 6vw, 80px); }
+  .page-head { display: grid; gap: var(--sp-4); justify-items: start; }
+  .updated { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; color: var(--ink-3); }
+  .lede { font-size: var(--text-l); color: var(--ink-2); line-height: 1.5; max-width: 40em; }
+  .draft-flag { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); align-items: start; border-left: 2px solid var(--danger); background: var(--danger-tint); padding: var(--sp-4) var(--sp-5); border-radius: 2px; margin-top: var(--sp-6); }
+  .draft-flag svg { color: var(--danger); margin-top: 3px; }
+  .draft-flag b { color: var(--ink); }
+  .draft-flag p { color: var(--ink-2); font-size: var(--text-s); line-height: 1.5; }
+  .sections { margin-top: var(--sp-6); }
+  .sections section { border-top: 1px solid var(--line); padding-block: var(--sp-6); display: grid; gap: var(--sp-3); }
+  .sections section:last-child { padding-bottom: 0; }
+  .sections p, .sections li { color: var(--ink-2); line-height: 1.6; }
+  .sections ul { margin: 0; padding-left: 1.3em; display: grid; gap: var(--sp-2); }
+  .sections a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .sections a:hover { color: var(--accent); }
+
+  /* Contact page */
+  .call-first { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); align-items: start; border-left: 2px solid var(--accent); background: var(--accent-tint); padding: var(--sp-5); border-radius: 2px; margin-top: var(--sp-6); }
+  .call-first svg { color: var(--accent); margin-top: 3px; }
+  .call-first b { color: var(--ink); font-weight: 600; }
+  .call-first p { color: var(--ink-2); font-size: var(--text-m); line-height: 1.5; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5); margin-top: var(--sp-6); }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--line-strong); border-radius: 2px; background: var(--surface); padding: var(--sp-5); box-shadow: var(--shadow); display: grid; gap: var(--sp-2); min-width: 0; }
+  .card .label { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .card .value { font-family: var(--display); font-weight: 600; font-size: 1.3rem; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  .card a.value { text-decoration: none; color: var(--ink); }
+  .card a.value:hover { color: var(--accent); }
+  .card .sub { font-size: var(--text-s); color: var(--ink-2); }
+  .office { border-top: 1px solid var(--line-strong); padding-top: var(--sp-6); margin-top: clamp(var(--sp-7), 6vw, 72px); display: grid; gap: var(--sp-4); }
+  .office dl { display: grid; grid-template-columns: 140px 1fr; gap: var(--sp-3) var(--sp-4); margin: 0; }
+  .office dt { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); padding-top: 2px; }
+  .office dd { margin: 0; font-size: var(--text-m); line-height: 1.5; color: var(--ink-2); }
+  @media (max-width: 480px) { .office dl { grid-template-columns: 1fr; } .office dt { padding-top: 0; } }
+
+  /* ---------- Footer (mirrors index.html) ---------- */
+  .footer { border-top: 1px solid var(--line-strong); padding-block: var(--sp-6) var(--sp-7); display: grid; gap: var(--sp-5); }
+  .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--sp-4) var(--sp-6); align-items: center; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: var(--text-s); }
+  .footer-links a { color: var(--ink-2); text-decoration: none; }
+  .footer-links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .footer-links a[aria-current="page"] { color: var(--ink); }
+  .footer-legal { font-size: var(--text-xs); color: var(--ink-3); line-height: 1.55; max-width: 72em; }
+  .footer-meta { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); }
+</style>
+<script>
+/* Theme: same storage key and behaviour as index.html, so a choice made on the home page carries over. */
+(function () {
+  "use strict";
+  var root = document.documentElement, KEY = "equoro-theme", btn = null, timer = 0;
+  var mqDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  var mqMotion = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+  function stored() { try { var v = localStorage.getItem(KEY); return v === "light" || v === "dark" ? v : null; } catch (e) { return null; } }
+  function store(v) { try { localStorage.setItem(KEY, v); } catch (e) { /* storage unavailable: the choice lives for this visit only */ } }
+  function current() {
+    var a = root.getAttribute("data-theme");
+    if (a === "light" || a === "dark") return a;
+    return mqDark && mqDark.matches ? "dark" : "light";
+  }
+  var saved = stored();
+  if (saved) root.setAttribute("data-theme", saved);
+  function reflect() {
+    if (!btn) return;
+    var next = current() === "dark" ? "light" : "dark";
+    btn.setAttribute("aria-label", "Switch to " + next + " theme");
+    btn.setAttribute("title", "Switch to " + next + " theme");
+  }
+  function apply(mode) {
+    if (!(mqMotion && mqMotion.matches)) {
+      root.classList.add("is-theming");
+      clearTimeout(timer);
+      timer = setTimeout(function () { root.classList.remove("is-theming"); }, 220);
+    }
+    root.setAttribute("data-theme", mode);
+    store(mode);
+    reflect();
+  }
+  function wire() {
+    btn = document.getElementById("theme-toggle");
+    if (!btn) return;
+    btn.addEventListener("click", function () { apply(current() === "dark" ? "light" : "dark"); });
+    reflect();
+    if (mqDark) { if (mqDark.addEventListener) mqDark.addEventListener("change", reflect); else if (mqDark.addListener) mqDark.addListener(reflect); }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire); else wire();
+})();
+</script>
+</head>
+<body>
+<div class="eq">
+  <header class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="wordmark" href="./" aria-label="Equoro home"><span class="word">EQUORO</span></a>
+      <div class="nav-links">
+        <a class="back" href="./"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M12 7H3M6.5 3.5L3 7l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to Equoro</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch to dark theme">
+          <svg class="glyph-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 8.6A5.5 5.5 0 117.4 2.5a4.3 4.3 0 006.1 6.1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          <svg class="glyph-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="2.6" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5v1.8M8 12.7v1.8M1.5 8h1.8M12.7 8h1.8M3.4 3.4l1.3 1.3M11.3 11.3l1.3 1.3M12.6 3.4l-1.3 1.3M4.7 11.3l-1.3 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <article class="wrap page">
+      <div class="page-head">
+        <span class="eyebrow">Contact</span>
+        <h1>Talk to Jason before you apply.</h1>
+        <p class="lede">Equoro is built and run by Jason Brothers. If you&rsquo;d rather talk through your options than fill out a form cold, this is the fastest way to reach him directly.</p>
+      </div>
+
+      <div class="call-first" role="note">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 2.5h2.2l1 3-1.3 1.1a8.5 8.5 0 004.5 4.5l1.1-1.3 3 1V13a1 1 0 01-1 1C7.4 14 2 8.6 2 3.5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        <p><b>We prefer to talk first.</b> Jason takes applications over the phone whenever possible. If you can, call or email before submitting anything online &mdash; we&rsquo;d rather understand your situation and answer your questions first, so nothing gets submitted before you&rsquo;re ready.</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <span class="label">Phone</span>
+          <a class="value" href="tel:+17752258941">(775) 225-8941</a>
+          <span class="sub">Direct line to Jason Brothers</span>
+        </div>
+        <div class="card">
+          <span class="label">Email</span>
+          <a class="value" href="mailto:jbrothers@sunnyhillfinancial.com">jbrothers@sunnyhillfinancial.com</a>
+          <span class="sub">Usually the fastest way to reach him in writing</span>
+        </div>
+      </div>
+
+      <div class="office">
+        <span class="eyebrow">Corporate office</span>
+        <dl>
+          <dt>Contact</dt>
+          <dd>Jason Brothers, Director of Sales</dd>
+          <dt>Company</dt>
+          <dd>SunnyHill Financial Inc.</dd>
+          <dt>Address</dt>
+          <dd>600 California St, Suite 12-032<br>San Francisco, CA 94108</dd>
+          <dt>Licensing</dt>
+          <dd>Jason Brothers &middot; NMLS # 829954 &middot; SunnyHill Financial Inc. &middot; Company NMLS # 1708856</dd>
+        </dl>
+      </div>
+    </article>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer">
+      <div class="footer-top">
+        <a class="wordmark" href="./" aria-label="Equoro home"><span class="word">EQUORO</span></a>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="./#how">How it works</a>
+          <a href="./#why">Why Equoro</a>
+          <a href="./#security">Your information</a>
+          <a href="./#faq">Questions</a>
+          <a href="privacy.html">Privacy Notice</a>
+          <a href="terms.html">Terms</a>
+          <a href="contact.html" aria-current="page">Contact</a>
+        </nav>
+      </div>
+      <hr class="rule">
+      <p class="footer-legal">Equoro is a licensed mortgage broker. Equoro is not a lender, does not fund loans, and nothing on this page is an offer, approval or commitment to lend. Products, availability and terms vary by lender, property and location and are subject to each lender&rsquo;s own review and disclosures. All numbers shown are illustrative examples, not quotes. Submitting your information is not an application for credit.</p>
+      <div class="footer-meta">
+        <span>&copy; 2026 Equoro</span>
+        <span>Home equity, compared</span>
+        <span>Equoro operates under SunnyHill Financial Inc. &middot; Company NMLS # 1708856</span>
+        <span>Jason Brothers &middot; NMLS # 829954</span>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
