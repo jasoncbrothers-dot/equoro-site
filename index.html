@@ -1,5 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Equoro</title>
+<title>Equoro — The AI HELOC Source</title>
+<meta name="description" content="Answer a few questions and see your digital HELOC options in minutes. Every number side by side, a licensed expert who is a real person, and nothing shared until you say so.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
   /* ---------- Tokens ---------- */
@@ -223,7 +224,7 @@
 
   /* Spec strip: the base of the hero. Process facts only, no numbers. */
   .hero-spec { position: relative; z-index: 2; border-top: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); background: var(--surface-glass); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-  .hero-spec ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)) auto; align-items: stretch; }
+  .hero-spec ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; align-items: stretch; }
   .hero-spec li { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); align-items: start; padding: var(--sp-4) var(--sp-5) var(--sp-4) 0; border-right: 1px solid var(--line); }
   .hero-spec li + li { padding-left: var(--sp-5); }
   .hero-spec li svg { margin-top: 2px; color: var(--accent); }
@@ -358,18 +359,19 @@
   .section-head .lede { max-width: 34em; }
   @media (max-width: 800px) { .section-head { grid-template-columns: 1fr; align-items: start; } }
 
-  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line-strong); }
   .steps article { padding: var(--sp-5) var(--sp-5) var(--sp-6) 0; border-right: 1px solid var(--line); display: grid; gap: var(--sp-3); align-content: start; }
   .steps article + article { padding-left: var(--sp-5); }
   .steps article:last-child { border-right: 0; }
   .steps .num { font-family: var(--mono); font-size: var(--mono-m); color: var(--accent); letter-spacing: 0.08em; }
   .steps p { color: var(--ink-2); font-size: var(--text-m); }
-  @media (max-width: 960px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .steps article:nth-child(2) { border-right: 0; } .steps article:nth-child(n+3) { border-top: 1px solid var(--line); } .steps article:nth-child(3) { padding-left: 0; } }
+  @media (max-width: 960px) { .steps { grid-template-columns: 1fr; } .steps article { border-right: 0; padding-left: 0 !important; } .steps article + article { border-top: 1px solid var(--line); } }
   @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } .steps article { border-right: 0; padding-left: 0 !important; padding-right: 0; } .steps article + article { border-top: 1px solid var(--line); } }
 
   /* ---------- Why Equoro: a ledger, the usual way beside ours ---------- */
   .why { border-top: 1px solid var(--line-strong); }
-  .why-head, .why-row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 4.5fr) minmax(0, 4.5fr); gap: 0 var(--sp-6); }
+  .why-head, .why-row { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 0 var(--sp-6); }
+  .why { border-top: 1px solid var(--line-strong); }
   .why-head { padding: var(--sp-3) 0; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
   .why-head .ours { position: relative; color: var(--ink); }
   .why-head .ours::before { content: ""; position: absolute; left: 0; right: 0; top: calc(-1 * var(--sp-3) - 1px); height: 2px; background: var(--accent); }
@@ -380,7 +382,7 @@
   .why-row .ours { color: var(--ink); }
   .why-row p::before { display: none; font-family: var(--mono); font-size: var(--mono-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: var(--sp-1); }
   .why-row .old::before { content: "The usual way"; }
-  .why-row .ours::before { content: "With Equoro"; color: var(--accent); }
+  .why-row .ours::before { content: none; }
   .why-note { display: grid; grid-template-columns: 22px 1fr; gap: var(--sp-3); align-items: start; margin-top: var(--sp-5); font-size: var(--text-m); color: var(--ink-2); max-width: 44em; }
   .why-note svg { color: var(--accent); margin-top: 3px; }
   .why-note b { color: var(--ink); font-weight: 600; }
@@ -452,6 +454,9 @@
   @media (max-width: 800px) { .faq { grid-template-columns: 1fr; } }
 
   .cta-strip { border-top: 1px solid var(--line-strong); padding-block: clamp(var(--sp-7), 6vw, 80px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--sp-5) var(--sp-7); }
+  .promise { border-top: 1px solid var(--line-strong); padding-block: clamp(var(--sp-7), 6vw, 80px); display: grid; gap: var(--sp-4); }
+  .promise p { max-width: 30em; }
+  .promise p { font-family: var(--display); font-weight: 600; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.25; letter-spacing: -0.01em; color: var(--ink); text-wrap: balance; }
   .cta-strip h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); }
   .cta-strip p { color: var(--ink-2); margin-top: var(--sp-2); }
 
@@ -545,8 +550,8 @@
       <div class="wrap hero-grid">
         <div class="hero-copy">
           <span class="eyebrow">The AI HELOC Source</span>
-          <h1>The HELOC built for speed. Funded in <em>days</em>, not months.</h1>
-          <p class="lede measure">Equoro is an AI HELOC specialist. We&rsquo;re partnered with the best digital HELOC wholesale lenders in the nation, and can help you quickly find the one that&rsquo;s the best fit for your exact scenario &mdash; whether that&rsquo;s consolidating debt, a home improvement project, a combination of both, or just quick access to cash.</p>
+          <h1>The HELOC built for speed. Funded in <em>days</em>, not weeks or months.</h1>
+          <p class="lede measure">Answer a few questions. We match you with the digital HELOC lender that fits your scenario, put every number side by side, and a licensed expert &mdash; a real person &mdash; walks you through it.</p>
           <div class="hero-actions">
             <a class="btn btn-accent" href="#intake" data-goto-form>Check my options</a>
             <a class="link-arrow" href="#how">How it works <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -742,9 +747,9 @@
                   <p class="done-sub">Your details are with Equoro. Here&rsquo;s what happens next.</p>
                 </div>
                 <ol class="next-list">
-                  <li><span>01</span><span>We review what you told us and match it against what our lending partners look for &mdash; property type, location, use of funds, ownership.</span></li>
-                  <li><span>02</span><span>You get an email summarizing the kinds of options that fit. If a partner is a match, they may reach out directly &mdash; you decide whether to take the conversation.</span></li>
-                  <li><span>03</span><span>If you move forward, the partner walks you through their process and paperwork. Trust or LLC documents come up here, not before.</span></li>
+                  <li><span>01</span><span>A licensed Equoro expert &mdash; a real person &mdash; reviews what you told us.</span></li>
+                  <li><span>02</span><span>We match you with the lender that fits and get your offer back, usually within minutes.</span></li>
+                  <li><span>03</span><span>We walk through every number together. Trust or LLC documents come up here, not before. You choose, or you don&rsquo;t.</span></li>
                 </ol>
                 <div class="summary" id="summary"></div>
                 <div class="step-foot done-foot">
@@ -766,15 +771,11 @@
           </li>
           <li>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 2.5h7l3 3v8H3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 9l2 2 3-3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <div><b>Consent recorded, every time</b><span>A timestamped record of what you agreed to travels with your submission.</span></div>
-          </li>
-          <li>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-            <div><b>Shared only after you say so</b><span>Nothing reaches a partner before your consent step, checked and submitted by you.</span></div>
+            <div><b>One lender, never a list</b><span>Your details go to one lender only, after you consent. Never to multiple lenders or brokers.</span></div>
           </li>
           <li>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 13.5h11M4 13.5V6l4-3 4 3v7.5" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6.5 13.5V9.5h3v4" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-            <div><b>Handpicked lenders</b><span>We&rsquo;ve extensively researched and handpicked only the best digital HELOC providers in the nation, and can quickly show you how they stack up for your scenario.</span></div>
+            <div><b>Lenders we&rsquo;ve vetted</b><span>We work only with digital HELOC lenders we&rsquo;ve reviewed ourselves.</span></div>
           </li>
           <li class="spec-link"><a href="#security">How it&rsquo;s handled <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h9M7.5 3.5L11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
         </ul>
@@ -787,30 +788,25 @@
         <div class="section-head">
           <div class="kicker">
             <span class="eyebrow">How it works</span>
-            <h2>Four steps. You&rsquo;re in charge of all of them.</h2>
+            <h2>Three steps. You&rsquo;re in charge of all of them.</h2>
           </div>
-          <p class="lede">This is where AI does the heavy lifting. No pay stubs, no bank statements, no appraisal paperwork &mdash; we verify property value, income, employment, and any liabilities you&rsquo;d like to pay off using your data, instantly and electronically. What used to be a stack of documents is now seconds, done more accurately than any human ever could.</p>
+          <p class="lede">This is where AI does the heavy lifting. No pay stubs, no bank statements, no appraisal paperwork &mdash; your property, income and credit are verified electronically, in seconds instead of weeks.</p>
         </div>
         <div class="steps">
           <article>
             <span class="num">STEP 1</span>
-            <h3>Tell us about the home</h3>
-            <p>Start with a rough home value, your mortgage balance and the property&rsquo;s state &mdash; estimates are fine. Then the address, how the property is used and how it&rsquo;s held. Once you submit, we identify most of what else we need in seconds, and a digital HELOC works even if the home is currently listed for sale.</p>
+            <h3>Answer a few questions</h3>
+            <p>Estimates are fine. Our AI pulls everything else we need &mdash; property, income, credit &mdash; and builds your offer in seconds. It works even if the home is listed for sale.</p>
           </article>
           <article>
             <span class="num">STEP 2</span>
-            <h3>No queues, ever.</h3>
-            <p>In most cases, we can reach you by phone or text instantly, at your request &mdash; and you&rsquo;ll always be talking to a real, live human who&rsquo;s a licensed digital HELOC expert and loan originator. Never a telemarketer. No runaround, no waiting days or weeks for an answer you can have in minutes.</p>
+            <h3>Choose your offer</h3>
+            <p>Your approval lands in your inbox within minutes. Adjust the terms right there until they fit your exact scenario. Then a licensed expert &mdash; a real person, never a telemarketer &mdash; walks through every number with you, live.</p>
           </article>
           <article>
             <span class="num">STEP 3</span>
-            <h3>Choose your offer</h3>
-            <p>We already know which HELOC lender fits your exact scenario, and we&rsquo;ll have offers back to you within minutes &mdash; often while we&rsquo;re still on the phone, so we can walk through them together. Once you pick one, everything moves quickly: you&rsquo;ll finish the last steps electronically, including disclosures, to get your HELOC ready to close.</p>
-          </article>
-          <article>
-            <span class="num">STEP 4</span>
             <h3>Choose, or don&rsquo;t</h3>
-            <p>We only contact you at your request &mdash; no auto-dialers, no telemarketers, ever. Every rate, fee and term is a lender&rsquo;s to disclose before you commit to anything, and you can stop at any point.</p>
+            <p>We only reach out when you ask. No auto-dialers, no call centers &mdash; ever. Every rate, fee and term is disclosed by the lender before you commit to anything. Walk away any time.</p>
           </article>
         </div>
       </div>
@@ -824,33 +820,29 @@
             <span class="eyebrow">Why Equoro</span>
             <h2>The right HELOC. Matched to you.</h2>
           </div>
-          <p class="lede">Equoro is the digital HELOC expert. Tell us your scenario, and we find precisely the option built for it &mdash; no guesswork, no wasted time.</p>
+          <p class="lede">Equoro matches your HELOC perfectly to your exact scenario. Tell us your scenario once, and our licensed digital HELOC experts ask a few discovery questions to go a little deeper and narrow down which of the best lenders is the perfect one for exactly what you&rsquo;re trying to accomplish.</p>
         </div>
         <div class="why">
-          <div class="why-head" aria-hidden="true">
-            <span></span>
-            <span>The usual way</span>
-            <span class="ours">With Equoro</span>
-          </div>
           <div class="why-row">
             <div><span class="idx">01</span><h3>The application</h3></div>
-            <p class="old">Every lender has its own application, and each one opens with the same questions about your home, your balance and your credit.</p>
-            <p class="ours">You answer the intake once. Equoro matches it to the partners whose programs fit, so the repetition is ours to handle, not yours.</p>
+            <p class="ours">You answer once. We match your scenario to the one lender that fits it. The repetition is ours, not yours.</p>
           </div>
           <div class="why-row">
-            <div><span class="idx">02</span><h3>The terms</h3></div>
-            <p class="old">You learn what a product actually is on a call, from someone whose job is to get you to the next step.</p>
-            <p class="ours">You read what a line of credit or a fixed-rate loan is, in plain words, before anyone has your number. If there is a call, it starts from understanding.</p>
+            <div><span class="idx">02</span><h3>The numbers</h3></div>
+            <p class="ours">You see the rate, the fees and the total cost of each offer side by side, in plain words, before you choose.</p>
           </div>
           <div class="why-row">
-            <div><span class="idx">03</span><h3>The contact</h3></div>
-            <p class="old">Submitting a form puts your number in a queue. The calls start whether you were ready or not.</p>
-            <p class="ours">Nothing leaves Equoro until you&rsquo;ve read the consent and checked the box yourself. Only the partners that fit hear from you, and only after that.</p>
+            <div><span class="idx">03</span><h3>The person</h3></div>
+            <p class="ours">One licensed expert, a real person, who reaches out when you ask &mdash; and only when you ask.</p>
+          </div>
+          <div class="why-row">
+            <div><span class="idx">04</span><h3>The time</h3></div>
+            <p class="ours">Your HELOC approval is good for 14 days. Do nothing and it simply expires &mdash; and if you want more time to decide, you can reapply whenever you&rsquo;re ready. No hassle whatsoever.</p>
           </div>
         </div>
         <p class="why-note">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5l5 2v4c0 3.2-2.2 5.6-5 7-2.8-1.4-5-3.8-5-7v-4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
-          <span><b>One more commitment.</b> How Equoro is paid never changes which partners you&rsquo;re shown, or the order you see them in.</span>
+          <span><b>One more commitment.</b> How Equoro is paid never changes which lender we match you with.</span>
         </p>
       </div>
     </section>
@@ -864,7 +856,7 @@
             <h2>What you own, minus what you owe.</h2>
           </div>
           <p class="measure">Home equity is the part of your home&rsquo;s value that isn&rsquo;t covered by a mortgage. A home equity line of credit or loan lets you borrow against a portion of it, using the home as collateral.</p>
-          <p class="measure">Lenders don&rsquo;t lend against all of it. Each sets its own ceiling on how much of the home&rsquo;s value can be borrowed in total, and that ceiling &mdash; along with your credit, income and the property itself &mdash; is what decides the number you&rsquo;re offered. The example here is illustrative, not a quote.</p>
+          <p class="measure">Lenders don&rsquo;t lend against all of it. Each sets its own ceiling, based on the property, your credit and your income. The example here is illustrative, not a quote.</p>
           <a class="btn btn-ghost" href="#intake" data-goto-form>Run my own numbers</a>
         </div>
         <div class="diagram">
@@ -906,7 +898,7 @@
             <span class="eyebrow">Your information</span>
             <h2>Consent is recorded, not assumed.</h2>
           </div>
-          <p class="lede">Here is what happens to what you type, in the order it happens. Every line below describes a step we take, not a number we&rsquo;re asking you to take on faith.</p>
+          <p class="lede">What happens to what you type, in the order it happens. No numbers to take on faith &mdash; just the steps.</p>
         </div>
         <div class="security">
           <div class="cert" role="group" aria-label="Illustrative specimen of a consent record">
@@ -926,7 +918,7 @@
               </div>
               <div>
                 <dt>Shared with</dt>
-                <dd>Lending partners whose programs fit what you told us, only after this record exists.<small>Each one receives the record alongside your details.</small></dd>
+                <dd>The one lender matched to your scenario &mdash; never multiple lenders or brokers &mdash; only after this record exists.<small>That lender receives the record alongside your details.</small></dd>
               </div>
               <div>
                 <dt>Withdrawn by</dt>
@@ -935,29 +927,25 @@
             </dl>
             <div class="cert-foot">
               <span class="seal" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5l6 2.5v4.5c0 3.6-2.6 6.4-6 8-3.4-1.6-6-4.4-6-8V4z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M6 9l2 2 4-4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              <span>Generated for every submission at the moment of consent. It travels with your details so any partner who receives them can see that you agreed, when, and to what.</span>
+              <span>Generated for every submission at the moment of consent. It travels with your details so the lender who receives them can see that you agreed, when, and to what.</span>
             </div>
           </div>
           <div>
             <ol class="proc">
               <li>
                 <span class="idx">01</span>
-                <div><h3>Encrypted on the way</h3><p>Everything you type on this page is sent over an encrypted connection between your browser and Equoro. That&rsquo;s true of the first field you fill in, not just the last.</p></div>
+                <div><h3>Encrypted from the first field</h3><p>Everything you type travels over an encrypted connection between your browser and Equoro &mdash; the first field, not just the last.</p></div>
               </li>
               <li>
                 <span class="idx">02</span>
-                <div><h3>A record of consent, attached to your submission</h3><p>When you check the consent box, we create a timestamped record of the wording you saw and when you saw it. It&rsquo;s a standard practice in this industry, and it exists so the question &ldquo;did this person agree to be contacted?&rdquo; has a verifiable answer, not a remembered one.</p></div>
+                <div><h3>Consent, on the record</h3><p>When you check the box, we record the exact wording you saw and the moment you saw it. It travels with your submission, so &ldquo;did they agree?&rdquo; always has a real answer.</p></div>
               </li>
               <li>
                 <span class="idx">03</span>
-                <div><h3>Nothing moves before you say so</h3><p>Your details stay with Equoro until you&rsquo;ve read the consent and checked the box yourself. There is no version of this form where a partner hears from you first.</p></div>
-              </li>
-              <li>
-                <span class="idx">04</span>
-                <div><h3>Lenders are reviewed, not self-serve</h3><p>Equoro decides which lenders are on our panel. We review a lender&rsquo;s programs and how they work with borrowers before we submit anything to them, and we shop your file to the ones whose programs fit, not to everyone at once.</p></div>
+                <div><h3>Nothing moves before you do</h3><p>Your details stay with Equoro until you check the box. Then they go to one lender only &mdash; the one matched to your scenario. Never to multiple lenders or brokers, with no exceptions.</p></div>
               </li>
             </ol>
-            <p class="proc-note">Partners disclose their own rates, fees and terms directly to you before you commit to anything. Equoro never quotes on their behalf.</p>
+            <p class="proc-note">Every rate, fee and term comes from the lender, with the lender&rsquo;s own disclosures, before you commit. We put them side by side and walk you through them.</p>
           </div>
         </div>
       </div>
@@ -968,11 +956,27 @@
       <div class="wrap faq">
         <div class="faq-intro kicker">
           <span class="eyebrow">Questions</span>
-          <h2>The ones people actually ask.</h2>
-          <p class="lede">Short answers, no sales language. Anything about a specific rate, fee or term is a partner&rsquo;s to answer, and they answer it before you commit.</p>
+          <h2>The hard questions, answered first.</h2>
+          <p class="lede">Short answers, no sales language.</p>
         </div>
         <div class="faq-list">
           <details open>
+            <summary>Will I get flooded with calls?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>No. We reach out only when you ask, the way you choose. No auto-dialers, no call centers, and your details go to one lender only &mdash; never to multiple lenders or brokers. Reply STOP to any text and it stops.</p><p>We manage all communication directly with the lender at all times, and you&rsquo;ll see our messages back and forth so you&rsquo;re always in the loop &mdash; with no need to be contacted by anyone except your licensed lender, the one you speak to and know. The way it should be.</p></div>
+          </details>
+          <details>
+            <summary>Who will I actually be talking to?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>A licensed loan originator &mdash; a real person. Equoro was founded by Jason Brothers, who has spent more than thirty years in mortgage lending (NMLS #829954).</p></div>
+          </details>
+          <details>
+            <summary>How does Equoro get paid &mdash; and does that change what I see?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>Checking your options is free. If you take a loan or line of credit, Equoro may be paid by the lender. That never changes which lender we match you with, and the lender discloses every cost before you commit.</p></div>
+          </details>
+          <details>
+            <summary>Is an AI deciding my loan?<span class="plus" aria-hidden="true"></span></summary>
+            <div class="a"><p>No. AI does the paperwork &mdash; verifying property, income and credit in seconds. The lender makes the credit decision, and a licensed person walks you through it.</p></div>
+          </details>
+          <details>
             <summary>What is a HELOC?<span class="plus" aria-hidden="true"></span></summary>
             <div class="a"><p>A home equity line of credit is a revolving line, secured by your home, that you can draw from as needed up to a set limit &mdash; a bit like a credit card backed by your house. Most have a draw period when you can borrow and often pay interest only, followed by a repayment period when you pay down what you used. Rates are commonly variable, so payments can change.</p></div>
           </details>
@@ -982,19 +986,15 @@
           </details>
           <details>
             <summary>Will checking my options affect my credit?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="a"><p>Telling Equoro about your home and plans is the first step, not a loan application &mdash; we ask for a credit score range, not permission to pull your report. When you choose to work with a lending partner, that partner will tell you what they check and when, before it happens. Any step that could affect your credit is theirs to explain, and yours to say yes to.</p></div>
+            <div class="a"><p>No. Every approval uses a soft pull only, which doesn&rsquo;t affect your credit score &mdash; no full credit application up front, the way most people are used to. A soft pull gives us everything we need to see what your approval looks like and put the numbers right in front of you.</p><p>A hard pull is needed only once you&rsquo;ve accepted an offer and move forward to close. Even then it&rsquo;s a single inquiry, and FICO treats mortgage inquiries differently from other credit: its scores ignore mortgage inquiries made in the 30 days before scoring, and multiple mortgage inquiries within a short shopping window count as one. This isn&rsquo;t like buying a car, where a dealership sends your credit to twenty different lenders. We know which lender fits your scenario, so we never do that.</p></div>
           </details>
           <details>
             <summary>Is Equoro a lender?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="a"><p>Equoro is a licensed mortgage broker. We shop your file across the lenders on our panel and bring back the options that fit &mdash; final rates, terms and approval decisions are the lender&rsquo;s to make, and they&rsquo;re required to disclose them to you before you commit. Nothing on this page is an offer or commitment to lend.</p></div>
-          </details>
-          <details>
-            <summary>Does it cost anything to use Equoro?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="a"><p>There&rsquo;s no charge to check your options with Equoro. If you go on to take a loan or line of credit, the lender&rsquo;s own costs and terms apply, and they&rsquo;re required to disclose them to you before you commit. Equoro may be compensated by its lending partners; that never changes which partners you see or the order you see them in.</p></div>
+            <div class="a"><p>Equoro is a licensed mortgage broker. We know our lenders&rsquo; programs and match your scenario to the one that fits &mdash; final rates, terms and approval decisions are the lender&rsquo;s to make, and they&rsquo;re required to disclose them to you before you commit. Nothing on this page is an offer or commitment to lend.</p></div>
           </details>
           <details>
             <summary>What if my home is owned by a trust or an LLC?<span class="plus" aria-hidden="true"></span></summary>
-            <div class="a"><p>You can still check your options. Tell us in the ownership step so we match you with partners who work with that structure. Later, a partner will ask for a trust certification (for a trust) or the operating agreement and EIN (for an LLC). You don&rsquo;t need any of that today.</p></div>
+            <div class="a"><p>You can still check your options. Tell us in the ownership step so we match you with a lender that works with that structure. Later, the lender will ask for a trust certification (for a trust) or the operating agreement and EIN (for an LLC). You don&rsquo;t need any of that today.</p></div>
           </details>
         </div>
       </div>
@@ -1002,6 +1002,10 @@
 
     <!-- ---------- Closing CTA ---------- -->
     <section class="wrap">
+      <div class="promise">
+        <span class="eyebrow">Our promise</span>
+        <p>We show every homeowner the truth about their equity, every number and every detail, and we don&rsquo;t stop until it&rsquo;s right.</p>
+      </div>
       <div class="cta-strip">
         <div>
           <h2>Three short screens to see where you stand.</h2>
