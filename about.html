@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>About Jason Brothers — Equoro</title>
+<meta name="description" content="HELOC and DSCR lending, specifically. Here's what Jason Brothers actually does at Equoro, and how to see it live.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #E7E8E4; --surface: #F6F6F3; --surface-2: #DEDFDA;
+    --ink: #15181B; --ink-2: #4E5358; --ink-3: #82878C;
+    --line: #C3C6C0; --line-strong: #15181B;
+    --accent: #2038D8; --accent-ink: #FFFFFF; --accent-tint: rgba(32, 56, 216, 0.10);
+    --danger: #B3261E; --danger-tint: rgba(179, 38, 30, 0.08); --ok: #1E7A4C;
+    --shadow: 0 24px 60px -30px rgba(21, 24, 27, 0.35);
+    --display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+    --mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --mono-s: 0.68rem; --mono-m: 0.74rem;
+    --text-xs: 0.8rem; --text-s: 0.875rem; --text-m: 0.95rem; --text-l: 1.15rem;
+    --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+    --gutter: clamp(16px, 4vw, 48px);
+    --maxw: 1240px;
+    --measure: 900px;
+    --ease: cubic-bezier(.2, .7, .3, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141618; --surface: #1C1F22; --surface-2: #101214;
+      --ink: #ECEEEA; --ink-2: #AEB2B4; --ink-3: #7B8084;
+      --line: #33373B; --line-strong: #ECEEEA;
+      --accent: #7E90FF; --accent-ink: #0B1030; --accent-tint: rgba(126, 144, 255, 0.14);
+      --danger: #FF7B72; --danger-tint: rgba(255, 123, 114, 0.10); --ok: #6FD3A0;
+      --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141618; --surface: #1C1F22; --surface-2: #101214;
+    --ink: #ECEEEA; --ink-2: #AEB2B4; --ink-3: #7B8084;
+    --line: #33373B; --line-strong: #ECEEEA;
+    --accent: #7E90FF; --accent-ink: #0B1030; --accent-tint: rgba(126, 144, 255, 0.14);
+    --danger: #FF7B72; --danger-tint: rgba(255, 123, 114, 0.10); --ok: #6FD3A0;
+    --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  .eq { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
+  .eq > main { flex: 1 0 auto; }
+  .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+  h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.02em; line-height: 1.08; }
+  h1 { font-weight: 600; font-size: clamp(1.9rem, 4.4vw, 2.6rem); }
+  h2 { font-weight: 600; font-size: 1.15rem; }
+  p { margin: 0; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .eyebrow { font-family: var(--mono); font-size: var(--mono-m); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); display: inline-flex; align-items: center; gap: var(--sp-3); }
+  .eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+  .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); padding-block: var(--sp-5); border-bottom: 1px solid var(--line); }
+  .wordmark { display: inline-flex; align-items: center; flex: none; font-family: var(--display); font-weight: 600; font-stretch: 125%; font-variation-settings: "wdth" 125; font-size: 1.75rem; line-height: 1; letter-spacing: .28em; white-space: nowrap; text-decoration: none; color: var(--ink); }
+  .wordmark .word { display: inline-block; margin-right: -.28em; }
+  .nav-links { display: flex; align-items: center; gap: var(--sp-5); font-size: var(--text-m); font-weight: 500; }
+  .nav-links a { text-decoration: none; color: var(--ink-2); }
+  .nav-links a:hover { color: var(--ink); }
+  .back { display: inline-flex; align-items: center; gap: var(--sp-2); }
+  .back svg { flex: none; transition: transform .12s var(--ease); }
+  .back:hover svg { transform: translateX(-2px); }
+  @media (max-width: 640px) {
+    .nav-links { gap: var(--sp-3); }
+    .nav .wordmark { font-size: clamp(0.9375rem, 4.4vw, 1.375rem); }
+  }
+  @media (max-width: 380px) {
+    .nav .wordmark { letter-spacing: .24em; }
+    .nav .wordmark .word { margin-right: -.24em; }
+  }
+  .theme-toggle { display: inline-grid; place-items: center; width: 40px; height: 40px; padding: 0; flex: none; border: 1px solid var(--line); border-radius: 2px; background: transparent; color: var(--ink-2); transition: color .1s ease, border-color .1s ease, transform .06s var(--ease); }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--line-strong); }
+  .theme-toggle:active { transform: scale(.96); }
+  .theme-toggle svg { display: block; }
+  .theme-toggle .glyph-sun { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle .glyph-moon { display: none; }
+    :root:not([data-theme="light"]) .theme-toggle .glyph-sun { display: block; }
+  }
+  :root[data-theme="dark"] .theme-toggle .glyph-moon { display: none; }
+  :root[data-theme="dark"] .theme-toggle .glyph-sun { display: block; }
+  @media (prefers-reduced-motion: no-preference) {
+    :root.is-theming, :root.is-theming *, :root.is-theming *::before, :root.is-theming *::after {
+      transition: background-color .16s ease, color .16s ease, border-color .16s ease, fill .16s ease, stroke .16s ease, box-shadow .16s ease !important;
+    }
+  }
+
+  .page { max-width: var(--measure); padding-block: clamp(var(--sp-7), 6vw, 80px); }
+  .page-head { display: grid; gap: var(--sp-4); justify-items: start; }
+  .lede { font-size: var(--text-l); color: var(--ink-2); line-height: 1.5; max-width: 40em; }
+  .sections { margin-top: var(--sp-6); }
+  .sections section { border-top: 1px solid var(--line); padding-block: var(--sp-6); display: grid; gap: var(--sp-3); }
+  .sections section:last-child { padding-bottom: 0; }
+  .sections p, .sections li { color: var(--ink-2); line-height: 1.6; }
+  .sections a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .sections a:hover { color: var(--accent); }
+  .sections h2 { font-size: 1.3rem; }
+
+  .link-cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5); margin-top: var(--sp-2); }
+  @media (max-width: 640px) { .link-cards { grid-template-columns: 1fr; } }
+  .link-card { display: block; border: 1px solid var(--line-strong); border-radius: 2px; background: var(--surface); padding: var(--sp-5); box-shadow: var(--shadow); text-decoration: none; color: var(--ink); }
+  .link-card:hover { border-color: var(--accent); }
+  .link-card .kicker { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .link-card h3 { font-size: 1.1rem; margin-top: var(--sp-2); }
+  .link-card p { font-size: var(--text-s); color: var(--ink-2); margin-top: var(--sp-2); }
+  .link-card .go { display: inline-block; margin-top: var(--sp-3); font-size: var(--text-s); font-weight: 600; color: var(--accent); }
+
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-5); margin-top: var(--sp-6); }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--line-strong); border-radius: 2px; background: var(--surface); padding: var(--sp-5); box-shadow: var(--shadow); display: grid; gap: var(--sp-2); min-width: 0; }
+  .card .label { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+  .card .value { font-family: var(--display); font-weight: 600; font-size: 1.3rem; letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  .card a.value { text-decoration: none; color: var(--ink); }
+  .card a.value:hover { color: var(--accent); }
+  .card .sub { font-size: var(--text-s); color: var(--ink-2); }
+
+  .footer { border-top: 1px solid var(--line-strong); padding-block: var(--sp-6) var(--sp-7); display: grid; gap: var(--sp-5); }
+  .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--sp-4) var(--sp-6); align-items: center; }
+  .footer-links { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: var(--text-s); }
+  .footer-links a { color: var(--ink-2); text-decoration: none; }
+  .footer-links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .footer-legal { font-size: var(--text-xs); color: var(--ink-3); line-height: 1.55; max-width: 72em; }
+  .footer-meta { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); }
+</style>
+<script>
+(function () {
+  "use strict";
+  var root = document.documentElement, KEY = "equoro-theme", btn = null, timer = 0;
+  var mqDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  var mqMotion = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+  function stored() { try { var v = localStorage.getItem(KEY); return v === "light" || v === "dark" ? v : null; } catch (e) { return null; } }
+  function store(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  function current() {
+    var a = root.getAttribute("data-theme");
+    if (a === "light" || a === "dark") return a;
+    return mqDark && mqDark.matches ? "dark" : "light";
+  }
+  var saved = stored();
+  if (saved) root.setAttribute("data-theme", saved);
+  function reflect() {
+    if (!btn) return;
+    var next = current() === "dark" ? "light" : "dark";
+    btn.setAttribute("aria-label", "Switch to " + next + " theme");
+    btn.setAttribute("title", "Switch to " + next + " theme");
+  }
+  function apply(mode) {
+    if (!(mqMotion && mqMotion.matches)) {
+      root.classList.add("is-theming");
+      clearTimeout(timer);
+      timer = setTimeout(function () { root.classList.remove("is-theming"); }, 220);
+    }
+    root.setAttribute("data-theme", mode);
+    store(mode);
+    reflect();
+  }
+  function wire() {
+    btn = document.getElementById("theme-toggle");
+    if (!btn) return;
+    btn.addEventListener("click", function () { apply(current() === "dark" ? "light" : "dark"); });
+    reflect();
+    if (mqDark) { if (mqDark.addEventListener) mqDark.addEventListener("change", reflect); else if (mqDark.addListener) mqDark.addListener(reflect); }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", wire); else wire();
+})();
+</script>
+</head>
+<body>
+<div class="eq">
+  <header class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a class="wordmark" href="./" aria-label="Equoro home"><span class="word">EQUORO</span></a>
+      <div class="nav-links">
+        <a class="back" href="./"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M12 7H3M6.5 3.5L3 7l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to Equoro</a>
+        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch to dark theme">
+          <svg class="glyph-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 8.6A5.5 5.5 0 117.4 2.5a4.3 4.3 0 006.1 6.1z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          <svg class="glyph-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="2.6" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.5v1.8M8 12.7v1.8M1.5 8h1.8M12.7 8h1.8M3.4 3.4l1.3 1.3M11.3 11.3l1.3 1.3M12.6 3.4l-1.3 1.3M4.7 11.3l-1.3 1.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <article class="wrap page">
+      <div class="page-head">
+        <span class="eyebrow">About</span>
+        <h1>Here&rsquo;s what I do.</h1>
+        <p class="lede">HELOC and DSCR lending &mdash; the loans I've watched most originators avoid because they're slower to learn. These days that expertise runs through an AI build system I run myself. Equoro is what it produces.</p>
+      </div>
+
+      <div class="sections">
+        <section>
+          <h2>The background</h2>
+          <p>Started early, as a branch leader, before running teams at Movement Mortgage, Fairway, and CrossCountry. Loans closed personally the whole way &mdash; never managed from a distance. Equoro is that experience, turned into a system instead of a phone call.</p>
+        </section>
+        <section>
+          <h2>What's actually different here</h2>
+          <p>Most HELOC sites run the same generic page for the whole country. Equoro builds real, market-specific pages from real lending data, reviewed by me before anything ships. It looks like a simple HELOC site. It isn't built like one.</p>
+        </section>
+      </div>
+
+      <div class="link-cards">
+        <a class="link-card" href="how-its-built.html">
+          <div class="kicker">How it's built</div>
+          <h3>The AI system behind Equoro</h3>
+          <p>How real county-level lending data turns into a live, working page &mdash; the same system, every time.</p>
+          <span class="go">Read how it works &rarr;</span>
+        </a>
+        <a class="link-card" href="maricopa-county.html">
+          <div class="kicker">Live demo</div>
+          <h3>See a real market page</h3>
+          <p>Maricopa County, AZ &mdash; #1 ranked HELOC market in the country, built from real 2025 data.</p>
+          <span class="go">Open the live page &rarr;</span>
+        </a>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <span class="label">Phone</span>
+          <a class="value" href="tel:+17752258941">(775) 225-8941</a>
+          <span class="sub">Direct line to Jason Brothers</span>
+        </div>
+        <div class="card">
+          <span class="label">Email</span>
+          <a class="value" href="mailto:jbrothers@sunnyhillfinancial.com">jbrothers@sunnyhillfinancial.com</a>
+          <span class="sub">Usually the fastest way to reach me in writing</span>
+        </div>
+      </div>
+
+      <p class="lede" style="font-size:var(--text-xs);color:var(--ink-3);margin-top:var(--sp-6);">NMLS #829954 &middot; SunnyHill Financial Inc. &middot; Company NMLS #1708856</p>
+    </article>
+  </main>
+
+  <footer class="wrap">
+    <div class="footer">
+      <div class="footer-top">
+        <a class="wordmark" href="./" aria-label="Equoro home"><span class="word">EQUORO</span></a>
+        <nav class="footer-links" aria-label="Footer">
+          <a href="./#how">How it works</a>
+          <a href="./#why">Why Equoro</a>
+          <a href="./#security">Your information</a>
+          <a href="./#faq">Questions</a>
+          <a href="privacy.html">Privacy Notice</a>
+          <a href="terms.html">Terms</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <hr class="rule">
+      <p class="footer-legal">Equoro is a licensed mortgage broker. Equoro is not a lender, does not fund loans, and nothing on this page is an offer, approval or commitment to lend. Products, availability and terms vary by lender, property and location and are subject to each lender&rsquo;s own review and disclosures. All numbers shown are illustrative examples, not quotes. Submitting your information is not an application for credit.</p>
+      <div class="footer-meta">
+        <span>&copy; 2026 Equoro</span>
+        <span>Equoro operates under SunnyHill Financial Inc. &middot; Company NMLS # 1708856</span>
+        <span>Jason Brothers &middot; NMLS # 829954</span>
+      </div>
+    </div>
+  </footer>
+</div>
+<script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6aba9da8b9739b9592ebdcdd" data-source="WEB_USER"></script>
+</body>
+</html>
