@@ -1,0 +1,294 @@
+<!doctype html><html><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MVQN2DZHDF"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-MVQN2DZHDF');
+</script>
+<meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>County HELOC Lookup — Equoro</title>
+<meta name="description" content="Real HELOC activity for your county, straight from 2025 HMDA lending data and Census ACS data. Search your county and see the actual numbers.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+--bg: #E7E8E4;
+--surface: #F6F6F3;
+--surface-2: #DEDFDA;
+--ink: #15181B;
+--ink-2: #4E5358;
+--ink-3: #82878C;
+--line: #C3C6C0;
+--line-strong: #15181B;
+--accent: #2038D8;
+--accent-ink: #FFFFFF;
+--accent-tint: rgba(32, 56, 216, 0.10);
+--danger: #B3261E;
+--ok: #1E7A4C;
+--shadow: 0 24px 60px -30px rgba(21, 24, 27, 0.35);
+--display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+--body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+--mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+--mono-xs: 0.62rem; --mono-s: 0.68rem; --mono-m: 0.74rem;
+--text-xs: 0.8rem; --text-s: 0.875rem; --text-m: 0.95rem; --text-l: 1.15rem;
+--disp-s: 1.05rem; --disp-m: 1.2rem; --disp-l: 1.4rem;
+--sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px; --sp-7: 48px; --sp-8: 64px;
+--gutter: clamp(16px, 4vw, 48px);
+--maxw: 1240px;
+--ease: cubic-bezier(.2, .7, .3, 1);
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--bg: #141618; --surface: #1C1F22; --surface-2: #101214; --ink: #ECEEEA; --ink-2: #AEB2B4; --ink-3: #7B8084;
+--line: #33373B; --line-strong: #ECEEEA; --accent: #7E90FF; --accent-ink: #0B1030; --accent-tint: rgba(126, 144, 255, 0.14);
+--danger: #FF7B72; --ok: #6FD3A0; --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+}
+}
+:root[data-theme="dark"] {
+--bg: #141618; --surface: #1C1F22; --surface-2: #101214; --ink: #ECEEEA; --ink-2: #AEB2B4; --ink-3: #7B8084;
+--line: #33373B; --line-strong: #ECEEEA; --accent: #7E90FF; --accent-ink: #0B1030; --accent-tint: rgba(126, 144, 255, 0.14);
+--danger: #FF7B72; --ok: #6FD3A0; --shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.eq { min-height: 100%; background: var(--bg); }
+.wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.02em; line-height: 1.05; }
+h1 { font-weight: 600; font-size: clamp(2.2rem, 5.4vw, 3.6rem); }
+h2 { font-weight: 600; font-size: clamp(1.5rem, 3vw, 2rem); }
+p { margin: 0; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.eyebrow { font-family: var(--mono); font-size: var(--mono-m); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); display: inline-flex; align-items: center; gap: var(--sp-3); }
+.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+.lede { font-size: var(--text-l); color: var(--ink-2); line-height: 1.5; max-width: 40em; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-3); min-height: 48px; padding: 0 var(--sp-5); border: 1px solid var(--line-strong); border-radius: 2px; background: var(--ink); color: var(--bg); font-weight: 600; font-size: 1rem; letter-spacing: 0.01em; text-decoration: none; transition: transform .12s var(--ease); }
+.btn:hover { transform: translateY(-1px); }
+.btn-accent { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line); min-height: 48px; padding: 0 var(--sp-5); border-radius: 2px; font-weight: 600; font-size: var(--text-s); display: inline-flex; align-items: center; }
+.btn-ghost:hover { border-color: var(--line-strong); }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); padding-block: var(--sp-5); border-bottom: 1px solid var(--line); }
+.wordmark { display: inline-flex; align-items: center; flex: none; font-family: var(--display); font-weight: 600; font-stretch: 125%; font-variation-settings: "wdth" 125; font-size: 1.75rem; line-height: 1; letter-spacing: .28em; white-space: nowrap; text-decoration: none; color: var(--ink); }
+.wordmark .word { display: inline-block; margin-right: -.28em; }
+.nav-links { display: flex; align-items: center; gap: var(--sp-5); font-size: var(--text-m); font-weight: 500; }
+.nav-links a:not(.btn) { text-decoration: none; color: var(--ink-2); }
+.nav-links a:not(.btn):hover { color: var(--ink); }
+.nav .btn { min-height: 40px; padding-inline: var(--sp-4); font-size: var(--text-s); }
+@media (max-width: 640px) { .nav-links a:not(.btn) { display: none; } .nav .wordmark { font-size: clamp(0.9375rem, 4.4vw, 1.375rem); } }
+.hero { padding-block: clamp(var(--sp-7), 7vw, 80px) var(--sp-7); border-bottom: 1px solid var(--line); }
+.hero-copy { display: flex; flex-direction: column; gap: var(--sp-5); max-width: 46em; }
+.search-card { background: var(--surface); border: 1px solid var(--line-strong); border-radius: 2px; box-shadow: var(--shadow); padding: var(--sp-5); margin-top: var(--sp-6); }
+.search-row { display: flex; gap: var(--sp-3); flex-wrap: wrap; }
+.control { min-height: 48px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 2px; background: var(--bg); color: var(--ink); font: inherit; font-size: 1rem; }
+.control:focus { border-color: var(--accent); outline: 2px solid var(--accent); outline-offset: -1px; }
+#county-input { flex: 1 1 240px; }
+.hint { font-size: var(--text-xs); color: var(--ink-3); margin-top: var(--sp-3); }
+.chips-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-4); }
+.chip-btn { border: 1px solid var(--line); border-radius: 2px; background: var(--bg); font-size: var(--text-s); font-weight: 500; padding: 8px 14px; color: var(--ink); }
+.chip-btn:hover { border-color: var(--line-strong); }
+#results { margin-top: var(--sp-6); }
+.result-card { background: var(--surface); border: 1px solid var(--line-strong); border-radius: 2px; box-shadow: var(--shadow); padding: var(--sp-6); }
+.result-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: var(--sp-4); }
+.rank-badge { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0; margin-top: var(--sp-5); border-top: 1px solid var(--line-strong); }
+.stat-tile { padding: var(--sp-4) var(--sp-4) var(--sp-4) 0; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.stat-tile .label { font-family: var(--mono); font-size: var(--mono-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
+.stat-tile .value { font-family: var(--mono); font-size: 1.3rem; font-weight: 500; color: var(--ink); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.limited-note, .source-note { margin-top: var(--sp-5); font-size: var(--text-s); color: var(--ink-2); line-height: 1.5; }
+.not-found { background: var(--surface); border: 1px solid var(--line-strong); border-radius: 2px; padding: var(--sp-6); }
+.not-found h2 { font-size: var(--disp-l); }
+.not-found p { color: var(--ink-2); font-size: var(--text-m); margin-top: var(--sp-3); line-height: 1.5; }
+.request-row { display: flex; gap: var(--sp-3); margin-top: var(--sp-4); flex-wrap: wrap; align-items: center; }
+.confirm-msg { font-size: var(--text-s); color: var(--ok); font-weight: 600; }
+.actions { display: flex; gap: var(--sp-3); margin-top: var(--sp-6); flex-wrap: wrap; }
+footer { border-top: 1px solid var(--line-strong); padding-block: var(--sp-6) var(--sp-7); margin-top: var(--sp-7); display: grid; gap: var(--sp-5); }
+.footer-links { display: flex; flex-wrap: wrap; gap: var(--sp-5); font-size: var(--text-s); }
+.footer-links a { color: var(--ink-2); text-decoration: none; }
+.footer-links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.footer-legal { font-size: var(--text-xs); color: var(--ink-3); line-height: 1.55; max-width: 72em; }
+.footer-meta { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; color: var(--ink-3); }
+</style>
+<script>
+(function () {
+"use strict";
+var root = document.documentElement, KEY = "equoro-theme";
+function stored() { try { var v = localStorage.getItem(KEY); return v === "light" || v === "dark" ? v : null; } catch (e) { return null; } }
+var saved = stored();
+if (saved) root.setAttribute("data-theme", saved);
+})();
+</script>
+</head>
+<body>
+<div class="eq">
+<header class="wrap">
+<nav class="nav" aria-label="Primary">
+<a class="wordmark" href="https://equoro.ai" aria-label="Equoro home"><span class="word">EQUORO</span></a>
+<div class="nav-links">
+<a href="https://equoro.ai/#how">How it works</a>
+<a href="https://equoro.ai/#why">Why Equoro</a>
+<a href="https://equoro.ai/#faq">Questions</a>
+<a class="btn btn-accent" href="https://equoro.ai/?utm_source=county_tool&amp;utm_medium=tool_cta&amp;utm_campaign=county_lookup#intake">Check my options</a>
+</div>
+</nav>
+</header>
+<main>
+<section class="hero wrap">
+<div class="hero-copy">
+<span class="eyebrow">The AI HELOC Source &middot; Free tool</span>
+<h1>What's actually happening with HELOCs in your county?</h1>
+<p class="lede">Real numbers, not marketing numbers &mdash; sourced from 2025 HMDA lending data and Census ACS data, the same figures we use with actual clients. Search your county below.</p>
+</div>
+<div class="search-card">
+<div class="search-row">
+<input class="control" id="county-input" type="text" placeholder="Type your county, e.g. &quot;Maricopa&quot; or &quot;Orange County FL&quot;" autocomplete="off">
+<button class="btn btn-accent" id="search-btn">Show my numbers</button>
+</div>
+<div class="hint">Free. No email required. Takes about ten seconds.</div>
+<div class="chips-row" id="suggestions"></div>
+</div>
+<div id="results"></div>
+</section>
+</main>
+<footer class="wrap">
+<div class="footer-links">
+<a href="https://equoro.ai/#how">How it works</a>
+<a href="https://equoro.ai/#why">Why Equoro</a>
+<a href="https://equoro.ai/#security">Your information</a>
+<a href="https://equoro.ai/#faq">Questions</a>
+<a href="https://equoro.ai/privacy.html">Privacy Notice</a>
+<a href="https://equoro.ai/terms.html">Terms</a>
+<a href="https://equoro.ai/contact.html">Contact</a>
+</div>
+<div class="footer-legal">
+Data: HMDA 2025 (Home Mortgage Disclosure Act) + ACS 2020&ndash;2024 (American Community Survey), the same public federal datasets lenders themselves report to. Not all 3,143 U.S. counties are covered yet &mdash; we're adding real, verified data for more every week, prioritized by what people actually search for here.
+<br><br>
+Equoro is a licensed mortgage broker operating under SunnyHill Financial Inc. &middot; Company NMLS # 1708856
+</div>
+<div class="footer-meta">EQUORO.AI / COUNTY-LOOKUP</div>
+</footer>
+</div>
+<script>
+(function () {
+"use strict";
+var COUNTIES = [{"rank":1,"county":"Maricopa","state":"AZ","score":77.2,"helocs_2025":21895,"heloc_dollar_volume":3311475000,"median_line":105000,"helocs_per_1000_owner_homes":19.4,"first_lien_share":"14.7%","investor_property_helocs":718,"owner_occupied_homes":1127888,"free_and_clear_share":"33.2%","free_and_clear_aggregate_value":196991000000,"median_home_value":452800},{"rank":2,"county":"Los Angeles","state":"CA","score":77.1,"helocs_2025":21431,"heloc_dollar_volume":4770130000,"median_line":175000,"helocs_per_1000_owner_homes":13.7,"first_lien_share":"10.2%","investor_property_helocs":902,"owner_occupied_homes":1567983,"free_and_clear_share":"32.0%","free_and_clear_aggregate_value":521464940000,"median_home_value":834200},{"rank":3,"county":"Orange","state":"CA","score":75.5,"helocs_2025":11779,"heloc_dollar_volume":2951425000,"median_line":205000,"helocs_per_1000_owner_homes":19.3,"first_lien_share":"11.2%","investor_property_helocs":411,"owner_occupied_homes":610659,"free_and_clear_share":"33.0%","free_and_clear_aggregate_value":233192550000,"median_home_value":962600},{"rank":4,"county":"San Diego","state":"CA","score":72.8,"helocs_2025":10844,"heloc_dollar_volume":2262020000,"median_line":155000,"helocs_per_1000_owner_homes":17.0,"first_lien_share":"8.7%","investor_property_helocs":505,"owner_occupied_homes":639138,"free_and_clear_share":"30.4%","free_and_clear_aggregate_value":196513710000,"median_home_value":854700},{"rank":5,"county":"King","state":"WA","score":72.5,"helocs_2025":9263,"heloc_dollar_volume":1984815000,"median_line":155000,"helocs_per_1000_owner_homes":17.8,"first_lien_share":"14.8%","investor_property_helocs":280,"owner_occupied_homes":521805,"free_and_clear_share":"30.5%","free_and_clear_aggregate_value":167437270000,"median_home_value":859900},{"rank":6,"county":"Palm Beach","state":"FL","score":72.5,"helocs_2025":5277,"heloc_dollar_volume":984115000,"median_line":125000,"helocs_per_1000_owner_homes":12.4,"first_lien_share":"22.6%","investor_property_helocs":105,"owner_occupied_homes":424264,"free_and_clear_share":"47.6%","free_and_clear_aggregate_value":139648860000,"median_home_value":447300},{"rank":7,"county":"Montgomery","state":"PA","score":71.3,"helocs_2025":5568,"heloc_dollar_volume":942240000,"median_line":125000,"helocs_per_1000_owner_homes":23.2,"first_lien_share":"21.1%","investor_property_helocs":61,"owner_occupied_homes":239495,"free_and_clear_share":"34.0%","free_and_clear_aggregate_value":41041043000,"median_home_value":436700},{"rank":8,"county":"Chester","state":"PA","score":71.1,"helocs_2025":4115,"heloc_dollar_volume":782135000,"median_line":155000,"helocs_per_1000_owner_homes":26.8,"first_lien_share":"21.6%","investor_property_helocs":41,"owner_occupied_homes":153693,"free_and_clear_share":"32.5%","free_and_clear_aggregate_value":26072592000,"median_home_value":485600},{"rank":9,"county":"Salt Lake","state":"UT","score":71.0,"helocs_2025":7051,"heloc_dollar_volume":1106470000,"median_line":105000,"helocs_per_1000_owner_homes":25.0,"first_lien_share":"12.3%","investor_property_helocs":230,"owner_occupied_homes":281875,"free_and_clear_share":"30.0%","free_and_clear_aggregate_value":56062747000,"median_home_value":525700},{"rank":10,"county":"Allegheny","state":"PA","score":70.6,"helocs_2025":7852,"heloc_dollar_volume":982915000,"median_line":95000,"helocs_per_1000_owner_homes":22.1,"first_lien_share":"34.7%","investor_property_helocs":71,"owner_occupied_homes":355674,"free_and_clear_share":"42.5%","free_and_clear_aggregate_value":38655615000,"median_home_value":227600},{"rank":11,"county":"Wake","state":"NC","score":70.6,"helocs_2025":7062,"heloc_dollar_volume":1143175000,"median_line":105000,"helocs_per_1000_owner_homes":23.9,"first_lien_share":"15.7%","investor_property_helocs":153,"owner_occupied_homes":295069,"free_and_clear_share":"26.3%","free_and_clear_aggregate_value":41253327000,"median_home_value":461300},{"rank":12,"county":"Miami-Dade","state":"FL","score":69.9,"helocs_2025":5869,"heloc_dollar_volume":1206145000,"median_line":155000,"helocs_per_1000_owner_homes":11.5,"first_lien_share":"15.7%","investor_property_helocs":275,"owner_occupied_homes":509440,"free_and_clear_share":"41.2%","free_and_clear_aggregate_value":139137140000,"median_home_value":463000},{"rank":13,"county":"Cook","state":"IL","score":69.5,"helocs_2025":11645,"heloc_dollar_volume":1612295000,"median_line":105000,"helocs_per_1000_owner_homes":9.6,"first_lien_share":"21.5%","investor_property_helocs":203,"owner_occupied_homes":1212570,"free_and_clear_share":"37.6%","free_and_clear_aggregate_value":174067960000,"median_home_value":324500},{"rank":14,"county":"Bucks","state":"PA","score":69.3,"helocs_2025":4186,"heloc_dollar_volume":693945000,"median_line":125000,"helocs_per_1000_owner_homes":21.6,"first_lien_share":"20.9%","investor_property_helocs":33,"owner_occupied_homes":193879,"free_and_clear_share":"35.6%","free_and_clear_aggregate_value":34548850000,"median_home_value":445700},{"rank":15,"county":"Utah","state":"UT","score":69.0,"helocs_2025":4296,"heloc_dollar_volume":698420000,"median_line":105000,"helocs_per_1000_owner_homes":31.0,"first_lien_share":"11.5%","investor_property_helocs":123,"owner_occupied_homes":138629,"free_and_clear_share":"26.8%","free_and_clear_aggregate_value":22210808000,"median_home_value":538700},{"rank":16,"county":"Collier","state":"FL","score":68.8,"helocs_2025":1817,"heloc_dollar_volume":343735000,"median_line":125000,"helocs_per_1000_owner_homes":14.3,"first_lien_share":"26.1%","investor_property_helocs":26,"owner_occupied_homes":127058,"free_and_clear_share":"53.2%","free_and_clear_aggregate_value":65074237000,"median_home_value":540700},{"rank":17,"county":"Waukesha","state":"WI","score":68.4,"helocs_2025":4522,"heloc_dollar_volume":563840000,"median_line":105000,"helocs_per_1000_owner_homes":35.3,"first_lien_share":"16.2%","investor_property_helocs":12,"owner_occupied_homes":128147,"free_and_clear_share":"35.0%","free_and_clear_aggregate_value":20265234000,"median_home_value":398200},{"rank":18,"county":"Dane","state":"WI","score":68.4,"helocs_2025":6598,"heloc_dollar_volume":756955000,"median_line":95000,"helocs_per_1000_owner_homes":45.9,"first_lien_share":"14.4%","investor_property_helocs":17,"owner_occupied_homes":143682,"free_and_clear_share":"32.3%","free_and_clear_aggregate_value":20545368000,"median_home_value":394800},{"rank":19,"county":"Williamson","state":"TN","score":68.3,"helocs_2025":2182,"heloc_dollar_volume":550610000,"median_line":205000,"helocs_per_1000_owner_homes":30.0,"first_lien_share":"17.5%","investor_property_helocs":26,"owner_occupied_homes":72671,"free_and_clear_share":"31.6%","free_and_clear_aggregate_value":20044524000,"median_home_value":751900},{"rank":20,"county":"Santa Clara","state":"CA","score":67.9,"helocs_2025":4161,"heloc_dollar_volume":1293085000,"median_line":255000,"helocs_per_1000_owner_homes":11.5,"first_lien_share":"11.8%","investor_property_helocs":161,"owner_occupied_homes":363147,"free_and_clear_share":"33.0%","free_and_clear_aggregate_value":214182280000,"median_home_value":1490600},{"rank":21,"county":"Broward","state":"FL","score":67.9,"helocs_2025":5557,"heloc_dollar_volume":892095000,"median_line":105000,"helocs_per_1000_owner_homes":11.6,"first_lien_share":"17.6%","investor_property_helocs":146,"owner_occupied_homes":479343,"free_and_clear_share":"41.5%","free_and_clear_aggregate_value":92362380000,"median_home_value":414600},{"rank":22,"county":"Sarasota","state":"FL","score":67.8,"helocs_2025":2112,"heloc_dollar_volume":330630000,"median_line":105000,"helocs_per_1000_owner_homes":13.0,"first_lien_share":"30.0%","investor_property_helocs":29,"owner_occupied_homes":162776,"free_and_clear_share":"51.6%","free_and_clear_aggregate_value":49962190000,"median_home_value":411800},{"rank":23,"county":"Pinellas","state":"FL","score":67.6,"helocs_2025":3830,"heloc_dollar_volume":550955000,"median_line":105000,"helocs_per_1000_owner_homes":12.9,"first_lien_share":"25.9%","investor_property_helocs":74,"owner_occupied_homes":297912,"free_and_clear_share":"48.9%","free_and_clear_aggregate_value":61327897000,"median_home_value":355100},{"rank":24,"county":"Mecklenburg","state":"NC","score":67.6,"helocs_2025":5885,"heloc_dollar_volume":1074865000,"median_line":125000,"helocs_per_1000_owner_homes":22.9,"first_lien_share":"13.7%","investor_property_helocs":126,"owner_occupied_homes":257167,"free_and_clear_share":"26.0%","free_and_clear_aggregate_value":34555417000,"median_home_value":406800},{"rank":25,"county":"Ada","state":"ID","score":67.5,"helocs_2025":3469,"heloc_dollar_volume":530085000,"median_line":105000,"helocs_per_1000_owner_homes":24.2,"first_lien_share":"17.8%","investor_property_helocs":139,"owner_occupied_homes":143399,"free_and_clear_share":"32.6%","free_and_clear_aggregate_value":26822701000,"median_home_value":512300},{"rank":26,"county":"Oakland","state":"MI","score":67.4,"helocs_2025":6577,"heloc_dollar_volume":985240000,"median_line":105000,"helocs_per_1000_owner_homes":17.1,"first_lien_share":"21.1%","investor_property_helocs":45,"owner_occupied_homes":385500,"free_and_clear_share":"35.5%","free_and_clear_aggregate_value":51237020000,"median_home_value":343600},{"rank":27,"county":"Riverside","state":"CA","score":67.4,"helocs_2025":7294,"heloc_dollar_volume":1042430000,"median_line":105000,"helocs_per_1000_owner_homes":13.6,"first_lien_share":"8.5%","investor_property_helocs":263,"owner_occupied_homes":535986,"free_and_clear_share":"31.4%","free_and_clear_aggregate_value":91721310000,"median_home_value":557300},{"rank":28,"county":"Snohomish","state":"WA","score":67.3,"helocs_2025":4713,"heloc_dollar_volume":788215000,"median_line":125000,"helocs_per_1000_owner_homes":21.9,"first_lien_share":"11.0%","investor_property_helocs":123,"owner_occupied_homes":215602,"free_and_clear_share":"28.1%","free_and_clear_aggregate_value":42756100000,"median_home_value":696000},{"rank":29,"county":"Lancaster","state":"PA","score":67.3,"helocs_2025":3675,"heloc_dollar_volume":515570000,"median_line":105000,"helocs_per_1000_owner_homes":24.7,"first_lien_share":"27.2%","investor_property_helocs":46,"owner_occupied_homes":148550,"free_and_clear_share":"39.7%","free_and_clear_aggregate_value":20408089000,"median_home_value":301100},{"rank":30,"county":"El Paso","state":"CO","score":67.2,"helocs_2025":4674,"heloc_dollar_volume":568645000,"median_line":95000,"helocs_per_1000_owner_homes":24.3,"first_lien_share":"15.3%","investor_property_helocs":236,"owner_occupied_homes":192232,"free_and_clear_share":"28.4%","free_and_clear_aggregate_value":28715170000,"median_home_value":461000},{"rank":31,"county":"Cuyahoga","state":"OH","score":66.9,"helocs_2025":7010,"heloc_dollar_volume":756785000,"median_line":75000,"helocs_per_1000_owner_homes":21.3,"first_lien_share":"31.9%","investor_property_helocs":50,"owner_occupied_homes":329173,"free_and_clear_share":"40.9%","free_and_clear_aggregate_value":30902856000,"median_home_value":195400},{"rank":32,"county":"Franklin","state":"OH","score":66.7,"helocs_2025":6938,"heloc_dollar_volume":915145000,"median_line":105000,"helocs_per_1000_owner_homes":23.8,"first_lien_share":"21.1%","investor_property_helocs":63,"owner_occupied_homes":292123,"free_and_clear_share":"30.5%","free_and_clear_aggregate_value":29187013000,"median_home_value":288400},{"rank":33,"county":"Lee","state":"FL","score":66.3,"helocs_2025":3150,"heloc_dollar_volume":388945000,"median_line":85000,"helocs_per_1000_owner_homes":12.9,"first_lien_share":"26.8%","investor_property_helocs":42,"owner_occupied_homes":243654,"free_and_clear_share":"48.1%","free_and_clear_aggregate_value":53089894000,"median_home_value":362200},{"rank":34,"county":"Douglas","state":"CO","score":65.9,"helocs_2025":2911,"heloc_dollar_volume":490885000,"median_line":115000,"helocs_per_1000_owner_homes":26.9,"first_lien_share":"10.5%","investor_property_helocs":61,"owner_occupied_homes":108309,"free_and_clear_share":"22.3%","free_and_clear_aggregate_value":20758663000,"median_home_value":713600},{"rank":35,"county":"Davis","state":"UT","score":65.8,"helocs_2025":2870,"heloc_dollar_volume":413875000,"median_line":105000,"helocs_per_1000_owner_homes":32.0,"first_lien_share":"10.7%","investor_property_helocs":74,"owner_occupied_homes":89654,"free_and_clear_share":"28.7%","free_and_clear_aggregate_value":14311439000,"median_home_value":505500},{"rank":36,"county":"Delaware","state":"PA","score":65.7,"helocs_2025":3316,"heloc_dollar_volume":530600000,"median_line":105000,"helocs_per_1000_owner_homes":22.0,"first_lien_share":"24.8%","investor_property_helocs":65,"owner_occupied_homes":151016,"free_and_clear_share":"36.9%","free_and_clear_aggregate_value":21294676000,"median_home_value":332200},{"rank":37,"county":"Fairfax","state":"VA","score":65.7,"helocs_2025":4383,"heloc_dollar_volume":901015000,"median_line":155000,"helocs_per_1000_owner_homes":15.4,"first_lien_share":"12.0%","investor_property_helocs":87,"owner_occupied_homes":284195,"free_and_clear_share":"28.2%","free_and_clear_aggregate_value":65070744000,"median_home_value":732800},{"rank":38,"county":"Deschutes","state":"OR","score":65.5,"helocs_2025":1728,"heloc_dollar_volume":269480000,"median_line":105000,"helocs_per_1000_owner_homes":29.1,"first_lien_share":"18.4%","investor_property_helocs":44,"owner_occupied_homes":59437,"free_and_clear_share":"32.9%","free_and_clear_aggregate_value":15506509000,"median_home_value":650900},{"rank":39,"county":"DuPage","state":"IL","score":65.5,"helocs_2025":4058,"heloc_dollar_volume":634285000,"median_line":105000,"helocs_per_1000_owner_homes":15.8,"first_lien_share":"21.2%","investor_property_helocs":40,"owner_occupied_homes":256474,"free_and_clear_share":"35.2%","free_and_clear_aggregate_value":40625525000,"median_home_value":391400},{"rank":40,"county":"Washington","state":"UT","score":65.5,"helocs_2025":1358,"heloc_dollar_volume":241735000,"median_line":125000,"helocs_per_1000_owner_homes":27.2,"first_lien_share":"21.3%","investor_property_helocs":32,"owner_occupied_homes":49994,"free_and_clear_share":"39.7%","free_and_clear_aggregate_value":11905573000,"median_home_value":510700},{"rank":41,"county":"Kent","state":"MI","score":65.4,"helocs_2025":4416,"heloc_dollar_volume":540610000,"median_line":95000,"helocs_per_1000_owner_homes":24.5,"first_lien_share":"21.6%","investor_property_helocs":55,"owner_occupied_homes":180482,"free_and_clear_share":"37.4%","free_and_clear_aggregate_value":22161074000,"median_home_value":289900},{"rank":42,"county":"Alameda","state":"CA","score":65.3,"helocs_2025":3905,"heloc_dollar_volume":935950000,"median_line":205000,"helocs_per_1000_owner_homes":12.0,"first_lien_share":"12.3%","investor_property_helocs":164,"owner_occupied_homes":325509,"free_and_clear_share":"29.7%","free_and_clear_aggregate_value":114905680000,"median_home_value":1090100},{"rank":43,"county":"Contra Costa","state":"CA","score":65.3,"helocs_2025":3975,"heloc_dollar_volume":847300000,"median_line":155000,"helocs_per_1000_owner_homes":14.1,"first_lien_share":"11.0%","investor_property_helocs":132,"owner_occupied_homes":281819,"free_and_clear_share":"28.9%","free_and_clear_aggregate_value":83884140000,"median_home_value":866800},{"rank":44,"county":"Clark","state":"WA","score":65.1,"helocs_2025":3171,"heloc_dollar_volume":425110000,"median_line":105000,"helocs_per_1000_owner_homes":24.4,"first_lien_share":"13.5%","investor_property_helocs":67,"owner_occupied_homes":130065,"free_and_clear_share":"30.9%","free_and_clear_aggregate_value":24502872000,"median_home_value":522900},{"rank":45,"county":"Pierce","state":"WA","score":65.0,"helocs_2025":4377,"heloc_dollar_volume":603930000,"median_line":105000,"helocs_per_1000_owner_homes":19.2,"first_lien_share":"13.2%","investor_property_helocs":107,"owner_occupied_homes":227400,"free_and_clear_share":"28.7%","free_and_clear_aggregate_value":35634233000,"median_home_value":526600},{"rank":46,"county":"Hillsborough","state":"FL","score":65.0,"helocs_2025":5153,"heloc_dollar_volume":706085000,"median_line":105000,"helocs_per_1000_owner_homes":14.4,"first_lien_share":"18.4%","investor_property_helocs":121,"owner_occupied_homes":358562,"free_and_clear_share":"35.6%","free_and_clear_aggregate_value":52673737000,"median_home_value":371500},{"rank":47,"county":"Clackamas","state":"OR","score":65.0,"helocs_2025":2809,"heloc_dollar_volume":404905000,"median_line":105000,"helocs_per_1000_owner_homes":24.3,"first_lien_share":"13.2%","investor_property_helocs":45,"owner_occupied_homes":115773,"free_and_clear_share":"32.5%","free_and_clear_aggregate_value":25098748000,"median_home_value":611000},{"rank":48,"county":"Clark","state":"NV","score":64.9,"helocs_2025":5530,"heloc_dollar_volume":771430000,"median_line":105000,"helocs_per_1000_owner_homes":11.1,"first_lien_share":"14.8%","investor_property_helocs":259,"owner_occupied_homes":498384,"free_and_clear_share":"32.2%","free_and_clear_aggregate_value":78784600000,"median_home_value":431000},{"rank":49,"county":"Jefferson","state":"CO","score":64.9,"helocs_2025":3533,"heloc_dollar_volume":547495000,"median_line":105000,"helocs_per_1000_owner_homes":20.7,"first_lien_share":"13.6%","investor_property_helocs":78,"owner_occupied_homes":170969,"free_and_clear_share":"29.4%","free_and_clear_aggregate_value":35203270000,"median_home_value":637600},{"rank":50,"county":"Kootenai","state":"ID","score":64.8,"helocs_2025":1369,"heloc_dollar_volume":240625000,"median_line":105000,"helocs_per_1000_owner_homes":27.0,"first_lien_share":"21.4%","investor_property_helocs":37,"owner_occupied_homes":50734,"free_and_clear_share":"36.8%","free_and_clear_aggregate_value":11130983000,"median_home_value":518700},{"rank":51,"county":"Delaware","state":"OH","score":64.8,"helocs_2025":2222,"heloc_dollar_volume":387365000,"median_line":135000,"helocs_per_1000_owner_homes":34.4,"first_lien_share":"16.3%","investor_property_helocs":8,"owner_occupied_homes":64607,"free_and_clear_share":"29.0%","free_and_clear_aggregate_value":8489527300,"median_home_value":445500},{"rank":52,"county":"Sacramento","state":"CA","score":64.6,"helocs_2025":4918,"heloc_dollar_volume":629755000,"median_line":105000,"helocs_per_1000_owner_homes":14.6,"first_lien_share":"12.2%","investor_property_helocs":217,"owner_occupied_homes":337066,"free_and_clear_share":"31.0%","free_and_clear_aggregate_value":57070834000,"median_home_value":534200},{"rank":53,"county":"Spokane","state":"WA","score":64.6,"helocs_2025":3063,"heloc_dollar_volume":383685000,"median_line":105000,"helocs_per_1000_owner_homes":21.7,"first_lien_share":"18.6%","investor_property_helocs":65,"owner_occupied_homes":140832,"free_and_clear_share":"35.3%","free_and_clear_aggregate_value":22153198000,"median_home_value":410700},{"rank":54,"county":"San Bernardino","state":"CA","score":64.5,"helocs_2025":5127,"heloc_dollar_volume":706195000,"median_line":105000,"helocs_per_1000_owner_homes":12.2,"first_lien_share":"10.7%","investor_property_helocs":188,"owner_occupied_homes":418836,"free_and_clear_share":"31.3%","free_and_clear_aggregate_value":63959966000,"median_home_value":505000},{"rank":55,"county":"Ottawa","state":"MI","score":64.2,"helocs_2025":2344,"heloc_dollar_volume":291340000,"median_line":105000,"helocs_per_1000_owner_homes":26.6,"first_lien_share":"23.8%","investor_property_helocs":11,"owner_occupied_homes":88248,"free_and_clear_share":"39.1%","free_and_clear_aggregate_value":12253747000,"median_home_value":323400},{"rank":56,"county":"Dallas","state":"TX","score":64.1,"helocs_2025":2775,"heloc_dollar_volume":500185000,"median_line":115000,"helocs_per_1000_owner_homes":5.6,"first_lien_share":"31.9%","investor_property_helocs":22,"owner_occupied_homes":498911,"free_and_clear_share":"42.7%","free_and_clear_aggregate_value":84421010000,"median_home_value":303000},{"rank":57,"county":"Fulton","state":"GA","score":64.0,"helocs_2025":3706,"heloc_dollar_volume":748035000,"median_line":155000,"helocs_per_1000_owner_homes":14.8,"first_lien_share":"14.3%","investor_property_helocs":73,"owner_occupied_homes":251193,"free_and_clear_share":"28.1%","free_and_clear_aggregate_value":41750710000,"median_home_value":458800},{"rank":58,"county":"Montgomery","state":"MD","score":64.0,"helocs_2025":3627,"heloc_dollar_volume":688720000,"median_line":155000,"helocs_per_1000_owner_homes":14.3,"first_lien_share":"13.9%","investor_property_helocs":41,"owner_occupied_homes":254139,"free_and_clear_share":"29.6%","free_and_clear_aggregate_value":57012294000,"median_home_value":640300},{"rank":59,"county":"Manatee","state":"FL","score":63.8,"helocs_2025":1845,"heloc_dollar_volume":270320000,"median_line":105000,"helocs_per_1000_owner_homes":14.0,"first_lien_share":"25.1%","investor_property_helocs":33,"owner_occupied_homes":131373,"free_and_clear_share":"48.7%","free_and_clear_aggregate_value":27110875000,"median_home_value":391400},{"rank":60,"county":"Harris","state":"TX","score":63.7,"helocs_2025":3222,"heloc_dollar_volume":526335000,"median_line":105000,"helocs_per_1000_owner_homes":3.4,"first_lien_share":"28.9%","investor_property_helocs":35,"owner_occupied_homes":961437,"free_and_clear_share":"43.0%","free_and_clear_aggregate_value":140870600000,"median_home_value":276600},{"rank":61,"county":"Milwaukee","state":"WI","score":63.7,"helocs_2025":5061,"helocs_per_1000_owner_homes":25.9},{"rank":62,"county":"Ventura","state":"CA","score":63.6,"helocs_2025":2902,"helocs_per_1000_owner_homes":16.0},{"rank":63,"county":"Brevard","state":"FL","score":63.5,"helocs_2025":2649,"helocs_per_1000_owner_homes":13.4},{"rank":64,"county":"Davidson","state":"TN","score":63.4,"helocs_2025":2649,"helocs_per_1000_owner_homes":15.4},{"rank":65,"county":"Orange","state":"FL","score":63.3,"helocs_2025":4179,"helocs_per_1000_owner_homes":13.9},{"rank":66,"county":"Summit","state":"OH","score":63.2,"helocs_2025":3614,"helocs_per_1000_owner_homes":23.1},{"rank":67,"county":"Arapahoe","state":"CO","score":63.2,"helocs_2025":3166,"helocs_per_1000_owner_homes":19.0},{"rank":68,"county":"Hennepin","state":"MN","score":63.2,"helocs_2025":4454,"helocs_per_1000_owner_homes":13.2},{"rank":69,"county":"Loudoun","state":"VA","score":63.1,"helocs_2025":2467,"helocs_per_1000_owner_homes":22.1},{"rank":70,"county":"Multnomah","state":"OR","score":63.0,"helocs_2025":3469,"helocs_per_1000_owner_homes":18.6},{"rank":71,"county":"Lane","state":"OR","score":62.9,"helocs_2025":2114,"helocs_per_1000_owner_homes":22.1},{"rank":72,"county":"Geauga","state":"OH","score":62.8,"helocs_2025":883,"helocs_per_1000_owner_homes":28.3},{"rank":73,"county":"San Mateo","state":"CA","score":62.7,"helocs_2025":1805,"helocs_per_1000_owner_homes":11.7},{"rank":74,"county":"Union","state":"NC","score":62.7,"helocs_2025":1903,"helocs_per_1000_owner_homes":27.7},{"rank":75,"county":"Wayne","state":"MI","score":62.7,"helocs_2025":5725,"helocs_per_1000_owner_homes":12.6},{"rank":76,"county":"Denver","state":"CO","score":62.5,"helocs_2025":2821,"helocs_per_1000_owner_homes":17.2},{"rank":77,"county":"York","state":"PA","score":62.3,"helocs_2025":3057,"helocs_per_1000_owner_homes":22.1},{"rank":78,"county":"Larimer","state":"CO","score":62.2,"helocs_2025":2089,"helocs_per_1000_owner_homes":21.2},{"rank":79,"county":"Washington","state":"OR","score":62.2,"helocs_2025":2791,"helocs_per_1000_owner_homes":19.5},{"rank":80,"county":"Hamilton","state":"OH","score":62.2,"helocs_2025":4508,"helocs_per_1000_owner_homes":21.4},{"rank":81,"county":"Yavapai","state":"AZ","score":62.2,"helocs_2025":1143,"helocs_per_1000_owner_homes":13.7},{"rank":82,"county":"Brunswick","state":"NC","score":62.1,"helocs_2025":1201,"helocs_per_1000_owner_homes":20.5},{"rank":83,"county":"Westmoreland","state":"PA","score":62.0,"helocs_2025":2350,"helocs_per_1000_owner_homes":19.3},{"rank":84,"county":"Macomb","state":"MI","score":62.0,"helocs_2025":4276,"helocs_per_1000_owner_homes":15.9},{"rank":85,"county":"Weber","state":"UT","score":61.8,"helocs_2025":1978,"helocs_per_1000_owner_homes":28.4},{"rank":86,"county":"Boulder","state":"CO","score":61.7,"helocs_2025":1546,"helocs_per_1000_owner_homes":18.2},{"rank":87,"county":"Knox","state":"TN","score":61.6,"helocs_2025":2540,"helocs_per_1000_owner_homes":19.4},{"rank":88,"county":"Lake","state":"IL","score":61.5,"helocs_2025":2885,"helocs_per_1000_owner_homes":14.9},{"rank":89,"county":"Placer","state":"CA","score":61.5,"helocs_2025":2202,"helocs_per_1000_owner_homes":18.6},{"rank":90,"county":"Philadelphia","state":"PA","score":61.2,"helocs_2025":3707,"helocs_per_1000_owner_homes":10.5},{"rank":91,"county":"Volusia","state":"FL","score":61.2,"helocs_2025":1996,"helocs_per_1000_owner_homes":11.2},{"rank":92,"county":"Medina","state":"OH","score":61.2,"helocs_2025":1600,"helocs_per_1000_owner_homes":27.3},{"rank":93,"county":"Anne Arundel","state":"MD","score":61.1,"helocs_2025":2786,"helocs_per_1000_owner_homes":16.5},{"rank":94,"county":"Buncombe","state":"NC","score":61.1,"helocs_2025":1213,"helocs_per_1000_owner_homes":18.0},{"rank":95,"county":"Butler","state":"PA","score":61.0,"helocs_2025":1352,"helocs_per_1000_owner_homes":21.7},{"rank":96,"county":"Cobb","state":"GA","score":61.0,"helocs_2025":2996,"helocs_per_1000_owner_homes":15.1},{"rank":97,"county":"Sumter","state":"FL","score":60.9,"helocs_2025":589,"helocs_per_1000_owner_homes":9.6},{"rank":98,"county":"New Hanover","state":"NC","score":60.9,"helocs_2025":1627,"helocs_per_1000_owner_homes":25.3},{"rank":99,"county":"St. Johns","state":"FL","score":60.9,"helocs_2025":1485,"helocs_per_1000_owner_homes":15.6},{"rank":100,"county":"Travis","state":"TX","score":60.9,"helocs_2025":1289,"helocs_per_1000_owner_homes":4.2},{"rank":101,"county":"Cumberland","state":"PA","score":60.8,"helocs_2025":1818,"helocs_per_1000_owner_homes":23.9},{"rank":102,"county":"San Francisco","state":"CA","score":60.7,"helocs_2025":992,"helocs_per_1000_owner_homes":7.1},{"rank":103,"county":"Berks","state":"PA","score":60.7,"helocs_2025":2258,"helocs_per_1000_owner_homes":19.4},{"rank":104,"county":"Tarrant","state":"TX","score":60.5,"helocs_2025":2284,"helocs_per_1000_owner_homes":4.9},{"rank":105,"county":"Jefferson","state":"AL","score":60.3,"helocs_2025":2947,"helocs_per_1000_owner_homes":17.1},{"rank":106,"county":"Kalamazoo","state":"MI","score":60.2,"helocs_2025":1812,"helocs_per_1000_owner_homes":26.2},{"rank":107,"county":"Hamilton","state":"TN","score":60.1,"helocs_2025":1624,"helocs_per_1000_owner_homes":16.5},{"rank":108,"county":"Pima","state":"AZ","score":60.1,"helocs_2025":3348,"helocs_per_1000_owner_homes":11.7},{"rank":109,"county":"Warren","state":"OH","score":60.0,"helocs_2025":1858,"helocs_per_1000_owner_homes":25.4},{"rank":110,"county":"Collin","state":"TX","score":60.0,"helocs_2025":2146,"helocs_per_1000_owner_homes":8.0},{"rank":111,"county":"Sonoma","state":"CA","score":60.0,"helocs_2025":1623,"helocs_per_1000_owner_homes":13.6},{"rank":112,"county":"Adams","state":"CO","score":59.9,"helocs_2025":2403,"helocs_per_1000_owner_homes":18.6},{"rank":113,"county":"Stark","state":"OH","score":59.8,"helocs_2025":2442,"helocs_per_1000_owner_homes":22.6},{"rank":114,"county":"Virginia Beach city","state":"VA","score":59.8,"helocs_2025":2424,"helocs_per_1000_owner_homes":20.7},{"rank":115,"county":"Orange","state":"NC","score":59.8,"helocs_2025":824,"helocs_per_1000_owner_homes":22.5},{"rank":116,"county":"Martin","state":"FL","score":59.7,"helocs_2025":713,"helocs_per_1000_owner_homes":13.2},{"rank":117,"county":"Lake","state":"OH","score":59.7,"helocs_2025":1837,"helocs_per_1000_owner_homes":24.0},{"rank":118,"county":"Charlotte","state":"FL","score":59.6,"helocs_2025":888,"helocs_per_1000_owner_homes":11.7},{"rank":119,"county":"Lorain","state":"OH","score":59.6,"helocs_2025":2216,"helocs_per_1000_owner_homes":23.5},{"rank":120,"county":"Washtenaw","state":"MI","score":59.4,"helocs_2025":1609,"helocs_per_1000_owner_homes":17.3},{"rank":121,"county":"Will","state":"IL","score":59.4,"helocs_2025":3079,"helocs_per_1000_owner_homes":15.2},{"rank":122,"county":"Madison","state":"AL","score":59.3,"helocs_2025":2220,"helocs_per_1000_owner_homes":19.7},{"rank":123,"county":"Forsyth","state":"GA","score":59.3,"helocs_2025":1578,"helocs_per_1000_owner_homes":21.0},{"rank":124,"county":"Howard","state":"MD","score":59.2,"helocs_2025":1609,"helocs_per_1000_owner_homes":18.6},{"rank":125,"county":"Weld","state":"CO","score":59.2,"helocs_2025":1927,"helocs_per_1000_owner_homes":20.4},{"rank":126,"county":"Walton","state":"FL","score":59.1,"helocs_2025":476,"helocs_per_1000_owner_homes":17.6},{"rank":127,"county":"Thurston","state":"WA","score":59.1,"helocs_2025":1513,"helocs_per_1000_owner_homes":18.8},{"rank":128,"county":"Washoe","state":"NV","score":59.0,"helocs_2025":1460,"helocs_per_1000_owner_homes":12.2},{"rank":129,"county":"Ozaukee","state":"WI","score":59.0,"helocs_2025":835,"helocs_per_1000_owner_homes":29.9},{"rank":130,"county":"Prince William","state":"VA","score":59.0,"helocs_2025":1999,"helocs_per_1000_owner_homes":17.2},{"rank":131,"county":"Bonner","state":"ID","score":58.9,"helocs_2025":354,"helocs_per_1000_owner_homes":22.3},{"rank":132,"county":"Baltimore","state":"MD","score":58.9,"helocs_2025":2609,"helocs_per_1000_owner_homes":11.8},{"rank":133,"county":"Kane","state":"IL","score":58.8,"helocs_2025":2413,"helocs_per_1000_owner_homes":17.2},{"rank":134,"county":"Chatham","state":"NC","score":58.7,"helocs_2025":558,"helocs_per_1000_owner_homes":21.0},{"rank":135,"county":"Summit","state":"UT","score":58.5,"helocs_2025":378,"helocs_per_1000_owner_homes":30.0},{"rank":136,"county":"Whatcom","state":"WA","score":58.5,"helocs_2025":1099,"helocs_per_1000_owner_homes":18.3},{"rank":137,"county":"Seminole","state":"FL","score":58.5,"helocs_2025":1760,"helocs_per_1000_owner_homes":14.2},{"rank":138,"county":"Frederick","state":"MD","score":58.4,"helocs_2025":1678,"helocs_per_1000_owner_homes":20.8},{"rank":139,"county":"Guilford","state":"NC","score":58.3,"helocs_2025":2396,"helocs_per_1000_owner_homes":18.2},{"rank":140,"county":"Marin","state":"CA","score":58.3,"helocs_2025":952,"helocs_per_1000_owner_homes":14.3},{"rank":141,"county":"Pasco","state":"FL","score":58.2,"helocs_2025":2553,"helocs_per_1000_owner_homes":14.3},{"rank":142,"county":"Leelanau","state":"MI","score":58.2,"helocs_2025":214,"helocs_per_1000_owner_homes":24.2},{"rank":143,"county":"Denton","state":"TX","score":58.2,"helocs_2025":1830,"helocs_per_1000_owner_homes":7.8},{"rank":144,"county":"Gwinnett","state":"GA","score":58.1,"helocs_2025":2743,"helocs_per_1000_owner_homes":12.7},{"rank":145,"county":"Marion","state":"OR","score":58.1,"helocs_2025":1584,"helocs_per_1000_owner_homes":20.0},{"rank":146,"county":"Indian River","state":"FL","score":58.0,"helocs_2025":631,"helocs_per_1000_owner_homes":11.1},{"rank":147,"county":"Baldwin","state":"AL","score":57.8,"helocs_2025":1184,"helocs_per_1000_owner_homes":15.5},{"rank":148,"county":"Canyon","state":"ID","score":57.8,"helocs_2025":1472,"helocs_per_1000_owner_homes":22.6},{"rank":149,"county":"Forsyth","state":"NC","score":57.7,"helocs_2025":2020,"helocs_per_1000_owner_homes":19.9},{"rank":150,"county":"Dare","state":"NC","score":57.7,"helocs_2025":385,"helocs_per_1000_owner_homes":29.2}];
+
+var results = document.getElementById('results');
+var input = document.getElementById('county-input');
+var searchBtn = document.getElementById('search-btn');
+var suggestionsEl = document.getElementById('suggestions');
+
+function fmtMoney(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+function fmtMoneyShort(n) {
+  if (n >= 1e9) return '$' + (n / 1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+  return fmtMoney(n);
+}
+function fmtInt(n) { return Math.round(n).toLocaleString('en-US'); }
+
+var featured = [1, 2, 6, 9, 21].map(function(r){ return COUNTIES.find(function(c){ return c.rank === r; }); }).filter(Boolean);
+suggestionsEl.innerHTML = featured.map(function(c){
+  return '<button class="chip-btn" data-q="' + c.county + ', ' + c.state + '">' + c.county + ', ' + c.state + '</button>';
+}).join('');
+Array.prototype.forEach.call(suggestionsEl.querySelectorAll('.chip-btn'), function(chip){
+  chip.addEventListener('click', function(){ input.value = chip.getAttribute('data-q'); runSearch(); });
+});
+
+function norm(s) { return (s || '').toLowerCase().trim().replace(/\bcounty\b/g, '').replace(/[^a-z, ]/g, '').replace(/\s+/g, ' ').trim(); }
+
+function findCounty(query) {
+  var q = norm(query);
+  if (!q) return null;
+  var exact = COUNTIES.find(function(c){ return norm(c.county + ', ' + c.state) === q || norm(c.county) === q; });
+  if (exact) return exact;
+  var parts = q.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+  var namePart = parts[0];
+  var statePart = parts[1];
+  var candidates = COUNTIES.filter(function(c){ return norm(c.county).indexOf(namePart) !== -1 || namePart.indexOf(norm(c.county)) !== -1; });
+  if (statePart) candidates = candidates.filter(function(c){ return c.state.toLowerCase() === statePart || norm(c.state) === statePart; });
+  if (candidates.length === 1) return candidates[0];
+  if (candidates.length > 1) return candidates.sort(function(a,b){ return a.rank - b.rank; })[0];
+  return null;
+}
+
+function gaEvent(name, params) {
+  try { if (window.gtag) window.gtag('event', name, params || {}); } catch (e) {}
+}
+
+function renderFullDetail(c) {
+  var tiles = [
+    ['HELOC volume, 2025', fmtMoneyShort(c.heloc_dollar_volume)],
+    ['Median line amount', fmtMoney(c.median_line)],
+    ['Median home value', fmtMoney(c.median_home_value)],
+    ['Free-and-clear share', c.free_and_clear_share],
+    ['HELOCs per 1,000 owner homes', c.helocs_per_1000_owner_homes],
+    ['HELOCs written, 2025', fmtInt(c.helocs_2025)]
+  ];
+  return '<div class="stat-grid">' + tiles.map(function(t){
+    return '<div class="stat-tile"><div class="label">' + t[0] + '</div><div class="value">' + t[1] + '</div></div>';
+  }).join('') + '</div><div class="source-note">Also in this dataset for ' + c.county + ': ' + fmtInt(c.investor_property_helocs) + ' investor-property HELOCs written in 2025, out of ' + fmtInt(c.owner_occupied_homes) + ' owner-occupied homes in the county. First-lien share of activity: ' + c.first_lien_share + '.</div>';
+}
+
+function renderAbbreviated(c) {
+  return '<div class="stat-grid">' +
+    '<div class="stat-tile"><div class="label">HELOCs written, 2025</div><div class="value">' + fmtInt(c.helocs_2025) + '</div></div>' +
+    '<div class="stat-tile"><div class="label">HELOCs per 1,000 owner homes</div><div class="value">' + c.helocs_per_1000_owner_homes + '</div></div>' +
+    '<div class="stat-tile"><div class="label">Targeting score</div><div class="value">' + c.score + '</div></div>' +
+    '</div><div class="limited-note">We have verified HELOC activity for ' + c.county + ' County, but haven\'t finished sourcing median home value, free-and-clear share, and lien-position detail for it yet &mdash; that\'s real, not withheld, and it\'s being added county by county rather than guessed at.</div>';
+}
+
+function runSearch() {
+  var q = input.value;
+  if (!q || !q.trim()) return;
+  var c = findCounty(q);
+  if (c) {
+    var rankLine = c.rank <= 10 ? ('#' + c.rank + ' most active HELOC market in America')
+      : c.rank <= 60 ? ('#' + c.rank + ' of 1,798 U.S. counties ranked')
+      : ('#' + c.rank + ' of 1,798 &mdash; verified activity, detail expanding');
+    results.innerHTML = '<div class="result-card">' +
+      '<div class="result-head"><h2>' + c.county + ' County, ' + c.state + '</h2><span class="rank-badge">' + rankLine + '</span></div>' +
+      (c.rank <= 60 ? renderFullDetail(c) : renderAbbreviated(c)) +
+      '<div class="actions">' +
+      '<a class="btn btn-accent" id="cta-link" href="https://equoro.ai/?utm_source=county_tool&utm_medium=tool_cta&utm_campaign=county_lookup&utm_content=' + encodeURIComponent(c.county + '_' + c.state) + '#intake">Run my real scenario &rarr;</a>' +
+      '<button class="btn-ghost" id="share-btn">Copy shareable link</button>' +
+      '</div></div>';
+    gaEvent('county_search', { matched: true, county: c.county, state: c.state, rank: c.rank });
+    var ctaLink = document.getElementById('cta-link');
+    if (ctaLink) ctaLink.addEventListener('click', function(){
+      gaEvent('county_cta_click', { county: c.county, state: c.state, rank: c.rank });
+    });
+    var shareBtn = document.getElementById('share-btn');
+    if (shareBtn) shareBtn.addEventListener('click', function(){
+      var url = window.location.origin + window.location.pathname + '?county=' + encodeURIComponent(c.county + ',' + c.state) + '&utm_source=share&utm_medium=viewer&utm_campaign=county_tool';
+      if (navigator.clipboard) navigator.clipboard.writeText(url).catch(function(){});
+      shareBtn.textContent = 'Link copied';
+      gaEvent('county_share', { county: c.county, state: c.state });
+      setTimeout(function(){ shareBtn.textContent = 'Copy shareable link'; }, 2200);
+    });
+  } else {
+    results.innerHTML = '<div class="not-found">' +
+      '<h2>We don\'t have verified data for "' + q.trim().replace(/</g,'&lt;') + '" yet</h2>' +
+      '<p>We\'re not going to make numbers up for your county &mdash; we only show data we can actually source. We\'re adding real counties every week, prioritized by what people search for right here.</p>' +
+      '<div class="request-row"><button class="btn-ghost" id="request-btn">Yes, prioritize my county</button><span class="confirm-msg" id="request-confirm" style="display:none;">Got it &mdash; logged.</span></div>' +
+      '</div>';
+    gaEvent('county_search', { matched: false, query: q.slice(0, 120) });
+    var reqBtn = document.getElementById('request-btn');
+    reqBtn.addEventListener('click', function(){
+      gaEvent('county_request', { query: q.slice(0, 120) });
+      document.getElementById('request-confirm').style.display = 'inline';
+      reqBtn.disabled = true;
+    });
+  }
+}
+
+searchBtn.addEventListener('click', runSearch);
+input.addEventListener('keydown', function(e){ if (e.key === 'Enter') runSearch(); });
+
+var params = new URLSearchParams(window.location.search);
+var preset = params.get('county');
+if (preset) { input.value = preset; runSearch(); }
+})();
+</script>
+</body>
+</html>
