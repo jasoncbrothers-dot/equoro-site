@@ -625,7 +625,7 @@
                   </div>
                   <span class="err">Pick the one that fits best.</span>
                 </div>
-                <div class="subfields" id="section-home-address">
+                <div class="subfields is-on" id="section-prop-address"><span class="lbl" id="lbl-prop">Property address <span class="hint">&mdash; the home you want to borrow against</span></span><div class="field" data-field="propStreet"><label for="f-prop-street">Street address</label><input class="control" id="f-prop-street" name="propStreet" type="text" autocomplete="off" enterkeyhint="next" placeholder="123 Main St"><span class="err">Enter the property’s street address.</span></div><div class="two"><div class="field" data-field="propCity"><label for="f-prop-city">City</label><input class="control" id="f-prop-city" name="propCity" type="text" autocomplete="off" enterkeyhint="next" placeholder="Scottsdale"><span class="err">Enter the property’s city.</span></div><div class="field" data-field="propZip"><label for="f-prop-zip">ZIP code</label><input class="control" id="f-prop-zip" name="propZip" type="text" autocomplete="off" enterkeyhint="next" placeholder="12345" inputmode="numeric"><span class="err">Enter a 5-digit ZIP code.</span></div></div></div><div class="subfields" id="section-home-address">
                   <span class="lbl" id="lbl-home">Your primary residence <span class="hint">&mdash; lenders match an investment-property application against where your credit is tied</span></span>
                   <div class="two">
                     <div class="field" data-field="homeStreet">
@@ -704,7 +704,7 @@
                 <div class="note" id="note-trust"><b>Held in a trust?</b> Good to know now: later in the process you&rsquo;ll be asked for a trust certification (sometimes called a certificate of trust) showing who has authority to borrow. Nothing to upload today.</div>
                 <div class="note" id="note-llc"><b>Held by an LLC?</b> Good to know now: later in the process you&rsquo;ll be asked for the LLC&rsquo;s operating agreement and its EIN. Nothing to upload today.</div>
               </div>
-              <div class="step-foot">
+              <div class="subfields is-on" id="section-employment"><span class="lbl">Income <span class="hint">&mdash; lenders ask for this up front</span></span><div class="two"><div class="field" data-field="employment"><label for="f-employment">Employment type</label><select class="control" id="f-employment" name="employment"><option value="">Choose one</option><option value="W-2 employee">W-2 employee</option><option value="Self-employed">Self-employed</option><option value="Retired">Retired</option><option value="Other income">Other income</option></select><span class="err">Choose your employment type.</span></div><div class="field" data-field="income"><label for="f-income">Annual income (before taxes)</label><div class="money"><input class="control" id="f-income" name="income" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="120,000"></div><span class="err">Enter your yearly income, in dollars.</span></div></div><div class="field" data-field="startDate"><label for="f-start">Start date at current job or business (MM/YYYY)</label><input class="control" id="f-start" name="startDate" type="text" autocomplete="off" enterkeyhint="next" placeholder="03/2018" inputmode="numeric" maxlength="7"><span class="err">Enter the month and year, like 03/2018.</span></div><div class="field" data-field="hasCo"><label for="f-hasco">Applying with a co-borrower?</label><select class="control" id="f-hasco" name="hasCo"><option value="No">No</option><option value="Yes">Yes</option></select><span class="err"></span></div><div class="subfields" id="section-coborrower"><span class="lbl">Co-borrower <span class="hint">&mdash; the other person on the application</span></span><div class="field" data-field="cbName"><label for="f-cb-name">Full name</label><input class="control" id="f-cb-name" name="cbName" type="text" autocomplete="off" enterkeyhint="next" placeholder="First and last name"><span class="err">Enter first and last name.</span></div><div class="two"><div class="field" data-field="cbPhone"><label for="f-cb-phone">Mobile phone</label><input class="control" id="f-cb-phone" name="cbPhone" type="text" autocomplete="off" enterkeyhint="next" placeholder="(555) 123-4567" inputmode="tel"><span class="err">Enter a 10-digit phone number.</span></div><div class="field" data-field="cbEmail"><label for="f-cb-email">Email</label><input class="control" id="f-cb-email" name="cbEmail" type="text" autocomplete="off" enterkeyhint="next" placeholder="name@email.com" inputmode="email"><span class="err">Enter a valid email.</span></div></div><div class="two"><div class="field" data-field="cbEmployment"><label for="f-cb-employment">Employment type</label><select class="control" id="f-cb-employment" name="cbEmployment"><option value="">Choose one</option><option value="W-2 employee">W-2 employee</option><option value="Self-employed">Self-employed</option><option value="Retired">Retired</option><option value="Other income">Other income</option></select><span class="err">Choose employment type.</span></div><div class="field" data-field="cbIncome"><label for="f-cb-income">Annual income (before taxes)</label><div class="money"><input class="control" id="f-cb-income" name="cbIncome" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="80,000"></div><span class="err">Enter their yearly income.</span></div></div><div class="field" data-field="cbStart"><label for="f-cb-start">Start date (MM/YYYY)</label><input class="control" id="f-cb-start" name="cbStart" type="text" autocomplete="off" enterkeyhint="next" placeholder="06/2020" inputmode="numeric" maxlength="7"><span class="err">Enter the month and year, like 06/2020.</span></div></div></div><div class="step-foot">
                 <button class="link-btn" type="button" data-action="back">Back</button>
                 <button class="btn btn-accent" type="button" data-action="next">Continue</button>
               </div>
@@ -1344,7 +1344,7 @@
       showsNote = t.value === "Trust" || t.value === "LLC";
     }
     if (t.name === "occupancy") {
-      var isInvestment = t.value === "Investment property";
+      var isInvestment = t.value !== "Primary residence";
       $("section-home-address").classList.toggle("is-on", isInvestment);
       if (!isInvestment) {
         ["homeStreet", "homeCity", "homeState", "homeZip"].forEach(function (n) { setError(n, false); });
@@ -1369,7 +1369,7 @@
       need("balance", $("f-balance").value !== "");
       need("state", $("f-state").value !== "");
       need("occupancy", radioVal("occupancy") !== "");
-      if (radioVal("occupancy") === "Investment property") {
+      need("propStreet", $("f-prop-street").value.trim() !== ""); need("propCity", $("f-prop-city").value.trim() !== ""); need("propZip", /^\d{5}$/.test($("f-prop-zip").value)); if (radioVal("occupancy") !== "" && radioVal("occupancy") !== "Primary residence") {
         need("homeStreet", $("f-home-street").value.trim() !== "");
         need("homeCity", $("f-home-city").value.trim() !== "");
         need("homeState", $("f-home-state").value !== "");
@@ -1378,7 +1378,7 @@
     } else if (i === 1) {
       need("use", radioVal("use") !== "");
       need("fico", radioVal("fico") !== "");
-      need("ownership", radioVal("ownership") !== "");
+      need("ownership", radioVal("ownership") !== ""); need("employment", $("f-employment").value !== ""); need("income", Number(digits($("f-income").value)) > 0); need("startDate", /^(0[1-9]|1[0-2])\/\d{4}$/.test($("f-start").value)); if ($("f-hasco").value === "Yes") { need("cbName", $("f-cb-name").value.trim().split(/\s+/).length >= 2); need("cbPhone", digits($("f-cb-phone").value).length === 10); need("cbEmail", /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($("f-cb-email").value.trim())); need("cbEmployment", $("f-cb-employment").value !== ""); need("cbIncome", Number(digits($("f-cb-income").value)) > 0); need("cbStart", /^(0[1-9]|1[0-2])\/\d{4}$/.test($("f-cb-start").value)); }
     } else if (i === 2) {
       need("name", $("f-name").value.trim().split(/\s+/).length >= 2);
       need("email", /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($("f-email").value.trim()));
@@ -1387,7 +1387,7 @@
     }
     return m;
   }
-  var FIELDS = { 0: ["value", "balance", "state", "occupancy", "homeStreet", "homeCity", "homeState", "homeZip"], 1: ["use", "fico", "ownership"], 2: ["name", "email", "phone", "consent"] };
+  var FIELDS = { 0: ["value", "balance", "state", "occupancy", "propStreet", "propCity", "propZip", "homeStreet", "homeCity", "homeState", "homeZip"], 1: ["use", "fico", "ownership", "employment", "income", "startDate", "hasCo", "cbName", "cbPhone", "cbEmail", "cbEmployment", "cbIncome", "cbStart"], 2: ["name", "email", "phone", "consent"] };
   function validate(i) {
     var m = missing(i);
     (FIELDS[i] || []).forEach(function (name) { setError(name, m.indexOf(name) !== -1); });
@@ -1434,7 +1434,7 @@
     else if (a === "back") { go(Math.max(0, current - 1)); }
     else if (a === "restart") {
       form.reset();
-      $("equity-readout").classList.remove("is-on"); $("note-trust").classList.remove("is-on"); $("note-llc").classList.remove("is-on"); $("section-home-address").classList.remove("is-on");
+      $("equity-readout").classList.remove("is-on"); $("note-trust").classList.remove("is-on"); $("note-llc").classList.remove("is-on"); $("section-home-address").classList.remove("is-on"); $("section-coborrower").classList.remove("is-on");
       $("done-title").textContent = "You’re in.";
       form.querySelectorAll(".has-error").forEach(function (f) { f.classList.remove("has-error"); });
       form.querySelectorAll("[aria-invalid]").forEach(function (c) { c.removeAttribute("aria-invalid"); });
@@ -1462,7 +1462,9 @@
   // security boundary) and hand it to GHL. Nothing about this page's design or copy depends on
   // GHL in any way a visitor could see — if the relay is unreachable, the visitor sees a plain
   // error and a way to reach Jason directly, never a GHL page or a silently "successful" fake state.
-  var RELAY_URL = "https://equoro-relay.jasoncbrothers.workers.dev"; // Cloudflare Worker relay -> GHL Contacts API (live, tested)
+  // ---- property address, income, co-borrower: input helpers
+(function () { function fm(el, key) { el.addEventListener("input", function () { var d = digits(el.value); el.value = d ? Number(d).toLocaleString("en-US") : ""; setError(key, false); }); } fm($("f-income"), "income"); fm($("f-cb-income"), "cbIncome"); function sd(el, key) { el.addEventListener("input", function () { var d = digits(el.value).slice(0, 6); el.value = d.length > 2 ? d.slice(0, 2) + "/" + d.slice(2) : d; setError(key, false); }); } sd($("f-start"), "startDate"); sd($("f-cb-start"), "cbStart"); $("f-prop-zip").addEventListener("input", function () { this.value = digits(this.value).slice(0, 5); setError("propZip", false); }); $("f-cb-phone").addEventListener("input", function () { this.value = formatPhone(this.value); setError("cbPhone", false); }); form.addEventListener("input", function (e) { var f = e.target.closest ? e.target.closest(".field") : null; if (f && f.getAttribute("data-field")) setError(f.getAttribute("data-field"), false); }); form.addEventListener("change", function (e) { if (e.target.id === "f-hasco") $("section-coborrower").classList.toggle("is-on", e.target.value === "Yes"); var f = e.target.closest ? e.target.closest(".field") : null; if (f && f.getAttribute("data-field")) setError(f.getAttribute("data-field"), false); }); })();
+var RELAY_URL = "https://equoro-relay.jasoncbrothers.workers.dev"; // Cloudflare Worker relay -> GHL Contacts API (live, tested)
 
   function collectPayload() {
     var stateSel = $("f-state"), homeStateSel = $("f-home-state");
@@ -1477,7 +1479,7 @@
       homeZip: $("f-home-zip").value.trim(),
       use: radioVal("use"),
       fico: radioVal("fico"),
-      ownership: radioVal("ownership"),
+      ownership: radioVal("ownership"), propStreet: $("f-prop-street").value.trim(), propCity: $("f-prop-city").value.trim(), propZip: $("f-prop-zip").value, employment: $("f-employment").value, income: digits($("f-income").value), startDate: $("f-start").value, hasCoBorrower: $("f-hasco").value, cbName: $("f-hasco").value === "Yes" ? $("f-cb-name").value.trim() : "", cbPhone: $("f-hasco").value === "Yes" ? digits($("f-cb-phone").value) : "", cbEmail: $("f-hasco").value === "Yes" ? $("f-cb-email").value.trim() : "", cbEmployment: $("f-hasco").value === "Yes" ? $("f-cb-employment").value : "", cbIncome: $("f-hasco").value === "Yes" ? digits($("f-cb-income").value) : "", cbStart: $("f-hasco").value === "Yes" ? $("f-cb-start").value : "",
       name: $("f-name").value.trim(),
       email: $("f-email").value.trim(),
       phone: digits($("f-phone").value),
@@ -1536,12 +1538,12 @@
       ["Ownership", radioVal("ownership")],
       ["Contact", $("f-email").value.trim()]
     ];
-    if (radioVal("occupancy") === "Investment property") {
+    if (radioVal("occupancy") !== "Primary residence") {
       var homeStateSel = $("f-home-state");
       var homeStateName = homeStateSel.selectedIndex > 0 ? homeStateSel.options[homeStateSel.selectedIndex].textContent : "";
       var homeAddr = [$("f-home-street").value.trim(), $("f-home-city").value.trim(), (homeStateName + " " + $("f-home-zip").value.trim()).trim()].filter(function (s) { return s !== ""; }).join(", ");
       rows.splice(1, 0, ["Primary residence", homeAddr]);
-    }
+    } rows.splice(1, 0, ["Property", [$("f-prop-street").value.trim(), $("f-prop-city").value.trim(), $("f-prop-zip").value.trim()].filter(function (s) { return s !== ""; }).join(", ")]);
     $("summary").innerHTML = rows.map(function (r) {
       return "<div><small>" + r[0] + "</small><b>" + escapeHtml(r[1]) + "</b></div>";
     }).join("");
