@@ -329,6 +329,9 @@
   .equity-bar em { position: absolute; right: 0; top: 0; bottom: 0; background: var(--accent); width: 0%; transition: width .25s var(--ease); }
   .equity-readout .foot { font-family: var(--mono); font-size: var(--mono-s); color: var(--ink-3); letter-spacing: 0.04em; }
 
+  .step [hidden] { display: none !important; }
+  .foot-actions { display: flex; align-items: center; gap: var(--sp-4); }
+  .extra-lead { font-size: var(--text-s); color: var(--ink-2); }
   .note { display: none; border-left: 2px solid var(--accent); padding: var(--sp-3) var(--sp-4); background: var(--accent-tint); font-size: var(--text-s); line-height: 1.45; }
   .note.is-on { display: block; }
   .note b { font-weight: 600; }
@@ -477,6 +480,8 @@
   .footer-links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
   .footer-legal { font-size: var(--text-xs); color: var(--ink-3); line-height: 1.55; max-width: 72em; }
   .footer-meta { font-family: var(--mono); font-size: var(--mono-s); letter-spacing: 0.06em; color: var(--ink-3); display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5); }
+  .footer-meta .eho { display: inline-flex; align-items: center; gap: 0.5em; }
+  .footer-meta .eho svg { width: 2em; height: 2em; flex: none; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
@@ -704,7 +709,7 @@
                 <div class="note" id="note-trust"><b>Held in a trust?</b> Good to know now: later in the process you&rsquo;ll be asked for a trust certification (sometimes called a certificate of trust) showing who has authority to borrow. Nothing to upload today.</div>
                 <div class="note" id="note-llc"><b>Held by an LLC?</b> Good to know now: later in the process you&rsquo;ll be asked for the LLC&rsquo;s operating agreement and its EIN. Nothing to upload today.</div>
               </div>
-              <div class="subfields is-on" id="section-employment"><span class="lbl">Income <span class="hint">&mdash; lenders ask for this up front</span></span><div class="two"><div class="field" data-field="employment"><label for="f-employment">Employment type</label><select class="control" id="f-employment" name="employment"><option value="">Choose one</option><option value="W-2 employee">W-2 employee</option><option value="Self-employed">Self-employed</option><option value="Retired">Retired</option><option value="Other income">Other income</option></select><span class="err">Choose your employment type.</span></div><div class="field" data-field="income"><label for="f-income">Annual income (before taxes)</label><div class="money"><input class="control" id="f-income" name="income" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="120,000"></div><span class="err">Enter your yearly income, in dollars.</span></div></div><div class="field" data-field="startDate"><label for="f-start">Start date at current job or business (MM/YYYY)</label><input class="control" id="f-start" name="startDate" type="text" autocomplete="off" enterkeyhint="next" placeholder="03/2018" inputmode="numeric" maxlength="7"><span class="err">Enter the month and year, like 03/2018.</span></div><div class="field" data-field="hasCo"><label for="f-hasco">Applying with a co-borrower?</label><select class="control" id="f-hasco" name="hasCo"><option value="No">No</option><option value="Yes">Yes</option></select><span class="err"></span></div><div class="subfields" id="section-coborrower"><span class="lbl">Co-borrower <span class="hint">&mdash; the other person on the application</span></span><div class="field" data-field="cbName"><label for="f-cb-name">Full name</label><input class="control" id="f-cb-name" name="cbName" type="text" autocomplete="off" enterkeyhint="next" placeholder="First and last name"><span class="err">Enter first and last name.</span></div><div class="two"><div class="field" data-field="cbPhone"><label for="f-cb-phone">Mobile phone</label><input class="control" id="f-cb-phone" name="cbPhone" type="text" autocomplete="off" enterkeyhint="next" placeholder="(555) 123-4567" inputmode="tel"><span class="err">Enter a 10-digit phone number.</span></div><div class="field" data-field="cbEmail"><label for="f-cb-email">Email</label><input class="control" id="f-cb-email" name="cbEmail" type="text" autocomplete="off" enterkeyhint="next" placeholder="name@email.com" inputmode="email"><span class="err">Enter a valid email.</span></div></div><div class="two"><div class="field" data-field="cbEmployment"><label for="f-cb-employment">Employment type</label><select class="control" id="f-cb-employment" name="cbEmployment"><option value="">Choose one</option><option value="W-2 employee">W-2 employee</option><option value="Self-employed">Self-employed</option><option value="Retired">Retired</option><option value="Other income">Other income</option></select><span class="err">Choose employment type.</span></div><div class="field" data-field="cbIncome"><label for="f-cb-income">Annual income (before taxes)</label><div class="money"><input class="control" id="f-cb-income" name="cbIncome" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="80,000"></div><span class="err">Enter their yearly income.</span></div></div><div class="field" data-field="cbStart"><label for="f-cb-start">Start date (MM/YYYY)</label><input class="control" id="f-cb-start" name="cbStart" type="text" autocomplete="off" enterkeyhint="next" placeholder="06/2020" inputmode="numeric" maxlength="7"><span class="err">Enter the month and year, like 06/2020.</span></div></div></div><div class="step-foot">
+              <div class="subfields is-on" id="section-employment"><span class="lbl">Income <span class="hint">&mdash; lenders ask for this up front</span></span><div class="two"><div class="field" data-field="employment"><label for="f-employment">Employment type</label><select class="control" id="f-employment" name="employment"><option value="">Choose one</option><option value="W-2 employee">W-2 employee</option><option value="Self-employed">Self-employed</option><option value="Retired">Retired</option><option value="Rental income">Rental income</option><option value="Other income">Other income</option></select><span class="err">Choose your employment type.</span></div><div class="field" data-field="income"><label for="f-income">Annual income (before taxes)</label><div class="money"><input class="control" id="f-income" name="income" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="120,000"></div><span class="err">Enter your yearly income, in dollars.</span></div></div><div class="field" data-field="startDate"><label for="f-start">Start date at current job or business (MM/YYYY)</label><input class="control" id="f-start" name="startDate" type="text" autocomplete="off" enterkeyhint="next" placeholder="03/2018" inputmode="numeric" maxlength="7"><span class="err">Enter the month and year, like 03/2018.</span></div><div class="field" data-field="hasCo"><label for="f-hasco">Applying with a co-borrower?</label><select class="control" id="f-hasco" name="hasCo"><option value="No">No</option><option value="Yes">Yes</option></select><span class="err"></span></div><div class="subfields" id="section-coborrower"><span class="lbl">Co-borrower <span class="hint">&mdash; the other person on the application</span></span><div class="field" data-field="cbName"><label for="f-cb-name">Full name</label><input class="control" id="f-cb-name" name="cbName" type="text" autocomplete="off" enterkeyhint="next" placeholder="First and last name"><span class="err">Enter first and last name.</span></div><div class="two"><div class="field" data-field="cbPhone"><label for="f-cb-phone">Mobile phone</label><input class="control" id="f-cb-phone" name="cbPhone" type="text" autocomplete="off" enterkeyhint="next" placeholder="(555) 123-4567" inputmode="tel"><span class="err">Enter a 10-digit phone number.</span></div><div class="field" data-field="cbEmail"><label for="f-cb-email">Email</label><input class="control" id="f-cb-email" name="cbEmail" type="text" autocomplete="off" enterkeyhint="next" placeholder="name@email.com" inputmode="email"><span class="err">Enter a valid email.</span></div></div><div class="two"><div class="field" data-field="cbEmployment"><label for="f-cb-employment">Employment type</label><select class="control" id="f-cb-employment" name="cbEmployment"><option value="">Choose one</option><option value="W-2 employee">W-2 employee</option><option value="Self-employed">Self-employed</option><option value="Retired">Retired</option><option value="Rental income">Rental income</option><option value="Other income">Other income</option></select><span class="err">Choose employment type.</span></div><div class="field" data-field="cbIncome"><label for="f-cb-income">Annual income (before taxes)</label><div class="money"><input class="control" id="f-cb-income" name="cbIncome" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="80,000"></div><span class="err">Enter their yearly income.</span></div></div><div class="field" data-field="cbStart"><label for="f-cb-start">Start date (MM/YYYY)</label><input class="control" id="f-cb-start" name="cbStart" type="text" autocomplete="off" enterkeyhint="next" placeholder="06/2020" inputmode="numeric" maxlength="7"><span class="err">Enter the month and year, like 06/2020.</span></div></div></div><div class="step-foot">
                 <button class="link-btn" type="button" data-action="back">Back</button>
                 <button class="btn btn-accent" type="button" data-action="next">Continue</button>
               </div>
@@ -745,12 +750,64 @@
               </div>
               <div class="step-foot">
                 <button class="link-btn" type="button" data-action="back">Back</button>
-                <button class="btn btn-accent" type="submit">Agree &amp; submit</button>
+                <button class="btn btn-accent" type="button" data-action="next">Agree &amp; continue</button>
               </div>
             </section>
 
+            <!-- Step 4: See more options. Optional. Skip and Add details both end at the single submit. -->
+            <section class="step" data-step="3" aria-label="See more options">
+              <div id="extra-prompt">
+                <div class="step-head">
+                  <h3 id="extra-title" tabindex="-1" data-focus>See more options</h3>
+                  <p>A few more details can open up additional options. It takes about a minute.</p>
+                </div>
+                <div class="step-foot">
+                  <button class="link-btn" type="button" data-action="back">Back</button>
+                  <div class="foot-actions">
+                    <button class="link-btn" type="button" data-action="extra-skip">Skip</button>
+                    <button class="btn btn-accent" type="button" data-action="extra-add">Add details</button>
+                  </div>
+                </div>
+              </div>
+              <div id="extra-form" hidden>
+                <div class="step-head">
+                  <h3>Add details</h3>
+                  <p>Everything on this screen is optional.</p>
+                </div>
+                <div class="fields">
+                  <div class="field"><label for="f-employer">Employer name</label><input class="control" id="f-employer" name="employerName" type="text" autocomplete="organization" enterkeyhint="next" maxlength="80"></div>
+                  <div class="two">
+                    <div class="field"><label for="f-mortgage">Monthly mortgage payment</label><div class="money"><input class="control" id="f-mortgage" name="mortgagePayment" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="2,100"></div></div>
+                    <div class="field"><label for="f-debts">Other monthly debts</label><div class="money"><input class="control" id="f-debts" name="otherDebts" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off" placeholder="450"></div><span class="hint">Enter 0 if none.</span></div>
+                  </div>
+                  <div class="field"><label for="f-payoff">Debts you&rsquo;d like paid off with the new line (credit cards, for example)</label><input class="control" id="f-payoff" name="payoffDebts" type="text" autocomplete="off" enterkeyhint="done" maxlength="200"></div>
+                  <div class="subfields" id="extra-cb">
+                    <span class="lbl">Co-borrower</span>
+                    <p class="extra-lead">Only add a co-borrower with their knowledge.</p>
+                    <div class="field"><label for="f-cb-employer">Employer name</label><input class="control" id="f-cb-employer" name="cbEmployerName" type="text" autocomplete="off" enterkeyhint="next" maxlength="80"></div>
+                    <div class="field"><label for="f-cb-dob">Date of birth (MM/DD/YYYY)</label><input class="control" id="f-cb-dob" name="cbDob" type="text" inputmode="numeric" autocomplete="off" enterkeyhint="next" placeholder="04/15/1980" maxlength="10"><span class="hint">Asked so we can show you accurate options.</span></div>
+                    <div class="field"><label for="f-cb-street">Home street address</label><input class="control" id="f-cb-street" name="cbStreet" type="text" autocomplete="off" enterkeyhint="next" maxlength="120"></div>
+                    <div class="two">
+                      <div class="field"><label for="f-cb-city">City</label><input class="control" id="f-cb-city" name="cbCity" type="text" autocomplete="off" enterkeyhint="next" maxlength="60"></div>
+                      <div class="field"><label for="f-cb-state">State</label><select class="control" id="f-cb-state" name="cbState"><option value="">Choose one</option></select></div>
+                    </div>
+                    <div class="field"><label for="f-cb-zip">ZIP</label><input class="control" id="f-cb-zip" name="cbZip" type="text" inputmode="numeric" autocomplete="off" enterkeyhint="next" maxlength="5"></div>
+                    <div class="two">
+                      <div class="field"><label for="f-cb-mortgage">Monthly mortgage payment</label><div class="money"><input class="control" id="f-cb-mortgage" name="cbMortgagePayment" type="text" inputmode="numeric" enterkeyhint="next" autocomplete="off"></div></div>
+                      <div class="field"><label for="f-cb-debts">Other monthly debts</label><div class="money"><input class="control" id="f-cb-debts" name="cbOtherDebts" type="text" inputmode="numeric" enterkeyhint="done" autocomplete="off"></div><span class="hint">Enter 0 if none.</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="step-foot">
+                  <button class="link-btn" type="button" data-action="extra-skip">Skip</button>
+                  <button class="btn btn-accent" type="button" data-action="extra-send">Submit</button>
+                </div>
+              </div>
+              <p class="submit-error" role="alert"></p>
+            </section>
+
             <!-- Done -->
-            <section class="step" data-step="3" aria-label="Finished">
+            <section class="step" data-step="4" aria-label="Finished">
               <div class="done">
                 <div class="done-mark" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
                 <div>
@@ -1048,6 +1105,7 @@
         <span>&copy; 2026 Equoro</span>
         <span>Equoro operates under SunnyHill Financial Inc. &middot; Company NMLS # 1708856</span>
         <span>Jason Brothers &middot; NMLS # 829954</span>
+        <span class="eho"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 11.5 12 3.5l9 8M5.5 10v10.5h13V10"/><path d="M9 13.5h6M9 17h6" stroke-linecap="butt"/></svg>Equal Housing Opportunity</span>
       </div>
     </div>
   </footer>
@@ -1246,7 +1304,8 @@
   var stepCount = document.getElementById("step-count");
   var panel = document.getElementById("intake");
   var current = 0;
-  var LAST = 2, DONE = 3;           // three screens, then the finished state
+  var LAST = 2, EXTRA = 3, DONE = 4;  // three numbered screens, the optional "See more options" screen, then the finished state
+  var bonusChoice = "", consentAt = "";
   var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   // How the last input arrived. Auto-advance only ever follows a tap or click, never an arrow key,
@@ -1256,7 +1315,7 @@
   form.addEventListener("keydown", function () { pointer = false; }, true);
 
   // Populate states (property state, and the conditional home-state select)
-  ["f-state", "f-home-state"].forEach(function (id) {
+  ["f-state", "f-home-state", "f-cb-state"].forEach(function (id) {
     var sel = document.getElementById(id);
     STATES.forEach(function (s) {
       var o = document.createElement("option");
@@ -1276,7 +1335,7 @@
     var c = f.querySelector(".control, input[type=checkbox]");
     if (c) { if (on) c.setAttribute("aria-invalid", "true"); else c.removeAttribute("aria-invalid"); }
   }
-  function primaryBtn(i) { return steps[i].querySelector(".step-foot .btn"); }
+  function primaryBtn(i) { return Array.prototype.slice.call(steps[i].querySelectorAll(".step-foot .btn")).filter(function (b) { return b.offsetParent !== null; })[0]; }
   function radioVal(name) { var r = form.querySelector('input[name="' + name + '"]:checked'); return r ? r.value : ""; }
   function formatPhone(raw) {
     var d = digits(raw).slice(0, 11);
@@ -1414,6 +1473,7 @@
       l.classList.toggle("is-done", k < railIdx || i === DONE);
     });
     stepCount.textContent = String(Math.min(i + 1, LAST + 1));
+    if (i === EXTRA) extraView(false);
     if (interactive === false) return;
     var r = panel.getBoundingClientRect();
     if (r.top < 0 || r.top > window.innerHeight * 0.6) {
@@ -1430,11 +1490,14 @@
     var btn = e.target.closest("[data-action]");
     if (!btn) return;
     var a = btn.getAttribute("data-action");
-    if (a === "next") { if (validate(current)) go(current + 1); }
+    if (a === "next") { if (validate(current)) { if (current === LAST) consentAt = new Date().toISOString(); go(current + 1); } }
+    else if (a === "extra-add") { extraView(true); $("f-employer").focus({ preventScroll: true }); }
+    else if (a === "extra-skip") { bonusChoice = "skipped"; submitAndFinish(btn); }
+    else if (a === "extra-send") { bonusChoice = "accepted"; submitAndFinish(btn); }
     else if (a === "back") { go(Math.max(0, current - 1)); }
     else if (a === "restart") {
       form.reset();
-      $("equity-readout").classList.remove("is-on"); $("note-trust").classList.remove("is-on"); $("note-llc").classList.remove("is-on"); $("section-home-address").classList.remove("is-on"); $("section-coborrower").classList.remove("is-on");
+      $("equity-readout").classList.remove("is-on"); $("note-trust").classList.remove("is-on"); $("note-llc").classList.remove("is-on"); $("section-home-address").classList.remove("is-on"); $("section-coborrower").classList.remove("is-on"); bonusChoice = ""; consentAt = "";
       $("done-title").textContent = "You’re in.";
       form.querySelectorAll(".has-error").forEach(function (f) { f.classList.remove("has-error"); });
       form.querySelectorAll("[aria-invalid]").forEach(function (c) { c.removeAttribute("aria-invalid"); });
@@ -1449,8 +1512,8 @@
     if (tag === "BUTTON" || tag === "A" || tag === "TEXTAREA") return;
     e.preventDefault();
     if (current === DONE) return;
-    if (missing(current).length === 0) { primaryBtn(current).click(); return; }
-    var ctrls = Array.prototype.slice.call(steps[current].querySelectorAll(".control"));
+    if (current !== EXTRA && missing(current).length === 0) { primaryBtn(current).click(); return; }
+    var ctrls = Array.prototype.slice.call(steps[current].querySelectorAll(".control")).filter(function (c) { return c.offsetParent !== null; });
     var at = ctrls.indexOf(t), next = null;
     for (var k = at + 1; k < ctrls.length; k++) { if (!ctrls[k].value) { next = ctrls[k]; break; } }
     if (next) next.focus(); else primaryBtn(current).click();
@@ -1464,11 +1527,22 @@
   // error and a way to reach Jason directly, never a GHL page or a silently "successful" fake state.
   // ---- property address, income, co-borrower: input helpers
 (function () { function fm(el, key) { el.addEventListener("input", function () { var d = digits(el.value); el.value = d ? Number(d).toLocaleString("en-US") : ""; setError(key, false); }); } fm($("f-income"), "income"); fm($("f-cb-income"), "cbIncome"); function sd(el, key) { el.addEventListener("input", function () { var d = digits(el.value).slice(0, 6); el.value = d.length > 2 ? d.slice(0, 2) + "/" + d.slice(2) : d; setError(key, false); }); } sd($("f-start"), "startDate"); sd($("f-cb-start"), "cbStart"); $("f-prop-zip").addEventListener("input", function () { this.value = digits(this.value).slice(0, 5); setError("propZip", false); }); $("f-cb-phone").addEventListener("input", function () { this.value = formatPhone(this.value); setError("cbPhone", false); }); form.addEventListener("input", function (e) { var f = e.target.closest ? e.target.closest(".field") : null; if (f && f.getAttribute("data-field")) setError(f.getAttribute("data-field"), false); }); form.addEventListener("change", function (e) { if (e.target.id === "f-hasco") $("section-coborrower").classList.toggle("is-on", e.target.value === "Yes"); var f = e.target.closest ? e.target.closest(".field") : null; if (f && f.getAttribute("data-field")) setError(f.getAttribute("data-field"), false); }); })();
+  // ---- "See more options": prompt, then optional fields (the co-borrower block only if one was added)
+  function extraView(showFields) {
+    $("extra-prompt").hidden = showFields;
+    $("extra-form").hidden = !showFields;
+    $("extra-cb").classList.toggle("is-on", $("f-hasco").value === "Yes");
+  }
+  ["f-mortgage", "f-debts", "f-cb-mortgage", "f-cb-debts"].forEach(function (id) {
+    $(id).addEventListener("input", function () { var d = digits(this.value).slice(0, 7); this.value = d ? Number(d).toLocaleString("en-US") : ""; });
+  });
+  $("f-cb-dob").addEventListener("input", function () { var d = digits(this.value).slice(0, 8); this.value = d.length > 4 ? d.slice(0, 2) + "/" + d.slice(2, 4) + "/" + d.slice(4) : d.length > 2 ? d.slice(0, 2) + "/" + d.slice(2) : d; });
+  $("f-cb-zip").addEventListener("input", function () { this.value = digits(this.value).slice(0, 5); });
 var RELAY_URL = "https://equoro-relay.jasoncbrothers.workers.dev"; // Cloudflare Worker relay -> GHL Contacts API (live, tested)
 
   function collectPayload() {
     var stateSel = $("f-state"), homeStateSel = $("f-home-state");
-    return {
+    var payload = {
       value: digits($("f-value").value),
       balance: digits($("f-balance").value),
       state: stateSel.selectedIndex > 0 ? stateSel.options[stateSel.selectedIndex].textContent : "",
@@ -1483,22 +1557,40 @@ var RELAY_URL = "https://equoro-relay.jasoncbrothers.workers.dev"; // Cloudflare
       name: $("f-name").value.trim(),
       email: $("f-email").value.trim(),
       phone: digits($("f-phone").value),
-      consentTimestamp: new Date().toISOString(),
-      consentText: (form.querySelector("label.consent span") || {}).textContent || ""
+      consentTimestamp: consentAt || new Date().toISOString(),
+      consentText: (form.querySelector("label.consent span") || {}).textContent || "",
+      bonusChoice: bonusChoice
     };
+    // "See more options" answers: sent only when the visitor chose Add details; the co-borrower ones only with a co-borrower.
+    if (bonusChoice === "accepted") {
+      var cb = $("f-hasco").value === "Yes", cbSel = $("f-cb-state");
+      payload.employerName = $("f-employer").value.trim();
+      payload.mortgagePayment = digits($("f-mortgage").value);
+      payload.otherDebts = digits($("f-debts").value);
+      payload.payoffDebts = $("f-payoff").value.trim();
+      payload.cbEmployerName = cb ? $("f-cb-employer").value.trim() : "";
+      payload.cbDob = cb ? $("f-cb-dob").value.trim() : "";
+      payload.cbStreet = cb ? $("f-cb-street").value.trim() : "";
+      payload.cbCity = cb ? $("f-cb-city").value.trim() : "";
+      payload.cbState = cb && cbSel.selectedIndex > 0 ? cbSel.options[cbSel.selectedIndex].textContent : "";
+      payload.cbZip = cb ? $("f-cb-zip").value : "";
+      payload.cbMortgagePayment = cb ? digits($("f-cb-mortgage").value) : "";
+      payload.cbOtherDebts = cb ? digits($("f-cb-debts").value) : "";
+    }
+    return payload;
   }
 
   function setSubmitError(msg) {
-    var el = $("submit-error");
-    if (!el) return;
-    el.textContent = msg || "";
-    el.classList.toggle("is-on", !!msg);
+    Array.prototype.forEach.call(document.querySelectorAll(".submit-error"), function (el) {
+      el.textContent = msg || "";
+      el.classList.toggle("is-on", !!msg);
+    });
   }
 
-  function submitAndFinish() {
-    var btn = primaryBtn(LAST);
+  function submitAndFinish(btn) {
+    var btns = Array.prototype.slice.call(steps[EXTRA].querySelectorAll("button"));
     setSubmitError("");
-    btn.disabled = true;
+    btns.forEach(function (b) { b.disabled = true; });
     var original = btn.textContent;
     btn.textContent = "Submitting…";
     fetch(RELAY_URL, {
@@ -1510,19 +1602,16 @@ var RELAY_URL = "https://equoro-relay.jasoncbrothers.workers.dev"; // Cloudflare
       return resp.json();
     }).then(function (data) {
       if (!data || data.ok !== true) throw new Error("submit-failed");
-      btn.disabled = false; btn.textContent = original;
+      btns.forEach(function (b) { b.disabled = false; }); btn.textContent = original;
       finish();
     }).catch(function () {
-      btn.disabled = false; btn.textContent = original;
+      btns.forEach(function (b) { b.disabled = false; }); btn.textContent = original;
       setSubmitError("That didn’t go through on our end. Please try again, or call us directly — see the Contact page.");
     });
   }
 
   form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    if (current !== LAST) return;
-    if (!validate(LAST)) return;
-    submitAndFinish();
+    e.preventDefault(); // the one submit happens from the "See more options" screen
   });
 
   function finish() {
